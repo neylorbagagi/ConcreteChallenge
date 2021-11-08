@@ -1,17 +1,21 @@
 //
-//  MoviesViewModel.swift
+//  FavouritesViewModel.swift
 //  ConcreteChallenge
 //
-//  Created by Neylor Bagagi on 01/11/21.
+//  Created by Neylor Bagagi on 07/11/21.
 //
 
 import Foundation
 import UIKit
 
-class MoviesViewModel:NSObject {
+class FavouritesViewModel:NSObject {
     
     var data:Bindable<[Movie]> = Bindable<[Movie]>()
     let file:String = "jsonData.json"
+    
+    override init() {
+        
+    }
     
     func requestData(){
         self.data.value = StorageManager.share.load(self.file)
@@ -30,7 +34,7 @@ class MoviesViewModel:NSObject {
         self.requestData()
     }
     
-    func collectionSelectedData(_ indexPath:IndexPath) -> Movie? {
+    func selectedData(_ indexPath:IndexPath) -> Movie? {
         guard let movie = self.data.value?[indexPath.row] else {
             print("Register not found")
             return nil
@@ -38,19 +42,20 @@ class MoviesViewModel:NSObject {
         return movie
     }
     
-    
 }
 
-extension MoviesViewModel:UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+extension FavouritesViewModel: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         self.data.value?.count ?? 0
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "movieCollectionCell", for: indexPath) as! MovieCollectionViewCell
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "favouritesTableCell", for: indexPath) as! FavouriteTableCell
         
-        let viewModel = MovieCellViewModel(movie: self.data.value![indexPath.row])
-        cell.configure(viewModel:viewModel)
+        if let movie = self.data.value?[indexPath.row] {
+            let viewModel = FavouriteCellViewModel(data:movie)
+            cell.configure(viewModel: viewModel)
+        }
         
         return cell
     }

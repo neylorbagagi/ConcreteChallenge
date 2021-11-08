@@ -41,7 +41,6 @@ class MovieDetailViewModel:NSObject {
         self.originalTitle = "(\(movie.originalTitle))"
         self.releaseDate = String(movie.releaseDate.split(separator: "-").first ?? "UNKNOW")
         self.overview = movie.overview
-//        self.genres = "si-fi, romance, criminal, thriller" //movie.genreIDS.description//joined(separator: ", ")
         self.voteAverage = String(movie.voteAverage)
         self.voteCount = MovieDetailViewModel.formatPoints(from: movie.voteCount)
         self.genres = "N/A"
@@ -89,8 +88,6 @@ class MovieDetailViewModel:NSObject {
         
             var composedGenres = ""
             let genres:[Genre] = StorageManager.share.load("genresData.json")
-            
-            
             
             for id in self.data.genreIDS{
                 if let genderName = genres.first(where: {$0.id == id})?.name {
