@@ -3,4 +3,102 @@
    uuid = "432A936C-F377-42F3-A6B5-8367CF13BB57"
    type = "1"
    version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "AFD25D1E-5997-40BF-B887-0AC34B7E167A"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ConcreteChallenge/ViewModel/Controller/FilterViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "41"
+            endingLineNumber = "41"
+            landmarkName = "dataForCriteria(filterTerm:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "BA245D44-F4F9-49D2-B085-2450B734FFF1"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ConcreteChallenge/ViewModel/Controller/FilterViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "65"
+            endingLineNumber = "65"
+            landmarkName = "dataForCriteria(filterTerm:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "6600B87E-CFAF-4BE5-ADA2-E5F855EB3AF7"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ConcreteChallenge/ViewModel/Controller/SelectorViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "53"
+            endingLineNumber = "53"
+            landmarkName = "tableView(_:cellForRowAt:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "50996259-01A9-4DE3-8601-0C3BC41FE80B"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ConcreteChallenge/ViewModel/Controller/FilterViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "62"
+            endingLineNumber = "62"
+            landmarkName = "dataForCriteria(filterTerm:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "50996259-01A9-4DE3-8601-0C3BC41FE80B - 2943ae31c5456c58"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "ConcreteChallenge.FilterViewModel.dataForCriteria&lt;A where A: Swift.Hashable&gt;(filterTerm: ConcreteChallenge.FilterTerms) -&gt; Swift.Array&lt;A&gt;"
+                  moduleName = "ConcreteChallenge"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/neylorbagagi/Developer/ConcreteChallenge/ConcreteChallenge/ViewModel/Controller/FilterViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "65"
+                  endingLineNumber = "65"
+                  offsetFromSymbolStart = "5516">
+               </Location>
+               <Location
+                  uuid = "50996259-01A9-4DE3-8601-0C3BC41FE80B - 450ea2cf54d7f28b"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #2 (A, A) -&gt; Swift.Bool in ConcreteChallenge.FilterViewModel.dataForCriteria&lt;A where A: Swift.Hashable&gt;(filterTerm: ConcreteChallenge.FilterTerms) -&gt; Swift.Array&lt;A&gt;"
+                  moduleName = "ConcreteChallenge"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/neylorbagagi/Developer/ConcreteChallenge/ConcreteChallenge/ViewModel/Controller/FilterViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "65"
+                  endingLineNumber = "65"
+                  offsetFromSymbolStart = "73">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
 </Bucket>

@@ -33,6 +33,16 @@ class FavouritesViewController: UIViewController {
         return searchController
     }()
     
+    private lazy var filterBarButtonItem:UIBarButtonItem = {
+        let icon = UIImage(named: "filter")
+        let barButtonItem = UIBarButtonItem(image: icon,
+                                            style: UIBarButtonItem.Style.plain,
+                                           target: self,
+                                           action: #selector(presentFilter))
+        
+        return barButtonItem
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -44,9 +54,8 @@ class FavouritesViewController: UIViewController {
         self.viewModel = FavouritesViewModel()
         
         self.navigationItem.searchController = self.searchController
+        self.navigationItem.rightBarButtonItem = self.filterBarButtonItem
         self.view.addSubview(self.tableView)
-        
-        
         
         self.configure(viewModel:self.viewModel!)
         
@@ -54,7 +63,7 @@ class FavouritesViewController: UIViewController {
             self.tableView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
             self.tableView.leftAnchor.constraint(equalTo: self.view.leftAnchor),
             self.tableView.rightAnchor.constraint(equalTo: self.view.rightAnchor),
-            self.tableView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
+            self.tableView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
         ])
     }
 
@@ -66,6 +75,18 @@ class FavouritesViewController: UIViewController {
         
         viewModel.requestData()
         
+    }
+    
+    @objc func presentFilter(){
+        
+        guard let criteria = self.viewModel?.criteria,
+              let data = self.viewModel?.data.value else { return }
+        
+        let filterViewModel = FilterViewModel(data:data, criteria:criteria)
+        let filterViewController = FilterViewController(viewModel: filterViewModel)
+        
+        filterViewController.modalPresentationStyle = .fullScreen
+        self.navigationController?.pushViewController(filterViewController, animated: true)
     }
     
 }

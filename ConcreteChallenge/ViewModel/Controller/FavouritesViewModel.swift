@@ -12,10 +12,7 @@ class FavouritesViewModel:NSObject {
     
     var data:Bindable<[Movie]> = Bindable<[Movie]>()
     let file:String = "jsonData.json"
-    
-    override init() {
-        
-    }
+    var criteria:Criteria = Criteria(releaseDate: [], genre: [], adult: false) // will be a Bindable???
     
     func requestData(){
         self.data.value = StorageManager.share.load(self.file)

@@ -14,6 +14,12 @@ class Bindable<T>{
             self.observer?(value!)
         }
     }
+    
+    convenience init(_ value:T) {
+        self.init()
+        self.value = value
+    }
+    
     var observer:((T) -> ())?
     
 }
