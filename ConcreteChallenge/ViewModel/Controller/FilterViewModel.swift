@@ -22,12 +22,21 @@ enum FilterTerms:String, CaseIterable{
 class FilterViewModel:NSObject {
     
     var data:[Movie]
-    var genres:[Genre] = []
+    var genresData:[Genre]
     var criteria:Bindable<Criteria>
     
-    init(data:[Movie], criteria:Criteria) {
+    init(data:[Movie], criteria:Criteria?) {
         self.data = data
-        self.criteria = Bindable<Criteria>(criteria)
+        
+        if let criteria = criteria {
+            self.criteria = Bindable<Criteria>(criteria)
+        } else{
+            self.criteria = Bindable<Criteria>(Criteria())
+        }
+        
+        
+        self.genresData = StorageManager.share.load("genresData.json")
+        
     }
     
     func dataForCriteria<T:Hashable>(filterTerm:FilterTerms) -> [T]{
@@ -49,10 +58,9 @@ class FilterViewModel:NSObject {
             
         case .genre:
             var array:[T] = []
-            self.genres = StorageManager.share.load("genresData.json")
             for movie in self.data{
                 for genreID in movie.genreIDS{
-                    if let genre = genres.first(where: {$0.id == genreID}){
+                    if let genre = genresData.first(where: {$0.id == genreID}){
                         array.append(genre as! T)
                     }
                 }
@@ -72,27 +80,27 @@ class FilterViewModel:NSObject {
             guard let releases = self.criteria.value?.releaseDate else { return }
             self.criteria.value?.releaseDate = self.manageCriteriaValues(currenteArray: releases,
                                                                           valueToUpdate: value as! String)
-            
+
         default:
             guard let genres = self.criteria.value?.genre else { return }
             self.criteria.value?.genre = self.manageCriteriaValues(currenteArray: genres,
-                                                                   valueToUpdate: value as! Int)
+                                                                   valueToUpdate: value as! Genre ) 
         }
         
     }
     
     func manageCriteriaValues<T:Hashable>(currenteArray array:[T], valueToUpdate value:T) -> [T]{
         
-        var newArray:[T] = array
+        var result:[T] = array
         
         if !array.contains(value) {
-            newArray.append(value)
+            result.append(value)
         } else {
             if let index = array.firstIndex(of: value){
-                newArray.remove(at: index)
+                result.remove(at: index)
             }
         }
-        return newArray
+        return result
     }
     
     func configureFilterPreview(params:[String]) -> String {
@@ -132,7 +140,7 @@ extension FilterViewModel:UITableViewDataSource {
             if let selected = self.criteria.value?.genre {
                 var genreNames:[String] = []
                 for genreID in selected{
-                    if let genre = genres.first(where: {$0.id == genreID}){
+                    if let genre = genresData.first(where: {$0.id == genreID.id}){
                         genreNames.append(genre.name)
                     }
                 }

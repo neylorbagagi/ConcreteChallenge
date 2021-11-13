@@ -21,15 +21,7 @@ class SelectorViewModel<T:Hashable>:NSObject, UITableViewDataSource {
     }
     
     func selectedCellValue(indexPath:IndexPath) -> T {
-        
-        let value = data[indexPath.row]
-        switch self.filterTerm {
-        case .genre:
-            let genre = value as! Genre
-            return genre.id as! T
-        default:
-            return value
-        }
+        return data[indexPath.row]
     }
     
     
@@ -51,7 +43,7 @@ class SelectorViewModel<T:Hashable>:NSObject, UITableViewDataSource {
         case .genre:
             
             let genre = value as! Genre
-            if selectedData.contains(AnyHashable(genre.id) as! T) {
+            if selectedData.contains(AnyHashable(genre) as! T) {
                 cell.accessoryType = .checkmark
             }
             cell.textLabel?.text = genre.name

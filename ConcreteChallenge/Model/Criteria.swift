@@ -9,6 +9,18 @@ import Foundation
 
 struct Criteria {
     var releaseDate:[String]
-    var genre:[Int]
+    var genre:[Genre]
     var adult:Bool
+    
+    init() {
+        self.releaseDate = []
+        self.genre = []
+        self.adult = false
+    }
+    
+    init(_ releaseData:[String] = [], _ genre:[Genre] = []) {
+        self.releaseDate = releaseData
+        self.genre = genre
+        self.adult = false
+    }
 }

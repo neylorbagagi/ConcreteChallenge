@@ -7,6 +7,8 @@
 
 import UIKit
 
+/// TODO: evaluate all ! in code
+
 class FavouritesViewController: UIViewController {
 
     var viewModel:FavouritesViewModel?
@@ -69,6 +71,10 @@ class FavouritesViewController: UIViewController {
 
     private func configure(viewModel:FavouritesViewModel) {
         
+        viewModel.criteria.observer = { criteria in
+            viewModel.filterData()
+        }
+        
         viewModel.data.observer = { data in
             self.tableView.reloadData()
         }
@@ -79,12 +85,19 @@ class FavouritesViewController: UIViewController {
     
     @objc func presentFilter(){
         
-        guard let criteria = self.viewModel?.criteria,
-              let data = self.viewModel?.data.value else { return }
         
+        guard let viewModel = self.viewModel else { return }
+        
+        let data = viewModel.getCacheData()
+        let criteria = viewModel.criteria.value
+        
+        /// TODO: make all ViewCOntrollers init from a viewModel
         let filterViewModel = FilterViewModel(data:data, criteria:criteria)
         let filterViewController = FilterViewController(viewModel: filterViewModel)
-        
+        filterViewController.onSetCriteria = { criteria in
+            self.viewModel?.criteria.value = criteria
+        }
+
         filterViewController.modalPresentationStyle = .fullScreen
         self.navigationController?.pushViewController(filterViewController, animated: true)
     }
@@ -103,7 +116,6 @@ extension FavouritesViewController: UITableViewDelegate {
         
         detailViewController.modalPresentationStyle = .fullScreen
         self.navigationController?.pushViewController(detailViewController, animated: true)
-        
     }
 }
 

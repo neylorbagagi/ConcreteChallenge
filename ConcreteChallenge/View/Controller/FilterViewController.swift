@@ -10,6 +10,7 @@ import UIKit
 class FilterViewController: UIViewController {
 
     var viewModel:FilterViewModel
+    var onSetCriteria:((Criteria) -> Void)?
     
     private lazy var tableView:UITableView = {
         let tableView = UITableView(frame: .zero, style: .insetGrouped)
@@ -19,6 +20,17 @@ class FilterViewController: UIViewController {
         tableView.dataSource = self.viewModel
         tableView.backgroundColor = #colorLiteral(red: 0.9689999819, green: 0.8080000281, blue: 0.3569999933, alpha: 1)
         return tableView
+    }()
+    
+    var applyButton:UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setTitle("Apply Filter", for: .normal)
+        button.setTitleColor(#colorLiteral(red: 0.9689999819, green: 0.8080000281, blue: 0.3569999933, alpha: 1), for: .normal)
+        button.layer.cornerRadius = 6
+        button.backgroundColor = #colorLiteral(red: 0.175999999, green: 0.1879999936, blue: 0.2779999971, alpha: 1)
+        button.addTarget(self, action: #selector(updateCriteria), for: .touchDown)
+        return button
     }()
     
     init(viewModel:FilterViewModel) {
@@ -37,6 +49,7 @@ class FilterViewController: UIViewController {
         navigationItem.title = "Filters"
         
         self.view.addSubview(self.tableView)
+        self.view.addSubview(self.applyButton)
         
         self.configure(viewModel: self.viewModel)
         
@@ -44,7 +57,13 @@ class FilterViewController: UIViewController {
             self.tableView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
             self.tableView.leftAnchor.constraint(equalTo: self.view.leftAnchor),
             self.tableView.rightAnchor.constraint(equalTo: self.view.rightAnchor),
-            self.tableView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
+            self.tableView.bottomAnchor.constraint(equalTo: self.applyButton.topAnchor),
+            
+            self.applyButton.topAnchor.constraint(equalTo: self.tableView.bottomAnchor),
+            self.applyButton.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 22),
+            self.applyButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -22),
+            self.applyButton.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -22),
+            self.applyButton.heightAnchor.constraint(equalToConstant: 46),
         ])
         
         // Do any additional setup after loading the view.
@@ -54,6 +73,13 @@ class FilterViewController: UIViewController {
         viewModel.criteria.observer = { value in
             self.tableView.reloadData()
         }
+    }
+    
+    @objc func updateCriteria(){
+        guard let onSetCriteria = self.onSetCriteria,
+              let criteria = viewModel.criteria.value else { return }
+        self.navigationController?.popViewController(animated: true)
+        onSetCriteria(criteria)
     }
     
 }

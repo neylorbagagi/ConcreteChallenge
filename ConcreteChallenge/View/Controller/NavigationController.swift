@@ -7,6 +7,8 @@
 
 import UIKit
 
+
+/// TODO: set tintColor for all viewCOntroller title
 class NavigationController: UINavigationController {
 
     override func viewDidLoad() {
