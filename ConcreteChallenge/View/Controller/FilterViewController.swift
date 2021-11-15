@@ -10,7 +10,7 @@ import UIKit
 class FilterViewController: UIViewController {
 
     var viewModel:FilterViewModel
-    var onSetCriteria:((Criteria) -> Void)?
+    var onSetCriteria:(([Movie]) -> Void)?
     
     private lazy var tableView:UITableView = {
         let tableView = UITableView(frame: .zero, style: .insetGrouped)
@@ -76,10 +76,9 @@ class FilterViewController: UIViewController {
     }
     
     @objc func updateCriteria(){
-        guard let onSetCriteria = self.onSetCriteria,
-              let criteria = viewModel.criteria.value else { return }
+        guard let onSetCriteria = self.onSetCriteria else { return }
         self.navigationController?.popViewController(animated: true)
-        onSetCriteria(criteria)
+        onSetCriteria(viewModel.filteredData)
     }
     
 }
@@ -102,7 +101,7 @@ extension FilterViewController: UITableViewDelegate {
         }
         
         let selectorViewModel:SelectorViewModel<AnyHashable> = SelectorViewModel(data:registers,
-                                                                                 selectedData:selectedData,
+                                                                         selectedData:selectedData,
                                                                            filterTerm:filterTerm)
         
         let selectorViewController = SelectorViewController(viewModel: selectorViewModel)
@@ -115,5 +114,5 @@ extension FilterViewController: UITableViewDelegate {
         
         
     }
-    
+        
 }

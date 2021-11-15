@@ -11,7 +11,7 @@ class Bindable<T>{
     
     var value:T? {
         didSet {
-            self.observer?(value!)
+            self.observer?(value)
         }
     }
     
@@ -20,6 +20,6 @@ class Bindable<T>{
         self.value = value
     }
     
-    var observer:((T) -> ())?
+    var observer:((T?) -> ())?
     
 }

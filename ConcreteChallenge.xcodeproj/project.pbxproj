@@ -42,6 +42,7 @@
 		F08E43172739E8070049F654 /* Criteria.swift in Sources */ = {isa = PBXBuildFile; fileRef = F08E43162739E8070049F654 /* Criteria.swift */; };
 		F08E431C273A01680049F654 /* SelectorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F08E431B273A01680049F654 /* SelectorViewController.swift */; };
 		F08E4321273A02630049F654 /* SelectorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F08E4320273A02630049F654 /* SelectorViewModel.swift */; };
+		F0AC5BFA2741A27B003E17A6 /* TableViewHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0AC5BF92741A27B003E17A6 /* TableViewHeaderView.swift */; };
 		F0F776B82735A70A0029E7AC /* FavouritesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F776B72735A70A0029E7AC /* FavouritesViewController.swift */; };
 		F0F776BD2735BD1B0029E7AC /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F776BC2735BD1B0029E7AC /* TabBarController.swift */; };
 		F0F776C52735BF180029E7AC /* NavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F776C42735BF180029E7AC /* NavigationController.swift */; };
@@ -109,6 +110,7 @@
 		F08E43162739E8070049F654 /* Criteria.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Criteria.swift; sourceTree = "<group>"; };
 		F08E431B273A01680049F654 /* SelectorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectorViewController.swift; sourceTree = "<group>"; };
 		F08E4320273A02630049F654 /* SelectorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectorViewModel.swift; sourceTree = "<group>"; };
+		F0AC5BF92741A27B003E17A6 /* TableViewHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewHeaderView.swift; sourceTree = "<group>"; };
 		F0F776B72735A70A0029E7AC /* FavouritesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouritesViewController.swift; sourceTree = "<group>"; };
 		F0F776BC2735BD1B0029E7AC /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		F0F776C42735BF180029E7AC /* NavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationController.swift; sourceTree = "<group>"; };
@@ -170,7 +172,9 @@
 				F078D34727307CD3003247FE /* SceneDelegate.swift */,
 				F078D3AD27308FE6003247FE /* Model */,
 				F078D38727307F85003247FE /* View */,
+				F078D3E3273300C2003247FE /* CollectionBackgroundView.swift */,
 				F078D3902730823A003247FE /* ViewModel */,
+				F078D3E82733050C003247FE /* CollectionBackgroundViewModel.swift */,
 				F078D37D27307DC4003247FE /* Services */,
 				F08E429B27362DC50049F654 /* Resources */,
 				F078D34E27307CD7003247FE /* Assets.xcassets */,
@@ -214,7 +218,6 @@
 				F08E42C72737079E0049F654 /* UI */,
 				F078D39727308DC7003247FE /* Controller */,
 				F078D39D27308E41003247FE /* CollectionView */,
-				F078D3E3273300C2003247FE /* CollectionBackgroundView.swift */,
 				F08E42E72738AEF10049F654 /* TableView */,
 			);
 			path = View;
@@ -225,7 +228,6 @@
 			children = (
 				F08E42C3273707750049F654 /* Controller */,
 				F08E42C2273707580049F654 /* CollectionView */,
-				F078D3E82733050C003247FE /* CollectionBackgroundViewModel.swift */,
 				F08E42FE2738BB610049F654 /* TableView */,
 			);
 			path = ViewModel;
@@ -319,6 +321,7 @@
 			isa = PBXGroup;
 			children = (
 				F08E42E22738AED40049F654 /* FavouriteTableCell.swift */,
+				F0AC5BF92741A27B003E17A6 /* TableViewHeaderView.swift */,
 			);
 			path = TableView;
 			sourceTree = "<group>";
@@ -480,6 +483,7 @@
 				F08E43082738BD130049F654 /* FavouritesViewModel.swift in Sources */,
 				F08E431C273A01680049F654 /* SelectorViewController.swift in Sources */,
 				F078D34827307CD3003247FE /* SceneDelegate.swift in Sources */,
+				F0AC5BFA2741A27B003E17A6 /* TableViewHeaderView.swift in Sources */,
 				F0F776C52735BF180029E7AC /* NavigationController.swift in Sources */,
 				F078D3E4273300C2003247FE /* CollectionBackgroundView.swift in Sources */,
 				F078D3E92733050C003247FE /* CollectionBackgroundViewModel.swift in Sources */,

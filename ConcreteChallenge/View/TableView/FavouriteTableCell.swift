@@ -84,7 +84,6 @@ class FavouriteTableCell: UITableViewCell {
         self.headerStackView.addArrangedSubview(self.release)
         
         NSLayoutConstraint.activate([
-            //126 177
             self.heightAnchor.constraint(equalToConstant: 193),
             
             self.posterView.topAnchor.constraint(equalTo: self.topAnchor, constant: 8),

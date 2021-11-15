@@ -20,6 +20,7 @@ class FavouritesViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self.viewModel
         tableView.register(FavouriteTableCell.self, forCellReuseIdentifier: "favouritesTableCell")
+        tableView.register(TableViewHeaderView.self, forHeaderFooterViewReuseIdentifier: "favouritesTableCellHeader")
         tableView.backgroundColor = .white
         tableView.separatorStyle = .none;
         return tableView
@@ -36,7 +37,7 @@ class FavouritesViewController: UIViewController {
     }()
     
     private lazy var filterBarButtonItem:UIBarButtonItem = {
-        let icon = UIImage(named: "filter")
+        let icon = UIImage(named: "filter_icon")
         let barButtonItem = UIBarButtonItem(image: icon,
                                             style: UIBarButtonItem.Style.plain,
                                            target: self,
@@ -44,6 +45,14 @@ class FavouritesViewController: UIViewController {
         
         return barButtonItem
     }()
+    
+    var activityView:UIActivityIndicatorView = {
+        let activityView = UIActivityIndicatorView(style: .large)
+        activityView.translatesAutoresizingMaskIntoConstraints = false
+        activityView.hidesWhenStopped = true
+        return activityView
+    }()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -57,6 +66,7 @@ class FavouritesViewController: UIViewController {
         
         self.navigationItem.searchController = self.searchController
         self.navigationItem.rightBarButtonItem = self.filterBarButtonItem
+        
         self.view.addSubview(self.tableView)
         
         self.configure(viewModel:self.viewModel!)
@@ -65,41 +75,89 @@ class FavouritesViewController: UIViewController {
             self.tableView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
             self.tableView.leftAnchor.constraint(equalTo: self.view.leftAnchor),
             self.tableView.rightAnchor.constraint(equalTo: self.view.rightAnchor),
-            self.tableView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
+            self.tableView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
         ])
     }
 
     private func configure(viewModel:FavouritesViewModel) {
-        
-        viewModel.criteria.observer = { criteria in
-            viewModel.filterData()
-        }
-        
+          
         viewModel.data.observer = { data in
             self.tableView.reloadData()
+            
+            if self.activityView.isAnimating{
+                self.activityView.stopAnimating()
+            }
+            
+            guard let data = data else { return }
+            self.manageTableBackgroundView(collectionData: data.isEmpty)
         }
         
+        self.tableView.backgroundView = self.activityView
+        self.activityView.startAnimating()
+        
         viewModel.requestData()
+        
+//        viewModel.data.observer = { data in
+//            self.tableView.reloadData()
+//        }
+//
+//        viewModel.requestData()
         
     }
     
     @objc func presentFilter(){
         
-        
         guard let viewModel = self.viewModel else { return }
         
+        /// We get getCacheData return 'cause we want that FilterViewModel works
+        /// with full data not just data in current presentation status
         let data = viewModel.getCacheData()
-        let criteria = viewModel.criteria.value
         
-        /// TODO: make all ViewCOntrollers init from a viewModel
-        let filterViewModel = FilterViewModel(data:data, criteria:criteria)
+        /// TODO: make all ViewControllers init from a viewMoodel
+        let filterViewModel = FilterViewModel(data:data)
         let filterViewController = FilterViewController(viewModel: filterViewModel)
-        filterViewController.onSetCriteria = { criteria in
-            self.viewModel?.criteria.value = criteria
+        filterViewController.onSetCriteria = { data in
+            viewModel.isFiltering = true
+            viewModel.data.value = data
         }
 
         filterViewController.modalPresentationStyle = .fullScreen
         self.navigationController?.pushViewController(filterViewController, animated: true)
+    }
+    
+    func manageTableBackgroundView(collectionData isEmpty:Bool) {
+
+        if !isEmpty {
+            self.tableView.backgroundView = nil
+            return
+        }
+        
+        if isEmpty && self.searchController.searchBar.isFirstResponder {
+
+            let backgroundView = CollectionBackgroundView(frame: self.tableView.frame)
+            let viewModel = CollectionBackgroundViewModel(type: .searchDataEmpty)
+            backgroundView.configure(viewModel: viewModel)
+            self.tableView.backgroundView = backgroundView
+            return
+        }
+
+        if isEmpty && self.viewModel?.isFiltering == true {
+
+            let backgroundView = CollectionBackgroundView(frame: self.tableView.frame)
+            let viewModel = CollectionBackgroundViewModel(type: .filterDataEmpty)
+            backgroundView.configure(viewModel: viewModel)
+            self.tableView.backgroundView = backgroundView
+            return
+        }
+        
+        if isEmpty && !self.searchController.searchBar.isFirstResponder {
+
+            let backgroundView = CollectionBackgroundView(frame: self.tableView.frame)
+            let viewModel = CollectionBackgroundViewModel(type: .loadDataFail)
+            backgroundView.configure(viewModel: viewModel)
+            self.tableView.backgroundView = backgroundView
+            return
+        }
     }
     
 }
@@ -117,18 +175,54 @@ extension FavouritesViewController: UITableViewDelegate {
         detailViewController.modalPresentationStyle = .fullScreen
         self.navigationController?.pushViewController(detailViewController, animated: true)
     }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+
+        var view:UIView?
+        
+        guard let viewModel = self.viewModel else {
+            return view
+        }
+        
+        if viewModel.isFiltering {
+            let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: "favouritesTableCellHeader") as! TableViewHeaderView
+            header.onRemoveCriteria = {
+                viewModel.stopFilterData()
+            }
+            
+            view = header
+        }
+        
+        return view
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        
+        var height:CGFloat = .zero
+        
+        guard let viewModel = self.viewModel else {
+            return  height
+        }
+        
+        if viewModel.isFiltering {
+            height = tableView.sectionHeaderHeight
+        }
+        
+        return height
+    }
 }
 
 extension FavouritesViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        searchBar.showsCancelButton = true
         self.viewModel?.searchData(searchText: searchText)
     }
 
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        searchBar.resignFirstResponder()
-        searchBar.searchTextField.text = ""
-        searchBar.showsCancelButton = false
         self.viewModel?.stopSearchData()
     }
+    
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        self.viewModel?.stopFilterData()
+    }
+    
 }

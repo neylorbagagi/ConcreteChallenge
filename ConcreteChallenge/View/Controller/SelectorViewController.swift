@@ -57,6 +57,8 @@ class SelectorViewController: UIViewController {
 
 extension SelectorViewController: UITableViewDelegate {
 
+    
+    /// TODO: fix cell when selected not changing accessory correctly
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         if ((tableView.cellForRow(at: indexPath)?.accessoryType = .none) != nil) {

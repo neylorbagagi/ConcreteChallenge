@@ -21,12 +21,15 @@ enum FilterTerms:String, CaseIterable{
 
 class FilterViewModel:NSObject {
     
-    var data:[Movie]
+    var cacheData:[Movie]
+    var filteredData:[Movie] = []
     var genresData:[Genre]
     var criteria:Bindable<Criteria>
     
-    init(data:[Movie], criteria:Criteria?) {
-        self.data = data
+    init(data:[Movie], criteria:Criteria? = nil) {
+        self.cacheData = data
+        self.filteredData = []
+        self.genresData = StorageManager.share.load("genresData.json")
         
         if let criteria = criteria {
             self.criteria = Bindable<Criteria>(criteria)
@@ -34,8 +37,6 @@ class FilterViewModel:NSObject {
             self.criteria = Bindable<Criteria>(Criteria())
         }
         
-        
-        self.genresData = StorageManager.share.load("genresData.json")
         
     }
     
@@ -47,7 +48,7 @@ class FilterViewModel:NSObject {
         
         case .releaseDate:
             var array:[T] = []
-            for movie in self.data{
+            for movie in self.cacheData{
                 if let date = movie.releaseDate.split(separator: "-").first {
                     array.append(String(date) as! T)
                 }
@@ -58,7 +59,7 @@ class FilterViewModel:NSObject {
             
         case .genre:
             var array:[T] = []
-            for movie in self.data{
+            for movie in self.cacheData{
                 for genreID in movie.genreIDS{
                     if let genre = genresData.first(where: {$0.id == genreID}){
                         array.append(genre as! T)
@@ -73,7 +74,7 @@ class FilterViewModel:NSObject {
         return Array(result)
     }
     
-    func updateCriteria<T:Hashable>(value:T,filterTerm:FilterTerms){
+    func updateCriteria<T:Hashable>(value:T, filterTerm:FilterTerms){
         
         switch filterTerm {
         case .releaseDate:
@@ -81,11 +82,13 @@ class FilterViewModel:NSObject {
             self.criteria.value?.releaseDate = self.manageCriteriaValues(currenteArray: releases,
                                                                           valueToUpdate: value as! String)
 
-        default:
+        case .genre:
             guard let genres = self.criteria.value?.genre else { return }
             self.criteria.value?.genre = self.manageCriteriaValues(currenteArray: genres,
                                                                    valueToUpdate: value as! Genre ) 
         }
+        
+        self.filterData()
         
     }
     
@@ -112,6 +115,48 @@ class FilterViewModel:NSObject {
         default:
             return "Multiple"
         }
+    }
+    
+    func filterData(){
+
+        guard let criteria = self.criteria.value else { return }
+
+        /// TODO: Improve this func, semparete em make it generic
+        let genresFilter = criteria.genre.map( {$0.id} )
+        let releasesFilter = criteria.releaseDate
+        var movies:[Movie] = self.cacheData
+
+        if !releasesFilter.isEmpty {
+            movies = movies.filter( {
+                for release in releasesFilter {
+                    if $0.releaseDate.contains(release) {
+                        return true
+                    }
+                }
+                return false
+            })
+        }
+
+        if !genresFilter.isEmpty {
+            movies = movies.filter( {
+                for genre in genresFilter {
+                    print(genre, $0.title)
+                    if $0.genreIDS.contains(genre) {
+                        return true
+                    }
+                }
+                return false
+//                for genre in $0.genreIDS {
+//                    print(genre, $0.title)
+//                    if genresFilter.contains(genre) {
+//                        return true
+//                    }
+//                }
+//                return false
+            })
+        }
+
+        self.filteredData = movies
     }
     
 }
@@ -149,6 +194,10 @@ extension FilterViewModel:UITableViewDataSource {
         }
         
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
+        "This filter return \(self.filteredData.count) movies"
     }
     
 }

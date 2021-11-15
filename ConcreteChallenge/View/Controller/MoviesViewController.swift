@@ -75,6 +75,8 @@ class MoviesViewController: UIViewController{
             if self.activityView.isAnimating{
                 self.activityView.stopAnimating()
             }
+            
+            guard let data = data else { return }
             self.manageCollectionBackgroundView(collectionData: data.isEmpty)
         }
         
@@ -94,7 +96,7 @@ class MoviesViewController: UIViewController{
         if isEmpty && self.searchController.searchBar.isFirstResponder {
 
             let backgroundView = CollectionBackgroundView(frame: self.collectionView.frame)
-            let viewModel = CollectionBackgroundViewModel(type: .searchDataNotFound)
+            let viewModel = CollectionBackgroundViewModel(type: .searchDataEmpty)
             backgroundView.configure(viewModel: viewModel)
             self.collectionView.backgroundView = backgroundView
 
