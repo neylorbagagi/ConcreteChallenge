@@ -13,18 +13,21 @@ import UIKit
 class FavouritesViewModel:NSObject {
     
     private var cacheData:[Movie] = []
-    var data:Bindable<[Movie]> = Bindable<[Movie]>()
+    var data:Bindable<[Movie]> = Bindable<[Movie]>([])
     var isFiltering:Bool = false
+    var isSearching:Bool = false
     let file:String = "jsonData.json"
     
       
     func requestData(){
-        self.cacheData = StorageManager.share.load(self.file)
-        self.data.value = self.cacheData
+        if !self.isFiltering && !self.isSearching {
+            self.cacheData = try! StorageManager.share.listMovies()
+            self.data.value = self.cacheData
+        }
     }
     
     func searchData(searchText:String){
-        
+        self.isSearching = true
         let filterResult:[Movie] = self.cacheData
         self.data.value = filterResult.filter({$0.title.contains(searchText)})
         
@@ -34,11 +37,12 @@ class FavouritesViewModel:NSObject {
     }
     
     func stopSearchData(){
+        self.isSearching = false
         self.requestData()
     }
     
     func stopFilterData(){
-        self.isFiltering.toggle()
+        self.isFiltering = false
         self.requestData()
     }
         
@@ -61,7 +65,7 @@ extension FavouritesViewModel: UITableViewDataSource {
   
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        self.data.value?.count ?? 0
+        self.data.value!.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -74,6 +78,25 @@ extension FavouritesViewModel: UITableViewDataSource {
         
         return cell
     }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        
+        if editingStyle == .delete {
+            
+            guard let movie = self.data.value?[indexPath.row] else { return }
+            
+            do {
+                try StorageManager.share.delete(movie: movie)
+                self.data.value?.remove(at: indexPath.row)
+                tableView.reloadData()
+            } catch let error {
+                print("\(error)")
+            }
+            
+        }
+        
+    }
+    
     
     
 }

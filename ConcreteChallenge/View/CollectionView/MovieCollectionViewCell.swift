@@ -29,12 +29,26 @@ class MovieCollectionViewCell: UICollectionViewCell {
         label.backgroundColor = #colorLiteral(red: 0.968627451, green: 0.8078431373, blue: 0.3568627451, alpha: 1)
         return label
     }()
+        
+    var favouriteView:UIImageView = {
+        let image = UIImage(named: "fav_selected")?.withTintColor(#colorLiteral(red: 0.9689999819, green: 0.8080000281, blue: 0.3569999933, alpha: 1))
+        let imageView = UIImageView(image: image)
+        imageView.translatesAutoresizingMaskIntoConstraints  = false
+        imageView.layer.shadowColor = #colorLiteral(red: 0.175999999, green: 0.1879999936, blue: 0.2779999971, alpha: 1)
+        imageView.layer.shadowOffset = CGSize(width: 1, height: 1)
+        imageView.layer.shadowOpacity = 0.9
+        imageView.layer.shadowRadius = 2.0
+        imageView.clipsToBounds = false
+        imageView.isHidden = true
+        return imageView
+    }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         
         self.addSubview(self.title)
         self.addSubview(self.imageView)
+        self.addSubview(self.favouriteView)
         
         NSLayoutConstraint.activate([
             self.imageView.topAnchor.constraint(equalTo: self.topAnchor),
@@ -46,6 +60,11 @@ class MovieCollectionViewCell: UICollectionViewCell {
             self.title.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             self.title.trailingAnchor.constraint(equalTo: self.trailingAnchor),
             self.title.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+            
+            self.favouriteView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -8),
+            self.favouriteView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -8),
+            self.favouriteView.heightAnchor.constraint(equalTo: self.imageView.heightAnchor, multiplier: 1/6),
+            self.favouriteView.widthAnchor.constraint(equalTo: self.favouriteView.heightAnchor)
         ])
         
     }
@@ -54,6 +73,10 @@ class MovieCollectionViewCell: UICollectionViewCell {
         self.title.text = viewModel.title
         self.layer.cornerRadius = 6
         self.layer.masksToBounds = true
+        
+        if viewModel.isFavourite {
+            self.favouriteView.isHidden = false
+        }
         
         viewModel.poster.observer = { image in
             DispatchQueue.main.async {
@@ -66,6 +89,7 @@ class MovieCollectionViewCell: UICollectionViewCell {
     
     override func prepareForReuse() {
         self.imageView.image = nil
+        self.favouriteView.isHidden = true
     }
     
     required init?(coder: NSCoder) {

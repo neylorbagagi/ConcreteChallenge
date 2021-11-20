@@ -31,9 +31,9 @@ class MovieDetailViewModel:NSObject {
     let adult:String
     let originalLanguage:String
     var backdrop:Bindable<UIImage> = Bindable<UIImage>()
-    var genres:String//Bindable<String> = Bindable<String>()
-    var info:Bindable<[MovieDetailViewModelInfoKey:String]> = Bindable<[MovieDetailViewModelInfoKey:String]>()//[MovieDetailViewModelInfoKey:String]
-    
+    var genres:String
+    var info:Bindable<[MovieDetailViewModelInfoKey:String]> = Bindable<[MovieDetailViewModelInfoKey:String]>()
+    var isFavourite:Bool = false
     
     init(movie:Movie) {
         self.data = movie
@@ -53,7 +53,24 @@ class MovieDetailViewModel:NSObject {
                      .releaseDate:self.releaseDate,.popularity:self.popularity,
                      .originalLanguage:self.originalLanguage,.adult:self.adult,
                      .genres:self.genres]
+       
+        self.isFavourite = StorageManager.share.checkMovieFavouriteState(movie: self.data)
+        
+//        MovieDetailViewModel.checkFavouriteState(movie:self.data)
+        
     }
+    
+//    static func checkFavouriteState(movie:Movie) -> Bool {
+//        var response:Bool = false
+//
+//        do {
+//            response = try StorageManager.share.listMovies().contains(where: { $0.id == movie.id})
+//        } catch let error {
+//            print("\(error)")
+//        }
+//
+//        return response
+//    }
     
     func requestImage() {
         
@@ -66,7 +83,7 @@ class MovieDetailViewModel:NSObject {
             
             let base_path = "https://image.tmdb.org/t/p/w500"
             
-            guard let url = URL(string: base_path+self.data.backdropPath) else {
+            guard let url = URL(string: base_path+(self.data.backdropPath ?? "")) else {
                 print("invalid url")
                 return
             }
@@ -102,6 +119,24 @@ class MovieDetailViewModel:NSObject {
             
             self.genres = composedGenres
             self.info.value?[.genres] = self.genres
+        }
+        
+    }
+    
+    func updateMoviewFavouriteState(to state:Bool) throws {
+        
+        if !state {
+            do {
+                try StorageManager.share.save(movie: self.data)
+            } catch let error {
+                print("\(error)")
+            }
+        } else {
+            do {
+                try StorageManager.share.delete(movie: self.data)
+            } catch let error {
+                print("\(error)")
+            }
         }
         
     }

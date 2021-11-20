@@ -10,6 +10,7 @@ import UIKit
 class MovieDetailViewController: UIViewController {
 
     var viewModel:MovieDetailViewModel? = nil
+    var onFavouriteChange:((_ buttonState:Bool)->Void)?
     
     var scrollView:UIScrollView = {
         let scrollView = UIScrollView()
@@ -85,8 +86,29 @@ class MovieDetailViewController: UIViewController {
         return textView
     }()
     
+    private lazy var button:UIButton = {
+        let icon_default = UIImage(named: "fav_unselected")?.withTintColor(#colorLiteral(red: 0.175999999, green: 0.1879999936, blue: 0.2779999971, alpha: 1))
+        let icon_selected = UIImage(named: "fav_selected")?.withTintColor(#colorLiteral(red: 0.175999999, green: 0.1879999936, blue: 0.2779999971, alpha: 1))
+        
+        let button = UIButton()
+        button.addTarget(self, action: #selector(didTouchFavourite), for: .touchDown)
+        button.setImage(icon_default, for: .normal)
+        button.setImage(icon_selected, for: .selected)
+        button.isSelected = false
+        return button
+    }()
+    
+    private var favBarButtonItem:UIBarButtonItem = {
+        let barButtonItem = UIBarButtonItem()
+        return barButtonItem
+    }()
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.favBarButtonItem.customView = self.button
+        self.navigationItem.rightBarButtonItem = self.favBarButtonItem
         
         // Do any additional setup after loading the view.
         self.view.addSubview(self.scrollView)
@@ -142,6 +164,11 @@ class MovieDetailViewController: UIViewController {
         self.originalTitle.text = viewModel.originalTitle
         self.textView.text = viewModel.overview
         
+        if viewModel.isFavourite {
+            self.button.isSelected = true
+        }
+        
+        
         viewModel.backdrop.observer = { image in
             DispatchQueue.main.async {
                 self.imageView.image = image
@@ -158,6 +185,21 @@ class MovieDetailViewController: UIViewController {
         viewModel.requestGenres()
     }
 
+    @objc private func didTouchFavourite(){
+        
+        /// maybe it doesn't work, both detail and main view will be listening
+        guard let onFavouriteChange = self.onFavouriteChange else { return }
+        
+        
+        /// If unsuccessful to update do not call onFavouriteChange
+        do {
+            try self.viewModel?.updateMoviewFavouriteState(to: self.button.isSelected)
+            self.button.isSelected.toggle()
+            onFavouriteChange(self.button.isSelected)
+        } catch let error {
+            print("Error during data update: \(error)")
+        }
+    }
 }
 
 

@@ -67,23 +67,31 @@ class MoviesViewController: UIViewController{
         ])
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        self.viewModel?.requestData()
+    }
+    
     func configure(viewModel:MoviesViewModel){
                 
         viewModel.data.observer = { data in
-            self.collectionView.reloadData()
             
-            if self.activityView.isAnimating{
-                self.activityView.stopAnimating()
+            DispatchQueue.main.async {
+                self.collectionView.reloadData()
+                
+                if self.activityView.isAnimating{
+                    self.activityView.stopAnimating()
+                }
             }
             
             guard let data = data else { return }
-            self.manageCollectionBackgroundView(collectionData: data.isEmpty)
+            DispatchQueue.main.async {
+                self.manageCollectionBackgroundView(collectionData: data.isEmpty)
+            }
         }
         
         self.collectionView.backgroundView = self.activityView
         self.activityView.startAnimating()
         
-        viewModel.requestData()
     }
     
     func manageCollectionBackgroundView(collectionData isEmpty:Bool) {
@@ -122,6 +130,9 @@ extension MoviesViewController: UICollectionViewDelegate {
         let viewModel = MovieDetailViewModel(movie: movie)
         let detailViewController = MovieDetailViewController()
         detailViewController.configure(viewModel: viewModel)
+        detailViewController.onFavouriteChange = { state in
+            self.collectionView.reloadItems(at: [indexPath])
+        }
         
         detailViewController.modalPresentationStyle = .fullScreen
         self.navigationController?.pushViewController(detailViewController, animated: true)

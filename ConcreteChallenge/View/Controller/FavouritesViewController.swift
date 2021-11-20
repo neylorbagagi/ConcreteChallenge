@@ -79,6 +79,10 @@ class FavouritesViewController: UIViewController {
         ])
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        self.viewModel?.requestData()
+    }
+    
     private func configure(viewModel:FavouritesViewModel) {
           
         viewModel.data.observer = { data in
@@ -95,12 +99,6 @@ class FavouritesViewController: UIViewController {
         self.tableView.backgroundView = self.activityView
         self.activityView.startAnimating()
         
-        viewModel.requestData()
-        
-//        viewModel.data.observer = { data in
-//            self.tableView.reloadData()
-//        }
-//
 //        viewModel.requestData()
         
     }
@@ -120,7 +118,7 @@ class FavouritesViewController: UIViewController {
             viewModel.isFiltering = true
             viewModel.data.value = data
         }
-
+        
         filterViewController.modalPresentationStyle = .fullScreen
         self.navigationController?.pushViewController(filterViewController, animated: true)
     }
@@ -153,7 +151,7 @@ class FavouritesViewController: UIViewController {
         if isEmpty && !self.searchController.searchBar.isFirstResponder {
 
             let backgroundView = CollectionBackgroundView(frame: self.tableView.frame)
-            let viewModel = CollectionBackgroundViewModel(type: .loadDataFail)
+            let viewModel = CollectionBackgroundViewModel(type: .loadDataEmpty)
             backgroundView.configure(viewModel: viewModel)
             self.tableView.backgroundView = backgroundView
             return
@@ -171,7 +169,7 @@ extension FavouritesViewController: UITableViewDelegate {
         let viewModel = MovieDetailViewModel(movie: movie)
         let detailViewController = MovieDetailViewController()
         detailViewController.configure(viewModel: viewModel)
-        
+                
         detailViewController.modalPresentationStyle = .fullScreen
         self.navigationController?.pushViewController(detailViewController, animated: true)
     }
@@ -210,6 +208,16 @@ extension FavouritesViewController: UITableViewDelegate {
         
         return height
     }
+    
+    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+        
+        if self.searchController.searchBar.isFirstResponder {
+            return .none
+        } 
+        
+        return .delete
+        
+    }
 }
 
 extension FavouritesViewController: UISearchBarDelegate {
@@ -218,6 +226,7 @@ extension FavouritesViewController: UISearchBarDelegate {
     }
 
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
         self.viewModel?.stopSearchData()
     }
     

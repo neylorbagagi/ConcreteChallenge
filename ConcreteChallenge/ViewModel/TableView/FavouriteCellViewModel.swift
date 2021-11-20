@@ -33,7 +33,7 @@ class FavouriteCellViewModel: NSObject {
             
             let base_path = "https://image.tmdb.org/t/p/w500"
             
-            guard let url = URL(string: base_path+self.data.posterPath) else {
+            guard let url = URL(string: base_path+(self.data.posterPath ?? "")) else {
                 print("invalid url")
                 return
             }

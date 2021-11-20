@@ -1,17 +1,15 @@
 {
   "images" : [
     {
-      "filename" : "iconmonstr-filter-4-24.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "iconmonstr-filter-4-48.png",
+      "filename" : "iconmonstr-error-6-240.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "iconmonstr-filter-4-72.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
