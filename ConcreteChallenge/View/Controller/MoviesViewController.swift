@@ -157,15 +157,36 @@ extension MoviesViewController: UISearchBarDelegate {
 
 extension MoviesViewController: UICollectionViewDelegateFlowLayout {
     
-    private var sectionInsets:UIEdgeInsets { return UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8) }
-    private var itemsPerRow:CGFloat { return 3 }
-    private var itemsPerColumn: CGFloat { return 4}
+    /// TODO: Make this code more elegant
+    private var sectionInsets:UIEdgeInsets {
+        if UIDevice.current.model.contains("iPad") {
+            return UIEdgeInsets(top: 16, left: 16, bottom: 16, right: 16)
+        }
+        return UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
+    }
+
+    private var itemsPerRow:CGFloat {
+        if UIDevice.current.model.contains("iPad") {
+            return 4
+        }
+        return 3
+    }
+    private var itemsPerColumn: CGFloat {
+        if UIDevice.current.model.contains("iPad") {
+            return 5
+        }
+        return 4
+    }
+    
     private var itemsOriginalWidth:CGFloat { return 210 } /// Using the original size of the poster
     private var itemsOriginalHeight:CGFloat { return 295 } /// Using the original size of the poster
     private var footerInSectionSize:CGFloat { return 75 }
     
+    
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-
+        
+        
         /// TODO: find out origin of this value:4
         let collectionWidth = collectionView.frame.width - 4
         
