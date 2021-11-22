@@ -67,11 +67,6 @@ class MoviesViewController: UIViewController{
         ])
     }
     
-//    override func viewWillAppear(_ animated: Bool) {
-//        if !self.searchController.searchBar.isFirstResponder {
-//            self.viewModel?.restoreData()
-//        }
-//    }
     
     func configure(viewModel:MoviesViewModel){
                 
@@ -84,9 +79,7 @@ class MoviesViewController: UIViewController{
         viewModel.data.observer = { data in
             guard let data = data else { return }
             DispatchQueue.main.async {
-                if !data.isEmpty {
-                    self.collectionView.reloadSections(IndexSet(integer: 0))
-                }
+                self.collectionView.reloadSections(IndexSet(integer: 0))
                 
                 if self.activityView.isAnimating{
                     self.activityView.stopAnimating()

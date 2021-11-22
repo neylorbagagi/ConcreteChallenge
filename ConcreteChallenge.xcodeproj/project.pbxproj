@@ -50,6 +50,7 @@
 		F0941DBA2749895A00D1488C /* jsonData3.json in Resources */ = {isa = PBXBuildFile; fileRef = F0941DB92749895A00D1488C /* jsonData3.json */; };
 		F0941DC2274990F700D1488C /* jsonData4.json in Resources */ = {isa = PBXBuildFile; fileRef = F0941DC1274990F700D1488C /* jsonData4.json */; };
 		F0941DCA274AA0F900D1488C /* SupplementaryReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0941DC9274AA0F700D1488C /* SupplementaryReusableView.swift */; };
+		F0941DCF274C348400D1488C /* GenreRequestResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0941DCE274C348200D1488C /* GenreRequestResult.swift */; };
 		F0AC5BFA2741A27B003E17A6 /* TableViewHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0AC5BF92741A27B003E17A6 /* TableViewHeaderView.swift */; };
 		F0AC5C052742DBA3003E17A6 /* Keys.plist in Resources */ = {isa = PBXBuildFile; fileRef = F0AC5C042742DBA3003E17A6 /* Keys.plist */; };
 		F0F776B82735A70A0029E7AC /* FavouritesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F776B72735A70A0029E7AC /* FavouritesViewController.swift */; };
@@ -127,6 +128,7 @@
 		F0941DB92749895A00D1488C /* jsonData3.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = jsonData3.json; sourceTree = "<group>"; };
 		F0941DC1274990F700D1488C /* jsonData4.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = jsonData4.json; sourceTree = "<group>"; };
 		F0941DC9274AA0F700D1488C /* SupplementaryReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupplementaryReusableView.swift; sourceTree = "<group>"; };
+		F0941DCE274C348200D1488C /* GenreRequestResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenreRequestResult.swift; sourceTree = "<group>"; };
 		F0AC5BF92741A27B003E17A6 /* TableViewHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewHeaderView.swift; sourceTree = "<group>"; };
 		F0AC5C042742DBA3003E17A6 /* Keys.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Keys.plist; sourceTree = "<group>"; };
 		F0F776B72735A70A0029E7AC /* FavouritesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouritesViewController.swift; sourceTree = "<group>"; };
@@ -291,6 +293,7 @@
 				F0F776C92735CF9E0029E7AC /* Cache.swift */,
 				F08E42D8273857CC0049F654 /* Genre.swift */,
 				F08E43162739E8070049F654 /* Criteria.swift */,
+				F0941DCE274C348200D1488C /* GenreRequestResult.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -502,6 +505,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F0941DCF274C348400D1488C /* GenreRequestResult.swift in Sources */,
 				F078D3BA2730B701003247FE /* Bindable.swift in Sources */,
 				F078D3CC2730D2A4003247FE /* MoviesViewController.swift in Sources */,
 				F078D3A827308F32003247FE /* Movie.swift in Sources */,

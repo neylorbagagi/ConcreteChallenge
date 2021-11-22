@@ -137,54 +137,24 @@ class APIClient:NSObject {
         }
     }
     
+    func getGenres(completion: @escaping (Result<[Genre], Error>) -> Void) {
+
+        self.requestComponets.path = APIClientEndpoints.genres.rawValue
+        
+        guard let url = self.requestComponets.url else {
+            completion(.failure(URLError(.badURL)))
+            return
+        }
+        
+        self.request(url: url, type:GenreRequestResult.self) { (result) in
+            switch result{
+                case .success(let data):
+                    completion(.success(data.genres))
+                case .failure(let error):
+                    completion(.failure(error))
+            }
+        }
+    }
     
     
-//    /// This function is only responsible for execute the api requests
-//    /// - Parameters:
-//    ///     - url: `URL()`
-//    /// - Returns:
-//    ///     - data: Data?,
-//    ///     - response: Response?,
-//    ///     - error: Error?
-//    private func apiRequest<T:Codable>(url:URL, type:T.Type, completion: @escaping (_ data:T?,_ response:URLResponse?,_ error:Error?) -> Void){
-//
-//        URLSession.shared.dataTask(with: url) { (data, response, error) in
-//            guard error == nil else {
-//                completion(nil,nil,error)
-//                return
-//            }
-//
-//            do{
-//                let decoder = JSONDecoder()
-//                let decodedData = try decoder.decode(T.self, from: data!)
-//                completion(decodedData,nil, nil)
-//            } catch let error {
-//                completion(nil,nil,error)
-//            }
-//        }.resume()
-//    }
-//
-//    func getMovies(forPage page:String, completion: @escaping (_ data:[Movie], _ error:Error?) -> Void) {
-//
-//
-//        self.requestComponets.path = Endpoints.movies.rawValue
-//        self.requestComponets.queryItems = [
-//                URLQueryItem(name: "api_key", value: self.api_key),
-//                URLQueryItem(name: "page", value: page)
-//             ]
-//
-//        guard let url = self.requestComponets.url else {
-//            completion([], APIClientError.invalidURL(reason: "\(String(describing: self.requestComponets.url)) is not a valid URL"))
-//            return
-//
-//        }
-//
-//        self.apiRequest(url: url, type:[Movie].self) { (data, response, error) in
-//            guard let data = data, error == nil else {
-//                completion([],error)
-//                return
-//            }
-//            completion(data,nil)
-//        }
-//    }
 }

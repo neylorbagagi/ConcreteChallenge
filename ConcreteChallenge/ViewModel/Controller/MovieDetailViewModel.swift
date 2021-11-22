@@ -53,11 +53,6 @@ class MovieDetailViewModel:NSObject {
                      .releaseDate:self.releaseDate,.popularity:self.popularity,
                      .originalLanguage:self.originalLanguage,.adult:self.adult,
                      .genres:self.genres]
-       
-//        self.isFavourite = StorageManager.share.checkMovieFavouriteState(movie: self.data)
-        
-//        MovieDetailViewModel.checkFavouriteState(movie:self.data)
-        
     }
     
     func requestFavouriteState(){
@@ -74,17 +69,6 @@ class MovieDetailViewModel:NSObject {
         
         self.isFavourite.value = Cache.share.checkFavouriteState(movie: self.data)
             
-        
-        
-        
-//        Cache.share.favourites.observer = { movies in
-//            guard let movies = movies else { return }
-//            if movies.contains(where: { $0.id == self.data.id}) {
-//                self.isFavourite.value = true
-//            } else {
-//                self.isFavourite.value = false
-//            }
-//        }
     }
     
     func requestImage() {
@@ -118,25 +102,38 @@ class MovieDetailViewModel:NSObject {
         
         DispatchQueue.init(label: "genresLoading", qos: .background).async {
         
-            var composedGenres = ""
-            let genres:[Genre] = StorageManager.share.load("genresData.json")
-            
-            for id in self.data.genreIDS{
-                if let genderName = genres.first(where: {$0.id == id})?.name {
-                    composedGenres += "\(genderName)"
-                    
-                    if id != self.data.genreIDS.last{
-                        composedGenres += ",\n"
-                    }
-                    
+            APIClient.share.getGenres { (result) in
+                switch result{
+                    case .success(let data):
+                        self.genres = self.composeGenreDescription(genres:data)
+                        self.info.value?[.genres] = self.genres
+                    case .failure(let error):
+                        print("\(error.localizedDescription)")
                 }
             }
-            
-            self.genres = composedGenres
-            self.info.value?[.genres] = self.genres
         }
         
     }
+    
+    private func composeGenreDescription(genres:[Genre]) -> String {
+        
+        var composedGenres = ""
+        
+        for id in self.data.genreIDS{
+            if let genderName = genres.first(where: {$0.id == id})?.name {
+                composedGenres += "\(genderName)"
+                
+                if id != self.data.genreIDS.last{
+                    composedGenres += ",\n"
+                }
+                
+            }
+        }
+        
+        return composedGenres
+    
+    }
+    
     
     func updateMovieFavouriteState(to state:Bool) throws {
         
