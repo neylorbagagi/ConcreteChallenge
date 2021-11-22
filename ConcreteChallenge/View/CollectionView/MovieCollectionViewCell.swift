@@ -7,6 +7,7 @@
 
 import UIKit
 
+/// TODO: fix error during leading poster image
 class MovieCollectionViewCell: UICollectionViewCell {
     
     var viewModel:MovieCellViewModel?
@@ -46,20 +47,20 @@ class MovieCollectionViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        self.addSubview(self.title)
-        self.addSubview(self.imageView)
-        self.addSubview(self.favouriteView)
+        self.contentView.addSubview(self.title)
+        self.contentView.addSubview(self.imageView)
+        self.contentView.addSubview(self.favouriteView)
         
         NSLayoutConstraint.activate([
-            self.imageView.topAnchor.constraint(equalTo: self.topAnchor),
-            self.imageView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            self.imageView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            self.imageView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+            self.imageView.topAnchor.constraint(equalTo: self.contentView.topAnchor),
+            self.imageView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor),
+            self.imageView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor),
+            self.imageView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor),
             
-            self.title.topAnchor.constraint(equalTo: self.topAnchor),
-            self.title.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            self.title.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            self.title.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+            self.title.topAnchor.constraint(equalTo: self.contentView.topAnchor),
+            self.title.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor),
+            self.title.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor),
+            self.title.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor),
             
             self.favouriteView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -8),
             self.favouriteView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -8),

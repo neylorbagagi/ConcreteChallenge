@@ -7,6 +7,8 @@
 
 import Foundation
 
+/// TODO: make results come from API!!!
+
 struct Genre: Codable, Hashable {
     let id:Int
     let name:String

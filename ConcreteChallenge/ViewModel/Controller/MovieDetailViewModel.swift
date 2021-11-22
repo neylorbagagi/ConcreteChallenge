@@ -33,7 +33,7 @@ class MovieDetailViewModel:NSObject {
     var backdrop:Bindable<UIImage> = Bindable<UIImage>()
     var genres:String
     var info:Bindable<[MovieDetailViewModelInfoKey:String]> = Bindable<[MovieDetailViewModelInfoKey:String]>()
-    var isFavourite:Bool = false
+    var isFavourite:Bindable<Bool> = Bindable<Bool>(false)
     
     init(movie:Movie) {
         self.data = movie
@@ -54,23 +54,38 @@ class MovieDetailViewModel:NSObject {
                      .originalLanguage:self.originalLanguage,.adult:self.adult,
                      .genres:self.genres]
        
-        self.isFavourite = StorageManager.share.checkMovieFavouriteState(movie: self.data)
+//        self.isFavourite = StorageManager.share.checkMovieFavouriteState(movie: self.data)
         
 //        MovieDetailViewModel.checkFavouriteState(movie:self.data)
         
     }
     
-//    static func checkFavouriteState(movie:Movie) -> Bool {
-//        var response:Bool = false
-//
-//        do {
-//            response = try StorageManager.share.listMovies().contains(where: { $0.id == movie.id})
-//        } catch let error {
-//            print("\(error)")
+    func requestFavouriteState(){
+        
+        Cache.share.subscribe({ movies in
+            
+            if movies.contains(where: { $0.id == self.data.id}) {
+                self.isFavourite.value = true
+            } else {
+                self.isFavourite.value = false
+            }
+            
+        })
+        
+        self.isFavourite.value = Cache.share.checkFavouriteState(movie: self.data)
+            
+        
+        
+        
+//        Cache.share.favourites.observer = { movies in
+//            guard let movies = movies else { return }
+//            if movies.contains(where: { $0.id == self.data.id}) {
+//                self.isFavourite.value = true
+//            } else {
+//                self.isFavourite.value = false
+//            }
 //        }
-//
-//        return response
-//    }
+    }
     
     func requestImage() {
         
@@ -123,17 +138,17 @@ class MovieDetailViewModel:NSObject {
         
     }
     
-    func updateMoviewFavouriteState(to state:Bool) throws {
+    func updateMovieFavouriteState(to state:Bool) throws {
         
         if !state {
             do {
-                try StorageManager.share.save(movie: self.data)
+                try Cache.share.save(movie: self.data)
             } catch let error {
                 print("\(error)")
             }
         } else {
             do {
-                try StorageManager.share.delete(movie: self.data)
+                try Cache.share.delete(movie: self.data)
             } catch let error {
                 print("\(error)")
             }

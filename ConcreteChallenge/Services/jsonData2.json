@@ -1,0 +1,404 @@
+{
+  "page": 2,
+  "results": [
+    {
+      "adult": false,
+      "backdrop_path": "/ng6SSB3JhbcpKTwbPDsRwUYK8Cq.jpg",
+      "genre_ids": [
+        28,
+        12,
+        878
+      ],
+      "id": 429617,
+      "original_language": "en",
+      "original_title": "Spider-Man: Far From Home",
+      "overview": "Peter Parker and his friends go on a summer trip to Europe. However, they will hardly be able to rest - Peter will have to agree to help Nick Fury uncover the mystery of creatures that cause natural disasters and destruction throughout the continent.",
+      "popularity": 894.583,
+      "poster_path": "/4q2NNj4S5dG2RLF9CpXsej7yXl.jpg",
+      "release_date": "2019-06-28",
+      "title": "Spider-Man: Far From Home",
+      "video": false,
+      "vote_average": 7.5,
+      "vote_count": 10974
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/6kLL8ZkV7ge8VvH4SNTMwW8gEWM.jpg",
+      "genre_ids": [
+        53,
+        10770
+      ],
+      "id": 854442,
+      "original_language": "en",
+      "original_title": "Next-Door Nightmare",
+      "overview": "When young couple Sarah and Kyle move next door to Helen, a charismatic older woman, they have no idea she's a deeply disturbed psychopath who will stop at nothing to become Sarah's surrogate mother, and grandmother to the child she is expecting. Julia Borsellino, Mark Taylor, Deborah Grover, Marium Carvell star. (2021)",
+      "popularity": 876.88,
+      "poster_path": "/lkCi5Cm71QqHEwuIppWoI7paiZn.jpg",
+      "release_date": "2021-07-08",
+      "title": "Next-Door Nightmare",
+      "video": false,
+      "vote_average": 7.3,
+      "vote_count": 3
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/2OFg5p9yarI5zZsUWKCRgBgPctj.jpg",
+      "genre_ids": [
+        28,
+        12
+      ],
+      "id": 568620,
+      "original_language": "en",
+      "original_title": "Snake Eyes: G.I. Joe Origins",
+      "overview": "After saving the life of their heir apparent, tenacious loner Snake Eyes is welcomed into an ancient Japanese clan called the Arashikage where he is taught the ways of the ninja warrior. But, when secrets from his past are revealed, Snake Eyes' honor and allegiance will be tested – even if that means losing the trust of those closest to him.",
+      "popularity": 864.125,
+      "poster_path": "/uIXF0sQGXOxQhbaEaKOi2VYlIL0.jpg",
+      "release_date": "2021-07-22",
+      "title": "Snake Eyes: G.I. Joe Origins",
+      "video": false,
+      "vote_average": 6.8,
+      "vote_count": 818
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/hugKriLPeBm3lErSCQiFOgQzpkC.jpg",
+      "genre_ids": [
+        28,
+        53,
+        80
+      ],
+      "id": 574060,
+      "original_language": "en",
+      "original_title": "Gunpowder Milkshake",
+      "overview": "In her turbulent life as a professional assassin, Sam has no choice but to go rogue to save the life of an innocent 8-year-old girl in the middle of the gang war she has unleashed.",
+      "popularity": 845.071,
+      "poster_path": "/5AaKulwpUtkscAokKWtLenGTfVS.jpg",
+      "release_date": "2021-07-14",
+      "title": "Gunpowder Milkshake",
+      "video": false,
+      "vote_average": 6.5,
+      "vote_count": 375
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/eBGKU0ZLJmxtVtzESTB1mfllX1J.jpg",
+      "genre_ids": [
+        80,
+        28,
+        53
+      ],
+      "id": 630004,
+      "original_language": "en",
+      "original_title": "The Vault",
+      "overview": "When an engineer learns of a mysterious, impenetrable fortress hidden under The Bank of Spain, he joins a crew of master thieves who plan to steal the legendary lost treasure locked inside while the whole country is distracted by Spain's World Cup Final. With thousands of soccer fans cheering in the streets, and security forces closing in, the crew have just minutes to pull off the score of a lifetime.",
+      "popularity": 843.826,
+      "poster_path": "/kWhXubAiIcHW0xn5GThflqaKZqh.jpg",
+      "release_date": "2021-03-03",
+      "title": "The Vault",
+      "video": false,
+      "vote_average": 7.1,
+      "vote_count": 415
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/c2cb0lLvbzvHlSUo35W8CfP0kYO.jpg",
+      "genre_ids": [
+        53
+      ],
+      "id": 714968,
+      "original_language": "en",
+      "original_title": "Plan A",
+      "overview": "Germany 1945, Max, a Jewish Holocaust survivor, meets a radical group of Jewish resistance fighters, who, like him, lost all hope for their future after they were robbed of their existence and their entire families were killed by the Nazis. They dream of retaliation on an epic scale for the Jewish people. An eye for an eye, a tooth for a tooth. Max starts identifying with the group's monstrous plans...",
+      "popularity": 800.261,
+      "poster_path": "/dfYOmisdbiVTXdcQji35pKywPFI.jpg",
+      "release_date": "2021-08-16",
+      "title": "Plan A",
+      "video": false,
+      "vote_average": 3.9,
+      "vote_count": 7
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/tTlAA0REGPXSZPBfWyTW9ipIv1I.jpg",
+      "genre_ids": [
+        28,
+        12,
+        878,
+        18
+      ],
+      "id": 315635,
+      "original_language": "en",
+      "original_title": "Spider-Man: Homecoming",
+      "overview": "Following the events of Captain America: Civil War, Peter Parker, with the help of his mentor Tony Stark, tries to balance his life as an ordinary high school student in Queens, New York City, with fighting crime as his superhero alter ego Spider-Man as a new threat, the Vulture, emerges.",
+      "popularity": 763.658,
+      "poster_path": "/c24sv2weTHPsmDa7jEMN0m2P3RT.jpg",
+      "release_date": "2017-07-05",
+      "title": "Spider-Man: Homecoming",
+      "video": false,
+      "vote_average": 7.4,
+      "vote_count": 17134
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/9E02PSdNnjGbo4w0rZBf3ogHuIt.jpg",
+      "genre_ids": [
+        10770,
+        53
+      ],
+      "id": 849938,
+      "original_language": "en",
+      "original_title": "Framed by My Husband",
+      "overview": "A woman agrees to help her husband pay off an extortionist, but when the blackmailer is murdered she becomes the prime suspect, and discovers that the man she married has been leading a deadly double life.",
+      "popularity": 756.82,
+      "poster_path": "/kPs3o3EfV1ZfS79JmTKpAO7wVFY.jpg",
+      "release_date": "2021-07-10",
+      "title": "Framed by My Husband",
+      "video": false,
+      "vote_average": 6,
+      "vote_count": 2
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/xPpXYnCWfjkt3zzE0dpCNME1pXF.jpg",
+      "genre_ids": [
+        16,
+        28,
+        12,
+        14
+      ],
+      "id": 635302,
+      "original_language": "ja",
+      "original_title": "劇場版「鬼滅の刃」無限列車編",
+      "overview": "Tanjirō Kamado, joined with Inosuke Hashibira, a boy raised by boars who wears a boar's head, and Zenitsu Agatsuma, a scared boy who reveals his true power when he sleeps, boards the Infinity Train on a new mission with the Fire Hashira, Kyōjurō Rengoku, to defeat a demon who has been tormenting the people and killing the demon slayers who oppose it!",
+      "popularity": 734.472,
+      "poster_path": "/h8Rb9gBr48ODIwYUttZNYeMWeUU.jpg",
+      "release_date": "2020-10-16",
+      "title": "Demon Slayer -Kimetsu no Yaiba- The Movie: Mugen Train",
+      "video": false,
+      "vote_average": 8.4,
+      "vote_count": 1858
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/akwg1s7hV5ljeSYFfkw7hTHjVqk.jpg",
+      "genre_ids": [
+        16,
+        35,
+        12,
+        10751
+      ],
+      "id": 459151,
+      "original_language": "en",
+      "original_title": "The Boss Baby: Family Business",
+      "overview": "The Templeton brothers — Tim and his Boss Baby little bro Ted — have become adults and drifted away from each other. But a new boss baby with a cutting-edge approach and a can-do attitude is about to bring them together again … and inspire a new family business.",
+      "popularity": 733.949,
+      "poster_path": "/uWStkK8bq9ixY3fc7y209ZleCoF.jpg",
+      "release_date": "2021-07-01",
+      "title": "The Boss Baby: Family Business",
+      "video": false,
+      "vote_average": 7.7,
+      "vote_count": 1600
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/icOUc1llxf2GJr1Z4dBbJYLzuvw.jpg",
+      "genre_ids": [
+        27,
+        53,
+        35
+      ],
+      "id": 871964,
+      "original_language": "pl",
+      "original_title": "W lesie dziś nie zaśnie nikt 2",
+      "overview": "When something horrible happens to the only survivor of a bloody massacre, an insecure rookie cop must overcome his fears to stop further carnage.",
+      "popularity": 726.919,
+      "poster_path": "/6QvepemlDGIiiYsVs0Y1ieFuG7N.jpg",
+      "release_date": "2021-10-27",
+      "title": "Nobody Sleeps in the Woods Tonight 2",
+      "video": false,
+      "vote_average": 3.9,
+      "vote_count": 87
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/6xCOWFIb1Za7jeP6rqw7SfPgkNX.jpg",
+      "genre_ids": [
+        28,
+        53
+      ],
+      "id": 768449,
+      "original_language": "en",
+      "original_title": "American Badger",
+      "overview": "A seemingly cold-blooded hitman is assigned to befriend a call girl, but all hell breaks loose when he is assigned to kill her.",
+      "popularity": 722.332,
+      "poster_path": "/8mO2ZTTOnLnaEQd1sNZAE2XBoOg.jpg",
+      "release_date": "2021-03-05",
+      "title": "American Badger",
+      "video": false,
+      "vote_average": 6.3,
+      "vote_count": 15
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/iWrDibFusV4JEz5Qw79RuWSGfX4.jpg",
+      "genre_ids": [
+        28,
+        12,
+        14
+      ],
+      "id": 102382,
+      "original_language": "en",
+      "original_title": "The Amazing Spider-Man 2",
+      "overview": "For Peter Parker, life is busy. Between taking out the bad guys as Spider-Man and spending time with the person he loves, Gwen Stacy, high school graduation cannot come quickly enough. Peter has not forgotten about the promise he made to Gwen’s father to protect her by staying away, but that is a promise he cannot keep. Things will change for Peter when a new villain, Electro, emerges, an old friend, Harry Osborn, returns, and Peter uncovers new clues about his past.",
+      "popularity": 718.518,
+      "poster_path": "/bU7nTmvmy0h3VUP01v1T2imgH6N.jpg",
+      "release_date": "2014-04-16",
+      "title": "The Amazing Spider-Man 2",
+      "video": false,
+      "vote_average": 6.4,
+      "vote_count": 9905
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/wfrfxivLOBtGMC98tIr2LSOeKSe.jpg",
+      "genre_ids": [
+        16,
+        35,
+        10751
+      ],
+      "id": 639721,
+      "original_language": "en",
+      "original_title": "The Addams Family 2",
+      "overview": "The Addams get tangled up in more wacky adventures and find themselves involved in hilarious run-ins with all sorts of unsuspecting characters.",
+      "popularity": 716.975,
+      "poster_path": "/ld7YB9vBRp1GM1DT3KmFWSmtBPB.jpg",
+      "release_date": "2021-10-01",
+      "title": "The Addams Family 2",
+      "video": false,
+      "vote_average": 7.3,
+      "vote_count": 603
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/owraiceOKtSOa3t8sp3wA9K2Ox6.jpg",
+      "genre_ids": [
+        16,
+        28,
+        12,
+        878
+      ],
+      "id": 703771,
+      "original_language": "en",
+      "original_title": "Deathstroke: Knights & Dragons - The Movie",
+      "overview": "The assassin Deathstroke tries to save his family from the wrath of H.I.V.E. and the murderous Jackal.",
+      "popularity": 714.934,
+      "poster_path": "/vFIHbiy55smzi50RmF8LQjmpGcx.jpg",
+      "release_date": "2020-08-04",
+      "title": "Deathstroke: Knights & Dragons - The Movie",
+      "video": false,
+      "vote_average": 7,
+      "vote_count": 295
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/dIibeeq4QMay5bTJ2vjr72IFFRo.jpg",
+      "genre_ids": [
+        14,
+        12,
+        35
+      ],
+      "id": 589754,
+      "original_language": "ru",
+      "original_title": "Последний богатырь: Корень зла",
+      "overview": "Peace and tranquility have set in Belogorie. The evil was defeated and Ivan is now enjoying his well-deserved fame. He is surrounded by his family, friends and small wonders from the modern world that help him lead a comfortable life. Luckily, he has his Magic Sword to cut a gap between the worlds to get some supplies quite regularly. But when an ancient evil rises and the existence of the magic world is put to danger, Ivan has to team up with his old friends and his new rivals. They will set out on a long journey beyond the known world to find a way to defeat the enemies and to return peace to Belogorie.",
+      "popularity": 714.437,
+      "poster_path": "/5VJSIAhSn4qUsg5nOj4MhQhF5wQ.jpg",
+      "release_date": "2021-01-01",
+      "title": "The Last Warrior: Root of Evil",
+      "video": false,
+      "vote_average": 7.1,
+      "vote_count": 65
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/sWvxBXNtCOaGdtpKNLiOqmwb10N.jpg",
+      "genre_ids": [
+        14,
+        28
+      ],
+      "id": 557,
+      "original_language": "en",
+      "original_title": "Spider-Man",
+      "overview": "After being bitten by a genetically altered spider at Oscorp, nerdy but endearing high school student Peter Parker is endowed with amazing powers to become the superhero known as Spider-Man.",
+      "popularity": 700.415,
+      "poster_path": "/gSZyYEK5AfZuOFFjnVPUCLvdOD6.jpg",
+      "release_date": "2002-05-01",
+      "title": "Spider-Man",
+      "video": false,
+      "vote_average": 7.2,
+      "vote_count": 14369
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/8VmF0Cg7CZTfMeTtsF7k2Wrj38Z.jpg",
+      "genre_ids": [
+        27
+      ],
+      "id": 672582,
+      "original_language": "en",
+      "original_title": "The Deep House",
+      "overview": "While diving in a remote French lake, a couple of YouTubers who specialize in underwater exploration videos discover a house submerged in the deep waters. What was initially a unique finding soon turns into a nightmare when they discover that the house was the scene of atrocious crimes. Trapped, with their oxygen reserves falling dangerously, they realize the worst is yet to come: they are not alone in the house.",
+      "popularity": 695.439,
+      "poster_path": "/5xhAPxRr64oQPEFnUOrttuI4ZEU.jpg",
+      "release_date": "2021-06-30",
+      "title": "The Deep House",
+      "video": false,
+      "vote_average": 6.2,
+      "vote_count": 202
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/620hnMVLu6RSZW6a5rwO8gqpt0t.jpg",
+      "genre_ids": [
+        16,
+        35,
+        10751,
+        14
+      ],
+      "id": 508943,
+      "original_language": "en",
+      "original_title": "Luca",
+      "overview": "Luca and his best friend Alberto experience an unforgettable summer on the Italian Riviera. But all the fun is threatened by a deeply-held secret: they are sea monsters from another world just below the water’s surface.",
+      "popularity": 693.683,
+      "poster_path": "/8tABCBpzu3mZbzMB3sRzMEHEvJi.jpg",
+      "release_date": "2021-06-17",
+      "title": "Luca",
+      "video": false,
+      "vote_average": 8,
+      "vote_count": 5110
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/t9i5kSC6mYPRtc9hDlFeziLESa8.jpg",
+      "genre_ids": [
+        16,
+        35,
+        10751,
+        14
+      ],
+      "id": 876716,
+      "original_language": "en",
+      "original_title": "Ciao Alberto",
+      "overview": "With his best friend Luca away at school, Alberto is enjoying his new life in Portorosso working alongside Massimo - the imposing, tattooed, one-armed fisherman of a few words - who's quite possibly the coolest human in the entire world as far as Alberto is concerned. He wants more than anything to impress his mentor, but it's easier said than done.",
+      "popularity": 676.567,
+      "poster_path": "/buq1OIx6nGsknTy2cHxWTqKXVB.jpg",
+      "release_date": "2021-11-12",
+      "title": "Ciao Alberto",
+      "video": false,
+      "vote_average": 7.8,
+      "vote_count": 142
+    }
+  ],
+  "total_pages": 500,
+  "total_results": 10000
+}

@@ -18,7 +18,7 @@ class MovieCellViewModel:NSObject {
     init(movie:Movie) {
         self.data = movie
         self.title = movie.title
-        self.isFavourite = StorageManager.share.checkMovieFavouriteState(movie: self.data)
+        self.isFavourite = Cache.share.checkFavouriteState(movie: movie)
     }
     
     func requestImage() {

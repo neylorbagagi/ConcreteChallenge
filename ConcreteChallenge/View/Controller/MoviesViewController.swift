@@ -31,6 +31,7 @@ class MoviesViewController: UIViewController{
         collectionView.delegate = self
         collectionView.dataSource = self.viewModel
         collectionView.layer.cornerRadius = 6
+        collectionView.register(SupplementaryReusableView.self, forSupplementaryViewOfKind: "bottom", withReuseIdentifier: "viewForSupplementary")
         return collectionView
     }()
     
@@ -62,29 +63,35 @@ class MoviesViewController: UIViewController{
             self.collectionView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
             self.collectionView.leftAnchor.constraint(equalTo: self.view.leftAnchor),
             self.collectionView.rightAnchor.constraint(equalTo: self.view.rightAnchor),
-            self.collectionView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
-            
+            self.collectionView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
         ])
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        self.viewModel?.requestData()
-    }
+//    override func viewWillAppear(_ animated: Bool) {
+//        if !self.searchController.searchBar.isFirstResponder {
+//            self.viewModel?.restoreData()
+//        }
+//    }
     
     func configure(viewModel:MoviesViewModel){
                 
-        viewModel.data.observer = { data in
+        Cache.share.subscribe({ movies in
             
+            self.collectionView.reloadData()
+            
+        })
+        
+        viewModel.data.observer = { data in
+            guard let data = data else { return }
             DispatchQueue.main.async {
-                self.collectionView.reloadData()
+                if !data.isEmpty {
+                    self.collectionView.reloadData()
+                }
                 
                 if self.activityView.isAnimating{
                     self.activityView.stopAnimating()
                 }
-            }
-            
-            guard let data = data else { return }
-            DispatchQueue.main.async {
+                
                 self.manageCollectionBackgroundView(collectionData: data.isEmpty)
             }
         }
@@ -92,10 +99,10 @@ class MoviesViewController: UIViewController{
         self.collectionView.backgroundView = self.activityView
         self.activityView.startAnimating()
         
+        viewModel.requestData()
     }
     
     func manageCollectionBackgroundView(collectionData isEmpty:Bool) {
-        
         
         if !isEmpty {
             self.collectionView.backgroundView = nil
@@ -130,12 +137,30 @@ extension MoviesViewController: UICollectionViewDelegate {
         let viewModel = MovieDetailViewModel(movie: movie)
         let detailViewController = MovieDetailViewController()
         detailViewController.configure(viewModel: viewModel)
-        detailViewController.onFavouriteChange = { state in
-            self.collectionView.reloadItems(at: [indexPath])
-        }
         
         detailViewController.modalPresentationStyle = .fullScreen
         self.navigationController?.pushViewController(detailViewController, animated: true)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplaySupplementaryView view: UICollectionReusableView,
+                                                                   forElementKind elementKind: String, at indexPath: IndexPath) {
+
+        if collectionView.visibleCells.isEmpty || self.searchController.searchBar.isFirstResponder {
+            view.removeFromSuperview()
+        }
+        
+        guard let viewModel = self.viewModel else { return }
+        
+        if !viewModel.reachPageLimit && !collectionView.visibleCells.isEmpty { /// doing the same at ViewModel line 22
+            
+            DispatchQueue(label: "requestDataOnBottom", qos: .background).async {
+                viewModel.requestData()
+            }
+        }
+    }
+
+    func collectionView(_ collectionView: UICollectionView, didEndDisplayingSupplementaryView view: UICollectionReusableView, forElementOfKind elementKind: String, at indexPath: IndexPath) {
+        view.removeFromSuperview()
     }
     
     
@@ -180,7 +205,7 @@ extension MoviesViewController: UICollectionViewDelegateFlowLayout {
     
     private var itemsOriginalWidth:CGFloat { return 210 } /// Using the original size of the poster
     private var itemsOriginalHeight:CGFloat { return 295 } /// Using the original size of the poster
-    private var footerInSectionSize:CGFloat { return 75 }
+    private var footerInSectionSize:CGFloat { return 59 }
     
     
     
@@ -212,6 +237,8 @@ extension MoviesViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
         return CGSize(width: collectionView.frame.width, height: self.footerInSectionSize)
     }
+    
+    
     
     
 }

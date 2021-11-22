@@ -79,9 +79,9 @@ class FavouritesViewController: UIViewController {
         ])
     }
 
-    override func viewWillAppear(_ animated: Bool) {
-        self.viewModel?.requestData()
-    }
+//    override func viewWillAppear(_ animated: Bool) {
+//        self.viewModel?.requestData()
+//    }
     
     private func configure(viewModel:FavouritesViewModel) {
           
@@ -99,7 +99,7 @@ class FavouritesViewController: UIViewController {
         self.tableView.backgroundView = self.activityView
         self.activityView.startAnimating()
         
-//        viewModel.requestData()
+        viewModel.requestData()
         
     }
     

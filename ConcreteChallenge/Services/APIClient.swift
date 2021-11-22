@@ -12,6 +12,21 @@ enum APIClientEndpoints:String {
     case genres = "/3/genre/movie/list"
 }
 
+enum APIClientErrors:Error,LocalizedError {
+    
+    case invalidAPIKey
+    case pageRequestLimit
+    
+    public var errorDescription: String? {
+        switch self {
+        case .invalidAPIKey:
+            return NSLocalizedString("(401) Invalid API key: You must be granted a valid key.", comment: "My error")
+        case .pageRequestLimit:
+            return NSLocalizedString("(422) page must be less than or equal to 500.", comment: "My error")
+        }
+    }
+}
+
 class APIClient:NSObject {
     
     
@@ -50,7 +65,23 @@ class APIClient:NSObject {
                 completion(.failure(error!))
                 return
             }
-
+            
+            guard let response = response as? HTTPURLResponse else {
+                completion(.failure(error!))
+                return
+            }
+            
+            switch response.statusCode {
+                case 401:
+                    completion(.failure(APIClientErrors.invalidAPIKey))
+                    return
+                case 422:
+                    completion(.failure(APIClientErrors.pageRequestLimit))
+                    return
+                default:
+                    break
+            }
+            
             do{
                 let decoder = JSONDecoder()
                 let decodedData = try decoder.decode(T.self, from: data!)
@@ -62,25 +93,50 @@ class APIClient:NSObject {
         
     }
     
-    func getMovies(forPage page:String, completion: @escaping (_ data:[Movie], _ error:Error?) -> Void) {
+    func getMovies(forPage page:String, completion: @escaping (Result<[Movie], Error>) -> Void) {
 
         self.requestComponets.path = APIClientEndpoints.movies.rawValue
         self.requestComponets.queryItems?.append(URLQueryItem(name: "page", value: page))
         
         guard let url = self.requestComponets.url else {
-            completion([],URLError(.badURL))
+            completion(.failure(URLError(.badURL)))
             return
         }
         
         self.request(url: url, type:MoviesRequestResult.self) { (result) in
             switch result{
                 case .success(let data):
-                    completion(data.results, nil)
+                    completion(.success(data.results))
                 case .failure(let error):
-                    completion([], error)
+                    completion(.failure(error))
             }
         }
     }
+    
+    func getMoviesMock(forPage page:String, completion: @escaping (Result<[Movie], Error>) -> Void) {
+
+        let data: Data
+        
+        switch page {
+        case "1":
+            data = StorageManager.share.loadData("jsonData1.json")
+        case "2":
+            data = StorageManager.share.loadData("jsonData2.json")
+        case "3":
+            data = StorageManager.share.loadData("jsonData3.json")
+        default:
+            data = StorageManager.share.loadData("jsonData4.json")
+        }
+        
+        do{
+            let decoder = JSONDecoder()
+            let decodedData = try decoder.decode(MoviesRequestResult.self, from: data)
+            completion(.success(decodedData.results))
+        } catch let error {
+            completion(.failure(error))
+        }
+    }
+    
     
     
 //    /// This function is only responsible for execute the api requests

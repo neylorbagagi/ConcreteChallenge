@@ -10,50 +10,59 @@ import UIKit
 
 class MoviesViewModel:NSObject {
     
-    var data:Bindable<[Movie]> = Bindable<[Movie]>()
-    let file:String = "jsonData.json"
-    var isSearching:Bool = false
+    var data:Bindable<[Movie]> = Bindable<[Movie]>([])
+    private var dataCache:[Movie] = []
+    private var isSearching:Bool = false
+    private var pageToRequest = 1
+    private var _reachPageLimit:Bool = false
+    var reachPageLimit:Bool { get {return _reachPageLimit} }
+    
     
     func requestData(){
         
-//        var pageToRequest = 1
-//        if UserDefaults.standard.object(forKey: "pageToRequest") != nil {
-//            pageToRequest = UserDefaults.standard.integer(forKey: "pageToRequest")
-//        }
-//
-//
-//
-//        // Inicialmente vai retornar todos os filmes e depois incrementar com novos retornos do Realm
-//        StorageManager.share.getMovies(byPage: pageToRequest) { (data, error) in
-//            guard error == nil else{
-//                print(error?.localizedDescription)
-//                self.data.value = data
-//                return
-//            }
-//
-//            pageToRequest += 1
-//            UserDefaults.standard.setValue(pageToRequest, forKey: "pageToRequest")
-//            self.data.value = data
-//        }
-        if !self.isSearching {
-            self.data.value = StorageManager.share.load(self.file)
+        
+        
+        if !self.isSearching && !self._reachPageLimit {
+            
+            APIClient.share.getMovies(forPage: "\(self.pageToRequest)") { (result) in
+                switch result{
+                    case .success(let data):
+                        if !data.isEmpty {
+                            self.pageToRequest += 1
+                        }
+                        self.dataCache.append(contentsOf: data)
+                        self.data.value!.append(contentsOf: data)
+
+                    case .failure(let error):
+                        print("\(error.localizedDescription)")
+                        if error.localizedDescription.contains("(422)"){
+                            self._reachPageLimit = true
+                        }
+                        self.data.value?.append(contentsOf: [])
+                }
+            }
+            
         }
         
     }
     
+    func restoreData() {
+        self.data.value = self.dataCache
+    }
+    
     func searchData(searchText:String){
+        /// This serach will happens in cache data
         self.isSearching = true
-        let filterResult:[Movie] = StorageManager.share.load(self.file)
-        self.data.value = filterResult.filter({$0.title.contains(searchText)})
-        
+        self.data.value = self.dataCache.filter({$0.title.contains(searchText)})
+
         if searchText == "" {
-            self.data.value = filterResult
+            self.restoreData()
         }
     }
     
     func stopSearchData(){
         self.isSearching = false
-        self.requestData()
+        self.restoreData()
     }
     
     func collectionSelectedData(_ indexPath:IndexPath) -> Movie? {
@@ -79,5 +88,17 @@ extension MoviesViewModel:UICollectionViewDataSource {
         cell.configure(viewModel:viewModel)
         
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        let view = collectionView.dequeueReusableSupplementaryView(ofKind: "bottom", withReuseIdentifier: "viewForSupplementary", for: indexPath) as! SupplementaryReusableView
+
+        if !self._reachPageLimit {
+            view.configure(style: .requestingData)
+        } else {
+            view.configure(style: .reachedDataLimit)
+        }
+
+        return view
     }
 }

@@ -20,7 +20,7 @@
 		F078D36827307CD8003247FE /* ConcreteChallengeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F078D36727307CD8003247FE /* ConcreteChallengeUITests.swift */; };
 		F078D37927307DC0003247FE /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = F078D37827307DC0003247FE /* APIClient.swift */; };
 		F078D38C27308234003247FE /* MoviesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F078D38B27308234003247FE /* MoviesViewModel.swift */; };
-		F078D39F27308EA5003247FE /* jsonData.json in Resources */ = {isa = PBXBuildFile; fileRef = F078D39E27308EA5003247FE /* jsonData.json */; };
+		F078D39F27308EA5003247FE /* jsonData1.json in Resources */ = {isa = PBXBuildFile; fileRef = F078D39E27308EA5003247FE /* jsonData1.json */; };
 		F078D3A827308F32003247FE /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = F078D3A627308F32003247FE /* Movie.swift */; };
 		F078D3A927308F32003247FE /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = F078D3A727308F32003247FE /* Data.swift */; };
 		F078D3B52730942F003247FE /* MovieCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F078D3B42730942F003247FE /* MovieCellViewModel.swift */; };
@@ -46,6 +46,10 @@
 		F08E43172739E8070049F654 /* Criteria.swift in Sources */ = {isa = PBXBuildFile; fileRef = F08E43162739E8070049F654 /* Criteria.swift */; };
 		F08E431C273A01680049F654 /* SelectorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F08E431B273A01680049F654 /* SelectorViewController.swift */; };
 		F08E4321273A02630049F654 /* SelectorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F08E4320273A02630049F654 /* SelectorViewModel.swift */; };
+		F0941DB52749894800D1488C /* jsonData2.json in Resources */ = {isa = PBXBuildFile; fileRef = F0941DB42749894800D1488C /* jsonData2.json */; };
+		F0941DBA2749895A00D1488C /* jsonData3.json in Resources */ = {isa = PBXBuildFile; fileRef = F0941DB92749895A00D1488C /* jsonData3.json */; };
+		F0941DC2274990F700D1488C /* jsonData4.json in Resources */ = {isa = PBXBuildFile; fileRef = F0941DC1274990F700D1488C /* jsonData4.json */; };
+		F0941DCA274AA0F900D1488C /* SupplementaryReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0941DC9274AA0F700D1488C /* SupplementaryReusableView.swift */; };
 		F0AC5BFA2741A27B003E17A6 /* TableViewHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0AC5BF92741A27B003E17A6 /* TableViewHeaderView.swift */; };
 		F0AC5C052742DBA3003E17A6 /* Keys.plist in Resources */ = {isa = PBXBuildFile; fileRef = F0AC5C042742DBA3003E17A6 /* Keys.plist */; };
 		F0F776B82735A70A0029E7AC /* FavouritesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F776B72735A70A0029E7AC /* FavouritesViewController.swift */; };
@@ -95,7 +99,7 @@
 		F078D37827307DC0003247FE /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
 		F078D38B27308234003247FE /* MoviesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesViewModel.swift; sourceTree = "<group>"; };
 		F078D39827308E11003247FE /* MovieCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieCollectionViewCell.swift; sourceTree = "<group>"; };
-		F078D39E27308EA5003247FE /* jsonData.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = jsonData.json; sourceTree = "<group>"; };
+		F078D39E27308EA5003247FE /* jsonData1.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = jsonData1.json; sourceTree = "<group>"; };
 		F078D3A627308F32003247FE /* Movie.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Movie.swift; sourceTree = "<group>"; };
 		F078D3A727308F32003247FE /* Data.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
 		F078D3B42730942F003247FE /* MovieCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieCellViewModel.swift; sourceTree = "<group>"; };
@@ -119,6 +123,10 @@
 		F08E43162739E8070049F654 /* Criteria.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Criteria.swift; sourceTree = "<group>"; };
 		F08E431B273A01680049F654 /* SelectorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectorViewController.swift; sourceTree = "<group>"; };
 		F08E4320273A02630049F654 /* SelectorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectorViewModel.swift; sourceTree = "<group>"; };
+		F0941DB42749894800D1488C /* jsonData2.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = jsonData2.json; sourceTree = "<group>"; };
+		F0941DB92749895A00D1488C /* jsonData3.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = jsonData3.json; sourceTree = "<group>"; };
+		F0941DC1274990F700D1488C /* jsonData4.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = jsonData4.json; sourceTree = "<group>"; };
+		F0941DC9274AA0F700D1488C /* SupplementaryReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupplementaryReusableView.swift; sourceTree = "<group>"; };
 		F0AC5BF92741A27B003E17A6 /* TableViewHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewHeaderView.swift; sourceTree = "<group>"; };
 		F0AC5C042742DBA3003E17A6 /* Keys.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Keys.plist; sourceTree = "<group>"; };
 		F0F776B72735A70A0029E7AC /* FavouritesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouritesViewController.swift; sourceTree = "<group>"; };
@@ -214,7 +222,10 @@
 			isa = PBXGroup;
 			children = (
 				F078D37827307DC0003247FE /* APIClient.swift */,
-				F078D39E27308EA5003247FE /* jsonData.json */,
+				F078D39E27308EA5003247FE /* jsonData1.json */,
+				F0941DB42749894800D1488C /* jsonData2.json */,
+				F0941DB92749895A00D1488C /* jsonData3.json */,
+				F0941DC1274990F700D1488C /* jsonData4.json */,
 				F0061078274569CF00F8DD35 /* favouriteData.json */,
 				F08E42CB273846920049F654 /* genresData.json */,
 				F078D3A727308F32003247FE /* Data.swift */,
@@ -266,6 +277,7 @@
 			children = (
 				F078D39827308E11003247FE /* MovieCollectionViewCell.swift */,
 				F08E42B72736F62A0049F654 /* InfoCollectionViewCell.swift */,
+				F0941DC9274AA0F700D1488C /* SupplementaryReusableView.swift */,
 			);
 			path = CollectionView;
 			sourceTree = "<group>";
@@ -454,10 +466,13 @@
 			files = (
 				F0061079274569D000F8DD35 /* favouriteData.json in Resources */,
 				F08E42A227362E050049F654 /* SF-Pro-Text-Regular.otf in Resources */,
-				F078D39F27308EA5003247FE /* jsonData.json in Resources */,
+				F0941DC2274990F700D1488C /* jsonData4.json in Resources */,
+				F078D39F27308EA5003247FE /* jsonData1.json in Resources */,
 				F08E42A327362E050049F654 /* SF-Pro-Text-LightItalic.otf in Resources */,
+				F0941DB52749894800D1488C /* jsonData2.json in Resources */,
 				F08E42A127362E050049F654 /* SF-Pro-Text-Bold.otf in Resources */,
 				F0AC5C052742DBA3003E17A6 /* Keys.plist in Resources */,
+				F0941DBA2749895A00D1488C /* jsonData3.json in Resources */,
 				F08E42A427362E050049F654 /* SF-Pro-Text-Thin.otf in Resources */,
 				F08E42CC273846930049F654 /* genresData.json in Resources */,
 				F078D35227307CD7003247FE /* LaunchScreen.storyboard in Resources */,
@@ -502,6 +517,7 @@
 				F078D34827307CD3003247FE /* SceneDelegate.swift in Sources */,
 				F0AC5BFA2741A27B003E17A6 /* TableViewHeaderView.swift in Sources */,
 				F0F776C52735BF180029E7AC /* NavigationController.swift in Sources */,
+				F0941DCA274AA0F900D1488C /* SupplementaryReusableView.swift in Sources */,
 				F00610692742F9D200F8DD35 /* MoviesRequestResult.swift in Sources */,
 				F078D3E4273300C2003247FE /* CollectionBackgroundView.swift in Sources */,
 				F078D3E92733050C003247FE /* CollectionBackgroundViewModel.swift in Sources */,

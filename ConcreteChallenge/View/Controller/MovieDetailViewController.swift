@@ -5,12 +5,14 @@
 //  Created by Neylor Bagagi on 05/11/21.
 //
 
+/// TODO: fix erro that dont allow to update favourite from favourites > details
+
 import UIKit
 
 class MovieDetailViewController: UIViewController {
 
     var viewModel:MovieDetailViewModel? = nil
-    var onFavouriteChange:((_ buttonState:Bool)->Void)?
+    //var onFavouriteChange:((_ buttonState:Bool)->Void)?
     
     var scrollView:UIScrollView = {
         let scrollView = UIScrollView()
@@ -164,10 +166,10 @@ class MovieDetailViewController: UIViewController {
         self.originalTitle.text = viewModel.originalTitle
         self.textView.text = viewModel.overview
         
-        if viewModel.isFavourite {
-            self.button.isSelected = true
+        viewModel.isFavourite.observer = { state in
+            self.button.isSelected = state!
         }
-        
+        viewModel.requestFavouriteState()
         
         viewModel.backdrop.observer = { image in
             DispatchQueue.main.async {
@@ -187,18 +189,25 @@ class MovieDetailViewController: UIViewController {
 
     @objc private func didTouchFavourite(){
         
-        /// maybe it doesn't work, both detail and main view will be listening
-        guard let onFavouriteChange = self.onFavouriteChange else { return }
-        
-        
-        /// If unsuccessful to update do not call onFavouriteChange
         do {
-            try self.viewModel?.updateMoviewFavouriteState(to: self.button.isSelected)
-            self.button.isSelected.toggle()
-            onFavouriteChange(self.button.isSelected)
+            try self.viewModel?.updateMovieFavouriteState(to: self.button.isSelected)
         } catch let error {
             print("Error during data update: \(error)")
         }
+        
+        
+        /// maybe it doesn't work, both detail and main view will be listening
+        //guard let onFavouriteChange = self.onFavouriteChange else { return }
+        
+        
+        /// If unsuccessful to update do not call onFavouriteChange
+//        do {
+//            try self.viewModel?.updateMoviewFavouriteState(to: self.button.isSelected)
+//            self.button.isSelected.toggle()
+//            onFavouriteChange(self.button.isSelected)
+//        } catch let error {
+//            print("Error during data update: \(error)")
+//        }
     }
 }
 

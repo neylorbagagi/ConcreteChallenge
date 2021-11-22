@@ -12,7 +12,8 @@ import UIKit
 
 class FavouritesViewModel:NSObject {
     
-    private var cacheData:[Movie] = []
+    /// TODO: maybe all cache should be at Cashe object!!!
+//    private var cacheData:[Movie] = []
     var data:Bindable<[Movie]> = Bindable<[Movie]>([])
     var isFiltering:Bool = false
     var isSearching:Bool = false
@@ -20,15 +21,32 @@ class FavouritesViewModel:NSObject {
     
       
     func requestData(){
+        
+        Cache.share.subscribe({ movies in
+            
+            self.data.value = movies
+            
+        })
+        
+//        Cache.share.favourites.observer = { movies in
+//            guard let movies = movies else { return }
+//            self.data.value = movies
+//        }
+        
         if !self.isFiltering && !self.isSearching {
-            self.cacheData = try! StorageManager.share.listMovies()
-            self.data.value = self.cacheData
+            
+            
+            self.data.value = Cache.share.favourites
+            
+            
+//            self.cacheData = try! StorageManager.share.listMovies()
+//            self.data.value = Cache.share.favourites.value ?? []  //self.cacheData
         }
     }
     
     func searchData(searchText:String){
         self.isSearching = true
-        let filterResult:[Movie] = self.cacheData
+        let filterResult:[Movie] = Cache.share.favourites //self.cacheData
         self.data.value = filterResult.filter({$0.title.contains(searchText)})
         
         if searchText == "" {
@@ -47,7 +65,7 @@ class FavouritesViewModel:NSObject {
     }
         
     func getCacheData() -> [Movie] {
-        return self.cacheData
+        return Cache.share.favourites  //Cache.share.favourites.value
     }
     
     func selectedData(_ indexPath:IndexPath) -> Movie? {
@@ -62,8 +80,6 @@ class FavouritesViewModel:NSObject {
 
 extension FavouritesViewModel: UITableViewDataSource {
     
-  
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         self.data.value!.count
     }
@@ -75,7 +91,6 @@ extension FavouritesViewModel: UITableViewDataSource {
             let viewModel = FavouriteCellViewModel(data:movie)
             cell.configure(viewModel: viewModel)
         }
-        
         return cell
     }
     
@@ -86,9 +101,9 @@ extension FavouritesViewModel: UITableViewDataSource {
             guard let movie = self.data.value?[indexPath.row] else { return }
             
             do {
-                try StorageManager.share.delete(movie: movie)
-                self.data.value?.remove(at: indexPath.row)
-                tableView.reloadData()
+                try Cache.share.delete(movie: movie)
+//                self.data.value?.remove(at: indexPath.row)
+//                tableView.reloadData()
             } catch let error {
                 print("\(error)")
             }
