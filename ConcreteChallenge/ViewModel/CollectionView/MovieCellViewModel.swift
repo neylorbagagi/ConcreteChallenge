@@ -28,7 +28,7 @@ class MovieCellViewModel:NSObject {
             return
         }
         
-        DispatchQueue.init(label: "imageLoading", qos: .background).async {
+//        DispatchQueue.init(label: "imageLoading", qos: .background).async {
             
             let base_path = "https://image.tmdb.org/t/p/w500"
             
@@ -43,9 +43,9 @@ class MovieCellViewModel:NSObject {
                 Cache.share.images.setObject(image, forKey: self.data.posterPath as AnyObject)
                 self.poster.value = image
             } catch let error {
-                print(error.localizedDescription)
+                print("imageerror: \(error.localizedDescription)")
             }
-        }
+//        }
     }
     
 }

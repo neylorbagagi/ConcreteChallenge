@@ -47,7 +47,7 @@ class MoviesViewController: UIViewController{
         super.viewDidLoad()
         
         // Configure appearence
-        self.view.backgroundColor = #colorLiteral(red: 0.968627451, green: 0.8078431373, blue: 0.3568627451, alpha: 1)
+//        self.view.backgroundColor = #colorLiteral(red: 0.968627451, green: 0.8078431373, blue: 0.3568627451, alpha: 1)
         navigationItem.title = "Movies"
         navigationItem.searchController = self.searchController
         navigationItem.hidesSearchBarWhenScrolling = true
@@ -85,7 +85,7 @@ class MoviesViewController: UIViewController{
             guard let data = data else { return }
             DispatchQueue.main.async {
                 if !data.isEmpty {
-                    self.collectionView.reloadData()
+                    self.collectionView.reloadSections(IndexSet(integer: 0))
                 }
                 
                 if self.activityView.isAnimating{
