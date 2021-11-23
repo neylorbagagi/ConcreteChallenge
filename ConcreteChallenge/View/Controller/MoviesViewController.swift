@@ -46,8 +46,6 @@ class MoviesViewController: UIViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Configure appearence
-//        self.view.backgroundColor = #colorLiteral(red: 0.968627451, green: 0.8078431373, blue: 0.3568627451, alpha: 1)
         navigationItem.title = "Movies"
         navigationItem.searchController = self.searchController
         navigationItem.hidesSearchBarWhenScrolling = true
@@ -79,12 +77,11 @@ class MoviesViewController: UIViewController{
         viewModel.data.observer = { data in
             guard let data = data else { return }
             DispatchQueue.main.async {
-                self.collectionView.reloadSections(IndexSet(integer: 0))
-                
                 if self.activityView.isAnimating{
                     self.activityView.stopAnimating()
                 }
                 
+                self.collectionView.reloadSections(IndexSet(integer: 0))
                 self.manageCollectionBackgroundView(collectionData: data.isEmpty)
             }
         }
@@ -175,7 +172,7 @@ extension MoviesViewController: UISearchBarDelegate {
 
 extension MoviesViewController: UICollectionViewDelegateFlowLayout {
     
-    /// TODO: Make this code more elegant
+    /// ???  Make this code more elegant
     private var sectionInsets:UIEdgeInsets {
         if UIDevice.current.model.contains("iPad") {
             return UIEdgeInsets(top: 16, left: 16, bottom: 16, right: 16)
@@ -205,7 +202,7 @@ extension MoviesViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
         
-        /// TODO: find out origin of this value:4
+        /// ??? find out origin of this value:4
         let collectionWidth = collectionView.frame.width - 4
         
         /// Calculate width

@@ -21,6 +21,7 @@ class SelectorViewController: UIViewController {
         tableView.dataSource = self.viewModel
         tableView.allowsMultipleSelection = true
         tableView.backgroundColor = #colorLiteral(red: 0.9689999819, green: 0.8080000281, blue: 0.3569999933, alpha: 1)
+        tableView.separatorColor = #colorLiteral(red: 0.175999999, green: 0.1879999936, blue: 0.2779999971, alpha: 1)
         return tableView
     }()
       
@@ -57,26 +58,27 @@ class SelectorViewController: UIViewController {
 
 extension SelectorViewController: UITableViewDelegate {
 
-    
-    /// TODO: fix cell when selected not changing accessory correctly
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        if ((tableView.cellForRow(at: indexPath)?.accessoryType = .none) != nil) {
-            tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
-        } else {
-            tableView.cellForRow(at: indexPath)?.accessoryType = .none
-        }
-        
+        tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
         let selectedData = viewModel.selectedCellValue(indexPath: indexPath)
         self.onSelected?(selectedData, self.filterTerm)
+        
     }
 
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        
         tableView.cellForRow(at: indexPath)?.accessoryType = .none
+        let selectedData = viewModel.selectedCellValue(indexPath: indexPath)
+        self.onSelected?(selectedData, self.filterTerm)
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         
+        if cell.isSelected{
+            
+            tableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)
+        }
+        
     }
-    
 }

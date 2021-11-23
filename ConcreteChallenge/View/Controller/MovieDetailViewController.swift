@@ -5,8 +5,6 @@
 //  Created by Neylor Bagagi on 05/11/21.
 //
 
-/// TODO: fix erro that dont allow to update favourite from favourites > details
-
 import UIKit
 
 class MovieDetailViewController: UIViewController {

@@ -10,7 +10,7 @@ import UIKit
 class FilterViewController: UIViewController {
 
     var viewModel:FilterViewModel
-    var onSetCriteria:(([Movie]) -> Void)?
+    var onSetCriteria:((_ data:[Movie], _ criteria:Criteria) -> Void)?
     
     private lazy var tableView:UITableView = {
         let tableView = UITableView(frame: .zero, style: .insetGrouped)
@@ -19,6 +19,7 @@ class FilterViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self.viewModel
         tableView.backgroundColor = #colorLiteral(red: 0.9689999819, green: 0.8080000281, blue: 0.3569999933, alpha: 1)
+        tableView.separatorColor = #colorLiteral(red: 0.175999999, green: 0.1879999936, blue: 0.2779999971, alpha: 1)
         return tableView
     }()
     
@@ -76,9 +77,9 @@ class FilterViewController: UIViewController {
     }
     
     @objc func updateCriteria(){
-        guard let onSetCriteria = self.onSetCriteria else { return }
+        guard let criteria = viewModel.criteria.value else { return }
         self.navigationController?.popViewController(animated: true)
-        onSetCriteria(viewModel.filteredData)
+        self.onSetCriteria?(viewModel.filteredData, criteria)
     }
     
 }
@@ -89,7 +90,6 @@ extension FilterViewController: UITableViewDelegate {
         
         let filterTerm:FilterTerms = FilterTerms.allCases[indexPath.row]
         
-        /// TODO: AnyHashable could be converted to Hashable
         let registers:[AnyHashable] = self.viewModel.dataForCriteria(filterTerm: filterTerm)
         let selectedData:[AnyHashable]
         

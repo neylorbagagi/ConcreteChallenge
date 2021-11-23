@@ -30,7 +30,7 @@ enum APIClientErrors:Error,LocalizedError {
 class APIClient:NSObject {
     
     
-    /// TODO: Append api version directly to host
+    /// ??? Append api version directly to host
     static let share = APIClient()
     private let scheme = "https"
     private let host = "api.themoviedb.org"

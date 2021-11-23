@@ -31,7 +31,6 @@ class CollectionBackgroundView: UIView {
         return label
     }()
     
-    /// TODO: build this component with viewModel init(frame: CGRect,viewModel: TYPE)
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.addSubview(self.imageView)

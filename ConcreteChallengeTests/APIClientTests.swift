@@ -8,8 +8,6 @@
 import XCTest
 @testable import ConcreteChallenge
 
-/// TODO: test private methods
-
 class APIClientTests: XCTestCase {
 
     override func setUpWithError() throws {

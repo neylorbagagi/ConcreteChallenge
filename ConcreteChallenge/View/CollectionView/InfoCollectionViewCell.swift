@@ -40,7 +40,6 @@ class InfoCollectionViewCell: UICollectionViewCell {
         label.numberOfLines = 4;
         label.minimumScaleFactor = 0.33;
         label.adjustsFontSizeToFitWidth = true;
-        /// TODO: TRY THIS label.lineBreakStrategy
         
         return label
     }()

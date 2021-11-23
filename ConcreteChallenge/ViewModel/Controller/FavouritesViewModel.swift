@@ -12,41 +12,26 @@ import UIKit
 
 class FavouritesViewModel:NSObject {
     
-    /// TODO: maybe all cache should be at Cashe object!!!
-//    private var cacheData:[Movie] = []
     var data:Bindable<[Movie]> = Bindable<[Movie]>([])
     var isFiltering:Bool = false
     var isSearching:Bool = false
     let file:String = "jsonData.json"
-    
+    var criteria:Criteria?
       
     func requestData(){
         
         Cache.share.subscribe({ movies in
-            
             self.data.value = movies
-            
         })
         
-//        Cache.share.favourites.observer = { movies in
-//            guard let movies = movies else { return }
-//            self.data.value = movies
-//        }
-        
         if !self.isFiltering && !self.isSearching {
-            
-            
             self.data.value = Cache.share.favourites
-            
-            
-//            self.cacheData = try! StorageManager.share.listMovies()
-//            self.data.value = Cache.share.favourites.value ?? []  //self.cacheData
         }
     }
     
     func searchData(searchText:String){
         self.isSearching = true
-        let filterResult:[Movie] = Cache.share.favourites //self.cacheData
+        let filterResult:[Movie] = Cache.share.favourites
         self.data.value = filterResult.filter({$0.title.contains(searchText)})
         
         if searchText == "" {
@@ -65,7 +50,7 @@ class FavouritesViewModel:NSObject {
     }
         
     func getCacheData() -> [Movie] {
-        return Cache.share.favourites  //Cache.share.favourites.value
+        return Cache.share.favourites
     }
     
     func selectedData(_ indexPath:IndexPath) -> Movie? {
@@ -102,8 +87,6 @@ extension FavouritesViewModel: UITableViewDataSource {
             
             do {
                 try Cache.share.delete(movie: movie)
-//                self.data.value?.remove(at: indexPath.row)
-//                tableView.reloadData()
             } catch let error {
                 print("\(error)")
             }

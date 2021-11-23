@@ -7,7 +7,6 @@
 
 import UIKit
 
-/// TODO: fix error during leading poster image
 class MovieCollectionViewCell: UICollectionViewCell {
     
     var viewModel:MovieCellViewModel?

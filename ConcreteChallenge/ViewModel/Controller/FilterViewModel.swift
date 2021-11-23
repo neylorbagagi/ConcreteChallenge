@@ -8,11 +8,6 @@
 import Foundation
 import UIKit
 
-
-
-/// struct can be CaseIterable? create a structure to save filter configuration in cache
-/// // use cashe for filter options
-
 enum FilterTerms:String, CaseIterable{
     case releaseDate = "Date"
     case genre = "Genres"
@@ -121,7 +116,7 @@ class FilterViewModel:NSObject {
 
         guard let criteria = self.criteria.value else { return }
 
-        /// TODO: Improve this func, semparete em make it generic
+        /// TODO: Improve this func, gettin appart anf making it generic
         let genresFilter = criteria.genre.map( {$0.id} )
         let releasesFilter = criteria.releaseDate
         var movies:[Movie] = self.cacheData
@@ -146,13 +141,6 @@ class FilterViewModel:NSObject {
                     }
                 }
                 return false
-//                for genre in $0.genreIDS {
-//                    print(genre, $0.title)
-//                    if genresFilter.contains(genre) {
-//                        return true
-//                    }
-//                }
-//                return false
             })
         }
 

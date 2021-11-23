@@ -12,12 +12,14 @@ class SelectorViewModel<T:Hashable>:NSObject, UITableViewDataSource {
     
     var data:[T]
     var selectedData:[T]
+    var selectedDataIndex:[IndexPath]
     let filterTerm:FilterTerms
     
     init(data:[T], selectedData:[T], filterTerm:FilterTerms) {
         self.data = data
         self.selectedData = selectedData
         self.filterTerm = filterTerm
+        self.selectedDataIndex = []
     }
     
     func selectedCellValue(indexPath:IndexPath) -> T {
@@ -32,11 +34,13 @@ class SelectorViewModel<T:Hashable>:NSObject, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        /// TODO: make a custom check
+        /// TODO: move this logic to the a UITableViewCell subclass
         let cell = UITableViewCell(style: .default, reuseIdentifier: "selectorTableCell")
         cell.selectionStyle = .none
+        cell.tintColor = #colorLiteral(red: 0.9689999819, green: 0.8080000281, blue: 0.3569999933, alpha: 1)
         
         let value = data[indexPath.row]
+        
         
         
         switch self.filterTerm {
@@ -45,15 +49,16 @@ class SelectorViewModel<T:Hashable>:NSObject, UITableViewDataSource {
             let genre = value as! Genre
             if selectedData.contains(AnyHashable(genre) as! T) {
                 cell.accessoryType = .checkmark
+                cell.isSelected = true
             }
             cell.textLabel?.text = genre.name
         default:
             if selectedData.contains(AnyHashable(value) as! T) {
                 cell.accessoryType = .checkmark
+                cell.isSelected = true
             }
             cell.textLabel?.text =  value as? String
         }
-        print(self.data)
         return cell
     }
     

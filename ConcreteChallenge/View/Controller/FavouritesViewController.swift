@@ -7,8 +7,6 @@
 
 import UIKit
 
-/// TODO: evaluate all ! in code
-
 class FavouritesViewController: UIViewController {
 
     var viewModel:FavouritesViewModel?
@@ -111,11 +109,12 @@ class FavouritesViewController: UIViewController {
         /// with full data not just data in current presentation status
         let data = viewModel.getCacheData()
         
-        /// TODO: make all ViewControllers init from a viewMoodel
-        let filterViewModel = FilterViewModel(data:data)
+        /// TODO: make all ViewControllers init from a viewModel
+        let filterViewModel = FilterViewModel(data:data,criteria: viewModel.criteria)
         let filterViewController = FilterViewController(viewModel: filterViewModel)
-        filterViewController.onSetCriteria = { data in
+        filterViewController.onSetCriteria = { data, criteria in
             viewModel.isFiltering = true
+            viewModel.criteria = criteria
             viewModel.data.value = data
         }
         
