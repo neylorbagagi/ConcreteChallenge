@@ -76,10 +76,6 @@ class FavouritesViewController: UIViewController {
             self.tableView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
         ])
     }
-
-//    override func viewWillAppear(_ animated: Bool) {
-//        self.viewModel?.requestData()
-//    }
     
     private func configure(viewModel:FavouritesViewModel) {
           
@@ -109,7 +105,6 @@ class FavouritesViewController: UIViewController {
         /// with full data not just data in current presentation status
         let data = viewModel.getCacheData()
         
-        /// TODO: make all ViewControllers init from a viewModel
         let filterViewModel = FilterViewModel(data:data,criteria: viewModel.criteria)
         let filterViewController = FilterViewController(viewModel: filterViewModel)
         filterViewController.onSetCriteria = { data, criteria in

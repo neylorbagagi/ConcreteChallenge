@@ -10,7 +10,6 @@ import UIKit
 class MovieDetailViewController: UIViewController {
 
     var viewModel:MovieDetailViewModel? = nil
-    //var onFavouriteChange:((_ buttonState:Bool)->Void)?
     
     var scrollView:UIScrollView = {
         let scrollView = UIScrollView()
@@ -73,6 +72,17 @@ class MovieDetailViewController: UIViewController {
         return collectionView
     }()
        
+    var genres:UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textAlignment = .left
+        label.lineBreakMode = .byWordWrapping
+        label.numberOfLines = 0
+        label.font = UIFont(name: "SFProText-Thin", size: 16)
+        label.textColor = #colorLiteral(red: 0.1764705882, green: 0.1882352941, blue: 0.2784313725, alpha: 1)
+        return label
+    }()
+    
     var textView:UITextView = {
         let textView = UITextView()
         textView.backgroundColor = .none
@@ -117,6 +127,7 @@ class MovieDetailViewController: UIViewController {
         self.contentView.addSubview(self.titleLabel)
         self.contentView.addSubview(self.originalTitle)
         self.contentView.addSubview(self.collectionView)
+        self.contentView.addSubview(self.genres)
         self.contentView.addSubview(self.textView)
         
         NSLayoutConstraint.activate([
@@ -150,7 +161,11 @@ class MovieDetailViewController: UIViewController {
             self.collectionView.rightAnchor.constraint(equalTo: self.contentView.rightAnchor),
             self.collectionView.heightAnchor.constraint(equalToConstant: 91),
             
-            self.textView.topAnchor.constraint(equalTo: self.collectionView.bottomAnchor, constant: 4),
+            self.genres.topAnchor.constraint(equalTo: self.collectionView.bottomAnchor, constant: 8),
+            self.genres.leftAnchor.constraint(equalTo: self.contentView.leftAnchor, constant: 20),
+            self.genres.rightAnchor.constraint(equalTo: self.contentView.rightAnchor, constant: -20),
+            
+            self.textView.topAnchor.constraint(equalTo: self.genres.bottomAnchor),
             self.textView.leftAnchor.constraint(equalTo: self.contentView.leftAnchor, constant: 16),
             self.textView.rightAnchor.constraint(equalTo: self.contentView.rightAnchor, constant: -16),
             self.textView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -16),
@@ -177,12 +192,19 @@ class MovieDetailViewController: UIViewController {
         
         viewModel.requestImage()
         
-        viewModel.info.observer = { dict in
+        viewModel.genres.observer = { string in
             DispatchQueue.main.async {
-                self.collectionView.reloadData()
+                self.genres.text = string
             }
         }
         viewModel.requestGenres()
+        
+//        viewModel.info.observer = { dict in
+//            DispatchQueue.main.async {
+//                self.collectionView.reloadData()
+//            }
+//        }
+        
     }
 
     @objc private func didTouchFavourite(){
@@ -193,19 +215,6 @@ class MovieDetailViewController: UIViewController {
             print("Error during data update: \(error)")
         }
         
-        
-        /// maybe it doesn't work, both detail and main view will be listening
-        //guard let onFavouriteChange = self.onFavouriteChange else { return }
-        
-        
-        /// If unsuccessful to update do not call onFavouriteChange
-//        do {
-//            try self.viewModel?.updateMoviewFavouriteState(to: self.button.isSelected)
-//            self.button.isSelected.toggle()
-//            onFavouriteChange(self.button.isSelected)
-//        } catch let error {
-//            print("Error during data update: \(error)")
-//        }
     }
 }
 

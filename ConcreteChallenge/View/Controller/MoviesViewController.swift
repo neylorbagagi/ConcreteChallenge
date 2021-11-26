@@ -69,27 +69,27 @@ class MoviesViewController: UIViewController{
     func configure(viewModel:MoviesViewModel){
                 
         Cache.share.subscribe({ movies in
-            
             self.collectionView.reloadData()
-            
         })
         
         viewModel.data.observer = { data in
             guard let data = data else { return }
+            
             DispatchQueue.main.async {
                 if self.activityView.isAnimating{
                     self.activityView.stopAnimating()
+                    self.collectionView.backgroundView = nil
                 }
-                
                 self.collectionView.reloadSections(IndexSet(integer: 0))
                 self.manageCollectionBackgroundView(collectionData: data.isEmpty)
             }
         }
         
+        viewModel.requestData()
         self.collectionView.backgroundView = self.activityView
         self.activityView.startAnimating()
         
-        viewModel.requestData()
+        
     }
     
     func manageCollectionBackgroundView(collectionData isEmpty:Bool) {

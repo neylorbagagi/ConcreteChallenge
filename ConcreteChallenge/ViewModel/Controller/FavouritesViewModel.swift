@@ -8,8 +8,6 @@
 import Foundation
 import UIKit
 
-/// TODO: fix this boring LayoutConstraints warning
-
 class FavouritesViewModel:NSObject {
     
     var data:Bindable<[Movie]> = Bindable<[Movie]>([])
@@ -46,6 +44,7 @@ class FavouritesViewModel:NSObject {
     
     func stopFilterData(){
         self.isFiltering = false
+        self.criteria = nil
         self.requestData()
     }
         

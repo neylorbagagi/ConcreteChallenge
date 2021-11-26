@@ -20,6 +20,7 @@ class FilterViewController: UIViewController {
         tableView.dataSource = self.viewModel
         tableView.backgroundColor = #colorLiteral(red: 0.9689999819, green: 0.8080000281, blue: 0.3569999933, alpha: 1)
         tableView.separatorColor = #colorLiteral(red: 0.175999999, green: 0.1879999936, blue: 0.2779999971, alpha: 1)
+        tableView.register(FilterTableCell.self, forCellReuseIdentifier: "filterTableCell")
         return tableView
     }()
     
@@ -71,8 +72,17 @@ class FilterViewController: UIViewController {
     }
     
     func configure(viewModel:FilterViewModel){
+        viewModel.genres.observer = { genres in
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+        }
+//        viewModel.requestGenres()
+        
         viewModel.criteria.observer = { value in
-            self.tableView.reloadData()
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
         }
     }
     

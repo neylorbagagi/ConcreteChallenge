@@ -13,7 +13,6 @@ enum MovieDetailViewModelInfoKey:String, CaseIterable {
     case voteCount = "Votes Count"
     case releaseDate = "Release Date"
     case popularity = "Popularity Rate"
-    case genres = "Genres"
     case originalLanguage = "Original Language"
     case adult = "Adult Content?"
 }
@@ -31,7 +30,7 @@ class MovieDetailViewModel:NSObject {
     let adult:String
     let originalLanguage:String
     var backdrop:Bindable<UIImage> = Bindable<UIImage>()
-    var genres:String
+    var genres:Bindable<String> = Bindable<String>()
     var info:Bindable<[MovieDetailViewModelInfoKey:String]> = Bindable<[MovieDetailViewModelInfoKey:String]>()
     var isFavourite:Bindable<Bool> = Bindable<Bool>(false)
     
@@ -43,7 +42,7 @@ class MovieDetailViewModel:NSObject {
         self.overview = movie.overview
         self.voteAverage = String(movie.voteAverage)
         self.voteCount = MovieDetailViewModel.formatPoints(from: movie.voteCount)
-        self.genres = "N/A"
+        self.genres.value = "N/A"
         
         let popularityString = String(movie.popularity)
         self.popularity = String(popularityString.split(separator: ".").first ?? "0") // let's make it more readable
@@ -51,8 +50,7 @@ class MovieDetailViewModel:NSObject {
         self.originalLanguage = movie.originalLanguage
         self.info.value = [.voteAverage:self.voteAverage,.voteCount:self.voteCount,
                      .releaseDate:self.releaseDate,.popularity:self.popularity,
-                     .originalLanguage:self.originalLanguage,.adult:self.adult,
-                     .genres:self.genres]
+                     .originalLanguage:self.originalLanguage,.adult:self.adult]
     }
     
     func requestFavouriteState(){
@@ -105,8 +103,7 @@ class MovieDetailViewModel:NSObject {
             APIClient.share.getGenres { (result) in
                 switch result{
                     case .success(let data):
-                        self.genres = self.composeGenreDescription(genres:data)
-                        self.info.value?[.genres] = self.genres
+                        self.genres.value = self.composeGenreDescription(genres:data)
                     case .failure(let error):
                         print("\(error.localizedDescription)")
                 }
@@ -117,20 +114,15 @@ class MovieDetailViewModel:NSObject {
     
     private func composeGenreDescription(genres:[Genre]) -> String {
         
-        var composedGenres = ""
+        var composedGenres:[String] = []
         
         for id in self.data.genreIDS{
             if let genderName = genres.first(where: {$0.id == id})?.name {
-                composedGenres += "\(genderName)"
-                
-                if id != self.data.genreIDS.last{
-                    composedGenres += ",\n"
-                }
-                
+                composedGenres.append(genderName)
             }
         }
         
-        return composedGenres
+        return composedGenres.joined(separator: ", ")
     
     }
     

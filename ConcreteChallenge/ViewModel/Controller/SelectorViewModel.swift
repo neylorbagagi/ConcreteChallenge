@@ -34,7 +34,6 @@ class SelectorViewModel<T:Hashable>:NSObject, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        /// TODO: move this logic to the a UITableViewCell subclass
         let cell = UITableViewCell(style: .default, reuseIdentifier: "selectorTableCell")
         cell.selectionStyle = .none
         cell.tintColor = #colorLiteral(red: 0.9689999819, green: 0.8080000281, blue: 0.3569999933, alpha: 1)

@@ -28,7 +28,7 @@ class MovieCellViewModel:NSObject {
             return
         }
         
-//        DispatchQueue.init(label: "imageLoading", qos: .background).async {
+        DispatchQueue.init(label: "imageLoading", qos: .background).async {
             
             let base_path = "https://image.tmdb.org/t/p/w500"
             
@@ -45,7 +45,7 @@ class MovieCellViewModel:NSObject {
             } catch let error {
                 print("imageerror: \(error.localizedDescription)")
             }
-//        }
+        }
     }
     
 }

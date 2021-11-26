@@ -16,6 +16,7 @@ class FavouriteTableCell: UITableViewCell {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.layer.cornerRadius = 6
         imageView.layer.masksToBounds = true
+        imageView.backgroundColor = #colorLiteral(red: 0.968627451, green: 0.8078431373, blue: 0.3568627451, alpha: 1)
         return imageView
     }()
 
@@ -23,7 +24,6 @@ class FavouriteTableCell: UITableViewCell {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
-        stackView.distribution = .fill
         return stackView
     }()
     
@@ -31,7 +31,6 @@ class FavouriteTableCell: UITableViewCell {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .horizontal
-        stackView.distribution = .fillProportionally
         return stackView
     }()
     
@@ -76,10 +75,10 @@ class FavouriteTableCell: UITableViewCell {
         
         self.addSubview(self.posterView)
         self.addSubview(self.stackView)
-        
+
         self.stackView.addArrangedSubview(self.headerStackView)
         self.stackView.addArrangedSubview(self.textView)
-
+        
         self.headerStackView.addArrangedSubview(self.title)
         self.headerStackView.addArrangedSubview(self.release)
         
@@ -91,16 +90,15 @@ class FavouriteTableCell: UITableViewCell {
             self.posterView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -8),
             self.posterView.widthAnchor.constraint(equalTo: self.heightAnchor, multiplier: 2/3),
             
-            self.stackView.topAnchor.constraint(equalTo: self.topAnchor, constant: 16),
+            self.stackView.topAnchor.constraint(equalTo: self.posterView.topAnchor, constant: 16),
             self.stackView.leftAnchor.constraint(equalTo: self.posterView.rightAnchor, constant: 16),
             self.stackView.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -16),
-            self.stackView.heightAnchor.constraint(equalTo: self.posterView.heightAnchor, constant: -16),
-            
+            self.stackView.bottomAnchor.constraint(equalTo: self.posterView.bottomAnchor, constant: -16),
+
             self.headerStackView.heightAnchor.constraint(equalTo: self.stackView.heightAnchor, multiplier: 0.4),
-            self.textView.heightAnchor.constraint(equalTo: self.stackView.heightAnchor, multiplier: 0.6),
             
             self.title.widthAnchor.constraint(equalTo: self.headerStackView.widthAnchor, multiplier: 0.8),
-            self.release.widthAnchor.constraint(equalTo: self.headerStackView.widthAnchor, multiplier: 0.7),
+            self.release.widthAnchor.constraint(equalTo: self.headerStackView.widthAnchor, multiplier: 0.2),
             
         ])
         

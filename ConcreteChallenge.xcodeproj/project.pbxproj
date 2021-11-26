@@ -11,6 +11,8 @@
 		F00610712742FDC900F8DD35 /* APIClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00610702742FDC900F8DD35 /* APIClientTests.swift */; };
 		F0061079274569D000F8DD35 /* favouriteData.json in Resources */ = {isa = PBXBuildFile; fileRef = F0061078274569CF00F8DD35 /* favouriteData.json */; };
 		F006107E27457BDA00F8DD35 /* StorageManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F006107D27457BD900F8DD35 /* StorageManagerTests.swift */; };
+		F029E579274EAB230022D993 /* FilterTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F029E578274EAB230022D993 /* FilterTableCell.swift */; };
+		F029E57E274EAB4D0022D993 /* FilterCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F029E57D274EAB4D0022D993 /* FilterCellViewModel.swift */; };
 		F078D34627307CD3003247FE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F078D34527307CD3003247FE /* AppDelegate.swift */; };
 		F078D34827307CD3003247FE /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F078D34727307CD3003247FE /* SceneDelegate.swift */; };
 		F078D34D27307CD3003247FE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F078D34B27307CD3003247FE /* Main.storyboard */; };
@@ -83,6 +85,8 @@
 		F00610702742FDC900F8DD35 /* APIClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClientTests.swift; sourceTree = "<group>"; };
 		F0061078274569CF00F8DD35 /* favouriteData.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = favouriteData.json; sourceTree = "<group>"; };
 		F006107D27457BD900F8DD35 /* StorageManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManagerTests.swift; sourceTree = "<group>"; };
+		F029E578274EAB230022D993 /* FilterTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterTableCell.swift; sourceTree = "<group>"; };
+		F029E57D274EAB4D0022D993 /* FilterCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterCellViewModel.swift; sourceTree = "<group>"; };
 		F078D34227307CD3003247FE /* ConcreteChallenge.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ConcreteChallenge.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F078D34527307CD3003247FE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F078D34727307CD3003247FE /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -352,6 +356,7 @@
 			children = (
 				F08E42E22738AED40049F654 /* FavouriteTableCell.swift */,
 				F0AC5BF92741A27B003E17A6 /* TableViewHeaderView.swift */,
+				F029E578274EAB230022D993 /* FilterTableCell.swift */,
 			);
 			path = TableView;
 			sourceTree = "<group>";
@@ -360,6 +365,7 @@
 			isa = PBXGroup;
 			children = (
 				F08E42F92738BB5A0049F654 /* FavouriteCellViewModel.swift */,
+				F029E57D274EAB4D0022D993 /* FilterCellViewModel.swift */,
 			);
 			path = TableView;
 			sourceTree = "<group>";
@@ -528,6 +534,7 @@
 				F0F776CA2735CF9E0029E7AC /* Cache.swift in Sources */,
 				F078D3B52730942F003247FE /* MovieCellViewModel.swift in Sources */,
 				F078D37927307DC0003247FE /* APIClient.swift in Sources */,
+				F029E579274EAB230022D993 /* FilterTableCell.swift in Sources */,
 				F078D3D72730D80A003247FE /* MovieCollectionViewCell.swift in Sources */,
 				F08E43122739D0F60049F654 /* FilterViewModel.swift in Sources */,
 				F08E42FA2738BB5A0049F654 /* FavouriteCellViewModel.swift in Sources */,
@@ -538,6 +545,7 @@
 				F08E43172739E8070049F654 /* Criteria.swift in Sources */,
 				F08E42B82736F62A0049F654 /* InfoCollectionViewCell.swift in Sources */,
 				F08E42BD2736F7A50049F654 /* InfoCellViewModel.swift in Sources */,
+				F029E57E274EAB4D0022D993 /* FilterCellViewModel.swift in Sources */,
 				F078D3A927308F32003247FE /* Data.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

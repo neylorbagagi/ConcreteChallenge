@@ -15,7 +15,6 @@ class InfoCollectionViewCell: UICollectionViewCell {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
-        stackView.distribution = .fillProportionally
         stackView.alignment = .center
         return stackView
     }()
@@ -40,7 +39,6 @@ class InfoCollectionViewCell: UICollectionViewCell {
         label.numberOfLines = 4;
         label.minimumScaleFactor = 0.33;
         label.adjustsFontSizeToFitWidth = true;
-        
         return label
     }()
     
@@ -63,10 +61,12 @@ class InfoCollectionViewCell: UICollectionViewCell {
             
             self.title.leadingAnchor.constraint(equalTo: self.stackView.leadingAnchor),
             self.title.trailingAnchor.constraint(equalTo: self.stackView.trailingAnchor),
-            self.title.heightAnchor.constraint(greaterThanOrEqualToConstant: 22),
+            self.title.heightAnchor.constraint(equalTo: self.stackView.heightAnchor, multiplier: 0.5),
             
             self.value.leadingAnchor.constraint(equalTo: self.stackView.leadingAnchor),
             self.value.trailingAnchor.constraint(equalTo: self.stackView.trailingAnchor),
+            self.value.heightAnchor.constraint(equalTo: self.stackView.heightAnchor, multiplier: 0.5),
+            
         ])
         
     }

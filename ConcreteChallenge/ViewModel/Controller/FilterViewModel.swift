@@ -11,27 +11,35 @@ import UIKit
 enum FilterTerms:String, CaseIterable{
     case releaseDate = "Date"
     case genre = "Genres"
-//    case adult = "Adult Content?"
 }
 
 class FilterViewModel:NSObject {
     
-    var cacheData:[Movie]
+    var cacheData:[Movie] = []
     var filteredData:[Movie] = []
-    var genresData:[Genre]
-    var criteria:Bindable<Criteria>
+    var criteria:Bindable<Criteria> = Bindable<Criteria>(Criteria())
+    var genres:Bindable<[Genre]> = Bindable<[Genre]>([])
     
     init(data:[Movie], criteria:Criteria? = nil) {
+        super.init()
+        
         self.cacheData = data
         self.filteredData = []
-        self.genresData = StorageManager.share.load("genresData.json")
+        
+        APIClient.share.getGenres { (result) in
+            switch result{
+                case .success(let data):
+                    self.genres.value = data
+                    
+                case .failure(let error):
+                    print("\(error.localizedDescription)")
+            }
+        }
         
         if let criteria = criteria {
             self.criteria = Bindable<Criteria>(criteria)
-        } else{
-            self.criteria = Bindable<Criteria>(Criteria())
+            self.filterData()
         }
-        
         
     }
     
@@ -56,7 +64,7 @@ class FilterViewModel:NSObject {
             var array:[T] = []
             for movie in self.cacheData{
                 for genreID in movie.genreIDS{
-                    if let genre = genresData.first(where: {$0.id == genreID}){
+                    if let genre = self.genres.value?.first(where: {$0.id == genreID}){
                         array.append(genre as! T)
                     }
                 }
@@ -101,22 +109,12 @@ class FilterViewModel:NSObject {
         return result
     }
     
-    func configureFilterPreview(params:[String]) -> String {
-        switch params.count {
-        case 0:
-            return "None"
-        case 1..<4:
-            return params.joined(separator: ", ")
-        default:
-            return "Multiple"
-        }
-    }
+    
     
     func filterData(){
 
         guard let criteria = self.criteria.value else { return }
 
-        /// TODO: Improve this func, gettin appart anf making it generic
         let genresFilter = criteria.genre.map( {$0.id} )
         let releasesFilter = criteria.releaseDate
         var movies:[Movie] = self.cacheData
@@ -135,7 +133,6 @@ class FilterViewModel:NSObject {
         if !genresFilter.isEmpty {
             movies = movies.filter( {
                 for genre in genresFilter {
-                    print(genre, $0.title)
                     if $0.genreIDS.contains(genre) {
                         return true
                     }
@@ -156,36 +153,20 @@ extension FilterViewModel:UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        /// TODO: move this logic to the a UITableViewCell subclass
-        let cell = UITableViewCell(style: .value1, reuseIdentifier: "filterTableCell")
+        let cell = tableView.dequeueReusableCell(withIdentifier: "filterTableCell") as! FilterTableCell
         let filterTerm = FilterTerms.allCases[indexPath.row]
-        cell.textLabel?.text = filterTerm.rawValue
-        cell.accessoryType = .disclosureIndicator
-        cell.selectionStyle = .none
         
-        switch filterTerm {
-        case .releaseDate:
-            if let selected = self.criteria.value?.releaseDate{
-                cell.detailTextLabel?.text = self.configureFilterPreview(params: selected)
-            }
-            
-        case .genre:
-            if let selected = self.criteria.value?.genre {
-                var genreNames:[String] = []
-                for genreID in selected{
-                    if let genre = genresData.first(where: {$0.id == genreID.id}){
-                        genreNames.append(genre.name)
-                    }
-                }
-                cell.detailTextLabel?.text = self.configureFilterPreview(params: genreNames)
-            }
-        }
+        guard let criteria = self.criteria.value,
+              let genres = self.genres.value else { return UITableViewCell() }
+        
+        let viewModel = FilterCellViewModel(filterTerm: filterTerm, criteria: criteria, genres: genres)
+        cell.configure(viewModel:viewModel)
         
         return cell
     }
     
     func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
-        "This filter return \(self.filteredData.count) movies"
+        "This filter returns \(self.filteredData.count) movies"
     }
     
 }
