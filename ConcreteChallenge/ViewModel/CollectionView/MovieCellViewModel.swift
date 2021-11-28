@@ -8,32 +8,35 @@
 import Foundation
 import UIKit
 
-class MovieCellViewModel: NSObject {
-
-    private let data: Movie
-    let title: String
-    var poster: Bindable<UIImage> = Bindable<UIImage>()
-    let isFavourite: Bool
-    let basePath: String
-
-    init(movie: Movie) {
+class MovieCellViewModel:NSObject {
+    
+    private let data:Movie
+    let title:String
+    var poster:Bindable<UIImage> = Bindable<UIImage>()
+    let isFavourite:Bool
+    
+    init(movie:Movie) {
         self.data = movie
         self.title = movie.title
         self.isFavourite = Cache.share.checkFavouriteState(movie: movie)
-        self.basePath = "https://image.tmdb.org/t/p/w500"
     }
+    
     func requestImage() {
-        if let cachedImage = Cache.share.images.object(forKey: self.data.posterPath as AnyObject) {
+        
+        if let cachedImage = Cache.share.images.object(forKey: self.data.posterPath as AnyObject){
             self.poster.value = cachedImage
             return
         }
-
+        
         DispatchQueue.init(label: "imageLoading", qos: .background).async {
-            guard let url = URL(string: self.basePath+(self.data.posterPath ?? "")) else {
+            
+            let base_path = "https://image.tmdb.org/t/p/w500"
+            
+            guard let url = URL(string: base_path+(self.data.posterPath ?? "")) else {
                 print("invalid url")
                 return
             }
-
+            
             do {
                 let imageData = try Data(contentsOf: url)
                 guard let image = UIImage(data: imageData) else { return }
@@ -44,4 +47,5 @@ class MovieCellViewModel: NSObject {
             }
         }
     }
+    
 }

@@ -7,6 +7,7 @@
 
 import UIKit
 
+
 class NavigationController: UINavigationController {
 
     override func viewDidLoad() {
@@ -18,7 +19,10 @@ class NavigationController: UINavigationController {
         navigationBar.shadowImage = UIImage()
         navigationBar.tintColor = #colorLiteral(red: 0.1764705882, green: 0.1882352941, blue: 0.2784313725, alpha: 1)
         navigationBar.prefersLargeTitles = false
-        navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor:
-                                                UIColor(named: "theme_accent") ?? #colorLiteral(red: 0.1764705882, green: 0.1882352941, blue: 0.2784313725, alpha: 1)]
+        navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor(named: "theme_accent") ?? #colorLiteral(red: 0.1764705882, green: 0.1882352941, blue: 0.2784313725, alpha: 1)]
+        
+        // Do any additional setup after loading the view.
     }
+    
+
 }

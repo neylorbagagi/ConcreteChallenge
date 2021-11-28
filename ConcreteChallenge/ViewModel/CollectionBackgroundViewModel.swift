@@ -15,12 +15,12 @@ enum CollectionBackgroundType {
     case loadDataEmpty
 }
 
-class CollectionBackgroundViewModel: NSObject {
-
-    let image: UIImage
-    let message: String
-
-    init(type: CollectionBackgroundType) {
+class CollectionBackgroundViewModel:NSObject {
+    
+    let image:UIImage
+    let message:String
+    
+    init(type:CollectionBackgroundType) {
         switch type {
         case .searchDataEmpty:
             self.message = "Sua busca não obteve resultado."
@@ -36,4 +36,5 @@ class CollectionBackgroundViewModel: NSObject {
             self.image = UIImage(named: "error")?.withTintColor(#colorLiteral(red: 0.1764705882, green: 0.1882352941, blue: 0.2784313725, alpha: 1)) ?? UIImage()
         }
     }
+    
 }

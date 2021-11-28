@@ -19,7 +19,7 @@ class Movie: Codable, Identifiable {
     let video: Bool
     let voteAverage: Double
     let voteCount: Int
-
+    
     enum CodingKeys: String, CodingKey {
         case id
         case adult

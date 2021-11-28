@@ -18,6 +18,30 @@ class StorageManagerTests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
 
+    func testSave() throws {
+        // This is an example of a functional test case.
+        // Use XCTAssert and related functions to verify your tests produce the correct results.
+        let movie = Movie(id: 1, adult: false, backdropPath: "", genreIDS: [1,2], originalLanguage: "en", originalTitle: "Title", overview: "Overview", popularity: 0.0, posterPath: "poster", releaseDate: "", title: "title", video: false, voteAverage: 0.0, voteCount: 1)
+        
+        do {
+            try StorageManager.share.save(movie: movie)
+        } catch _ {
+            XCTFail()
+        }
+        
+    }
+    
+    func testListMovies() throws {
+        
+        do {
+            let movies = try StorageManager.share.listMovies()
+            print(movies)
+        } catch _ {
+            XCTFail()
+        }
+        
+    }
+
     func testPerformanceExample() throws {
         // This is an example of a performance test case.
         self.measure {

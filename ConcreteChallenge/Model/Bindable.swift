@@ -7,19 +7,19 @@
 
 import Foundation
 
-class Bindable<T> {
-
-    var value: T? {
+class Bindable<T>{
+    
+    var value:T? {
         didSet {
             self.observer?(value)
         }
     }
-
-    convenience init(_ value: T) {
+    
+    convenience init(_ value:T) {
         self.init()
         self.value = value
     }
-
-    var observer: ((T?) -> Void)?
-
+    
+    var observer:((T?) -> ())?
+    
 }
