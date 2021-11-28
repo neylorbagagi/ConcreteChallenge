@@ -9,31 +9,31 @@ import Foundation
 
 import UIKit
 class FilterCellViewModel: NSObject {
-    
-    var title:String = ""
-    var detail:String = ""
-    
-    init(filterTerm:FilterTerms, criteria:Criteria, genres:[Genre]) {
+
+    var title: String = ""
+    var detail: String = ""
+
+    init(filterTerm: FilterTerms, criteria: Criteria, genres: [Genre]) {
         super.init()
         self.title = filterTerm.rawValue
-        
+
         switch filterTerm {
         case .releaseDate:
             self.detail = self.configureFilterPreview(params: criteria.releaseDate)
-            
+
         case .genre:
-            var genreNames:[String] = []
-            for genreID in criteria.genre{
-                if let genre = genres.first(where: {$0.id == genreID.id}){
+            var genreNames: [String] = []
+            for genreID in criteria.genre {
+                if let genre = genres.first(where: {$0.id == genreID.id}) {
                     genreNames.append(genre.name)
                 }
             }
             self.detail = self.configureFilterPreview(params: genreNames)
         }
-        
+
     }
-    
-    private func configureFilterPreview(params:[String]) -> String {
+
+    private func configureFilterPreview(params: [String]) -> String {
         switch params.count {
         case 0:
             return "None"
@@ -43,5 +43,4 @@ class FilterCellViewModel: NSObject {
             return "Multiple"
         }
     }
-    
 }

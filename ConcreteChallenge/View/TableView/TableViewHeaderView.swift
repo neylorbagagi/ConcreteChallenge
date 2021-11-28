@@ -9,7 +9,7 @@ import UIKit
 
 class TableViewHeaderView: UITableViewHeaderFooterView {
 
-    var button:UIButton = {
+    lazy var button: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("Clear Filter", for: .normal)
@@ -19,33 +19,30 @@ class TableViewHeaderView: UITableViewHeaderFooterView {
         button.addTarget(self, action: #selector(clearCriteria), for: .touchDown)
         return button
     }()
-    
+
     var onRemoveCriteria:(() -> Void)?
-    
+
     override init(reuseIdentifier: String?) {
             super.init(reuseIdentifier: reuseIdentifier)
             configure()
         }
-    
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     func configure() {
         self.contentView.backgroundColor = .white
-        
         contentView.addSubview(self.button)
-        
         NSLayoutConstraint.activate([
             self.button.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
             self.button.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 8),
             self.button.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -8),
             self.button.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -4),
-            self.button.heightAnchor.constraint(equalToConstant: 46),
+            self.button.heightAnchor.constraint(equalToConstant: 46)
         ])
     }
-    
+
     @objc func clearCriteria() {
         guard let onRemoveCriteria = self.onRemoveCriteria else { return }
         onRemoveCriteria()

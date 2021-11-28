@@ -8,9 +8,9 @@
 import Foundation
 
 class StorageManager {
-    
+
     static let share = StorageManager()
-    
+
     func loadData(_ filename: String) -> Data {
         let data: Data
 
@@ -25,9 +25,8 @@ class StorageManager {
         } catch {
             fatalError("Couldn't load \(filename) from main bundle:\n\(error)")
         }
-        
     }
-    
+
     func load<T: Decodable>(_ filename: String) -> T {
         let data: Data
 
@@ -49,12 +48,4 @@ class StorageManager {
             fatalError("Couldn't parse \(filename) as \(T.self):\n\(error)")
         }
     }
-    
-    
-    
-    
-    
-    
-    
-    
 }
