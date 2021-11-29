@@ -14,12 +14,12 @@ class MoviesViewModel: NSObject {
     private var dataCache: [Movie] = []
     private var isSearching: Bool = false
     private var pageToRequest = 1
-    private var _reachPageLimit: Bool = false
-    var reachPageLimit: Bool { return _reachPageLimit }
+    private var reachPageLimit: Bool = false
+    var isReachPageLimit: Bool { return reachPageLimit }
 
     func requestData() {
 
-        if !self.isSearching && !self._reachPageLimit {
+        if !self.isSearching && !self.reachPageLimit {
             APIClient.share.getMovies(forPage: "\(self.pageToRequest)") { (result) in
                 switch result {
                 case .success(let data):
@@ -32,7 +32,7 @@ class MoviesViewModel: NSObject {
                 case .failure(let error):
                     print("\(error.localizedDescription)")
                     if error.localizedDescription.contains("(422)") {
-                        self._reachPageLimit = true
+                        self.reachPageLimit = true
                     }
                     self.data.value?.append(contentsOf: [])
                 }
@@ -88,7 +88,7 @@ extension MoviesViewModel: UICollectionViewDataSource {
                                                                    withReuseIdentifier: "viewForSupplementary",
                                                                    for: indexPath) as? SupplementaryReusableView
 
-        if !self._reachPageLimit {
+        if !self.reachPageLimit {
             view?.configure(style: .requestingData)
         } else {
             view?.configure(style: .reachedDataLimit)

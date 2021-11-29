@@ -14,14 +14,13 @@ class FavouriteCellViewModel: NSObject {
     let releaseDate: String
     let overview: String
     var poster: Bindable<UIImage> = Bindable<UIImage>()
-    let basePath: String
+    let basePath: String = "https://image.tmdb.org/t/p/w500"
 
     init(data: Movie) {
         self.data = data
         self.title = data.title
         self.releaseDate = String(data.releaseDate.split(separator: "-").first ?? "UNKNOW")
         self.overview = data.overview
-        self.basePath = "https://image.tmdb.org/t/p/w500"
     }
     func requestImage() {
 

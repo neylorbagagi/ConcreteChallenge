@@ -107,29 +107,6 @@ class APIClient: NSObject {
         }
     }
 
-    func getMoviesMock(forPage page: String, completion: @escaping (Result<[Movie], Error>) -> Void) {
-        let data: Data
-
-        switch page {
-        case "1":
-            data = StorageManager.share.loadData("jsonData1.json")
-        case "2":
-            data = StorageManager.share.loadData("jsonData2.json")
-        case "3":
-            data = StorageManager.share.loadData("jsonData3.json")
-        default:
-            data = StorageManager.share.loadData("jsonData4.json")
-        }
-
-        do {
-            let decoder = JSONDecoder()
-            let decodedData = try decoder.decode(MoviesRequestResult.self, from: data)
-            completion(.success(decodedData.results))
-        } catch let error {
-            completion(.failure(error))
-        }
-    }
-
     func getGenres(completion: @escaping (Result<[Genre], Error>) -> Void) {
         self.requestComponets.path = APIClientEndpoints.genres.rawValue
         guard let url = self.requestComponets.url else {

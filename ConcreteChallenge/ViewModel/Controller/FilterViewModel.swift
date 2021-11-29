@@ -50,9 +50,9 @@ class FilterViewModel: NSObject {
         case .releaseDate:
             var array: [T] = []
             for movie in self.cacheData {
-                if let date = movie.releaseDate.split(separator: "-").first {
-                    guard let date = String(date) as? T else { return [] }
-                    array.append(date)
+                if let date = movie.releaseDate.split(separator: "-").first,
+                   let finalDate = String(date) as? T {
+                    array.append(finalDate)
                 }
             }
             let uniques = Set(array)
@@ -61,9 +61,9 @@ class FilterViewModel: NSObject {
             var array: [T] = []
             for movie in self.cacheData {
                 for genreID in movie.genreIDS {
-                    if let genre = self.genres.value?.first(where: {$0.id == genreID}) {
-                        guard let genre = genre as? T else { return [] }
-                        array.append(genre)
+                    if let genre = self.genres.value?.first(where: {$0.id == genreID}),
+                       let finalGenre = genre as? T {
+                        array.append(finalGenre)
                     }
                 }
             }
@@ -111,26 +111,20 @@ class FilterViewModel: NSObject {
 
         guard let criteria = self.criteria.value else { return }
 
-        let genresFilter = criteria.genre.map({ $0.id })
-        let releasesFilter = criteria.releaseDate
+        let genresFilter: [String] = criteria.genre.map({ String($0.id) })
+        let releasesFilter: [String] = criteria.releaseDate
         var movies: [Movie] = self.cacheData
 
-        if !releasesFilter.isEmpty {
-            movies = movies.filter({
-                for release in releasesFilter {
-                    if $0.releaseDate.contains(release) {
-                        return true
-                    }
-                }
-                return false
-            })
-        }
+        let filters: [MovieFilterableProperty: [String]] = [.genreIDS: genresFilter, .releaseDate: releasesFilter]
 
-        if !genresFilter.isEmpty {
+        for (filterableProperty, filter) in filters where !filter.isEmpty {
             movies = movies.filter({
-                for genre in genresFilter {
-                    if $0.genreIDS.contains(genre) {
-                        return true
+                for element in filter {
+                    let porperties: [String] = $0.subscription[filterableProperty] ?? []
+                    for porperty in porperties {
+                        if porperty.contains(element) {
+                            return true
+                        }
                     }
                 }
                 return false

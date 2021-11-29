@@ -63,13 +63,11 @@ class SupplementaryReusableView: UICollectionReusableView {
     }
 
     func configure(style: SupplementaryReusableViewStyle) {
-
         self.style = style
-        switch style {
-        case .reachedDataLimit:
+        if style == .reachedDataLimit {
             self.label.isHidden = false
             self.activityView.isHidden = true
-        default:
+        } else {
             self.label.isHidden = true
             self.activityView.isHidden = false
             self.activityView.startAnimating()

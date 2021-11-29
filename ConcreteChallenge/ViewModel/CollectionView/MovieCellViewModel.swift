@@ -14,13 +14,12 @@ class MovieCellViewModel: NSObject {
     let title: String
     var poster: Bindable<UIImage> = Bindable<UIImage>()
     let isFavourite: Bool
-    let basePath: String
+    let basePath: String = "https://image.tmdb.org/t/p/w500"
 
     init(movie: Movie) {
         self.data = movie
         self.title = movie.title
         self.isFavourite = Cache.share.checkFavouriteState(movie: movie)
-        self.basePath = "https://image.tmdb.org/t/p/w500"
     }
     func requestImage() {
         if let cachedImage = Cache.share.images.object(forKey: self.data.posterPath as AnyObject) {

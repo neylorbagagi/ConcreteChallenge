@@ -7,15 +7,23 @@
 
 import Foundation
 
+enum MovieFilterableProperty: String {
+    case genreIDS
+    case releaseDate
+}
+
 class Movie: Codable, Identifiable {
     let id: Int
     let adult: Bool
     let backdropPath: String?
     let genreIDS: [Int]
-    let originalLanguage, originalTitle, overview: String
+    let originalLanguage: String
+    let originalTitle: String
+    let overview: String
     let popularity: Double
     let posterPath: String?
-    let releaseDate, title: String
+    let releaseDate: String
+    let title: String
     let video: Bool
     let voteAverage: Double
     let voteCount: Int
@@ -34,4 +42,13 @@ class Movie: Codable, Identifiable {
         case voteAverage = "vote_average"
         case voteCount = "vote_count"
     }
+}
+
+extension Movie {
+
+    var subscription: [MovieFilterableProperty: [String]] {
+        return [.genreIDS: self.genreIDS.map({ String($0) }),
+                .releaseDate: [self.releaseDate]]
+    }
+
 }

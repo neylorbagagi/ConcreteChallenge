@@ -38,18 +38,16 @@ class SelectorViewModel<T: Hashable>: NSObject, UITableViewDataSource {
 
         let value = data[indexPath.row]
 
-        switch self.filterTerm {
-        case .genre:
-            if let genre = value as? Genre {
-                if let generic = AnyHashable(genre) as? T {
-                    if selectedData.contains(generic) {
-                        cell.accessoryType = .checkmark
-                        cell.isSelected = true
-                    }
+        if self.filterTerm == .genre {
+            if let genre = value as? Genre,
+               let generic = AnyHashable(genre) as? T {
+                if selectedData.contains(generic) {
+                    cell.accessoryType = .checkmark
+                    cell.isSelected = true
                 }
                 cell.textLabel?.text = genre.name
             }
-        default:
+        } else {
             if let generic = AnyHashable(value) as? T {
                 if selectedData.contains(generic) {
                     cell.accessoryType = .checkmark

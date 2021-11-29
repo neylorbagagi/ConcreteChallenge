@@ -98,8 +98,8 @@ class MoviesViewController: UIViewController {
         if isEmpty && self.searchController.searchBar.isFirstResponder {
 
             let backgroundView = CollectionBackgroundView(frame: self.collectionView.frame)
-            let viewModel = CollectionBackgroundViewModel(type: .searchDataEmpty)
-            backgroundView.configure(viewModel: viewModel)
+            let backgroundViewModel = CollectionBackgroundViewModel(type: .searchDataEmpty)
+            backgroundView.configure(viewModel: backgroundViewModel)
             self.collectionView.backgroundView = backgroundView
 
         }
@@ -107,8 +107,8 @@ class MoviesViewController: UIViewController {
         if isEmpty && !self.searchController.searchBar.isFirstResponder {
 
             let backgroundView = CollectionBackgroundView(frame: self.collectionView.frame)
-            let viewModel = CollectionBackgroundViewModel(type: .loadDataFail)
-            backgroundView.configure(viewModel: viewModel)
+            let backgroundViewModel = CollectionBackgroundViewModel(type: .loadDataFail)
+            backgroundView.configure(viewModel: backgroundViewModel)
             self.collectionView.backgroundView = backgroundView
 
         }
@@ -139,7 +139,7 @@ extension MoviesViewController: UICollectionViewDelegate {
         }
 
         guard let viewModel = self.viewModel else { return }
-        if !viewModel.reachPageLimit && !collectionView.visibleCells.isEmpty { /// doing the same at ViewModel line 22
+        if !viewModel.isReachPageLimit && !collectionView.visibleCells.isEmpty { /// doing the same at ViewModel line 22
             DispatchQueue(label: "requestDataOnBottom", qos: .background).async {
                 viewModel.requestData()
             }

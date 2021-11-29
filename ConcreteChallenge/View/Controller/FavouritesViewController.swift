@@ -119,26 +119,25 @@ class FavouritesViewController: UIViewController {
 
         if isEmpty && self.searchController.searchBar.isFirstResponder {
             let backgroundView = CollectionBackgroundView(frame: self.tableView.frame)
-            let viewModel = CollectionBackgroundViewModel(type: .searchDataEmpty)
-            backgroundView.configure(viewModel: viewModel)
+            let backgrounViewModel = CollectionBackgroundViewModel(type: .searchDataEmpty)
+            backgroundView.configure(viewModel: backgrounViewModel)
             self.tableView.backgroundView = backgroundView
             return
         }
 
         if isEmpty && self.viewModel?.isFiltering == true {
             let backgroundView = CollectionBackgroundView(frame: self.tableView.frame)
-            let viewModel = CollectionBackgroundViewModel(type: .filterDataEmpty)
-            backgroundView.configure(viewModel: viewModel)
+            let backgrounViewModel = CollectionBackgroundViewModel(type: .filterDataEmpty)
+            backgroundView.configure(viewModel: backgrounViewModel)
             self.tableView.backgroundView = backgroundView
             return
         }
 
         if isEmpty && !self.searchController.searchBar.isFirstResponder {
             let backgroundView = CollectionBackgroundView(frame: self.tableView.frame)
-            let viewModel = CollectionBackgroundViewModel(type: .loadDataEmpty)
-            backgroundView.configure(viewModel: viewModel)
+            let backgrounViewModel = CollectionBackgroundViewModel(type: .loadDataEmpty)
+            backgroundView.configure(viewModel: backgrounViewModel)
             self.tableView.backgroundView = backgroundView
-            return
         }
     }
 }

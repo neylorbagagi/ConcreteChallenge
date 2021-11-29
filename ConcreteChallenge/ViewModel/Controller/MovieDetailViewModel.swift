@@ -46,7 +46,7 @@ class MovieDetailViewModel: NSObject {
 
         let popularityString = String(movie.popularity)
         self.popularity = String(popularityString.split(separator: ".").first ?? "0") // let's make it more readable
-        self.adult = movie.adult == true ? "YES" : "NO"
+        self.adult = movie.adult ? "YES" : "NO"
         self.originalLanguage = movie.originalLanguage
         self.info.value = [.voteAverage: self.voteAverage, .voteCount: self.voteCount,
                      .releaseDate: self.releaseDate, .popularity: self.popularity,
