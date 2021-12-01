@@ -9,15 +9,13 @@ import UIKit
 
 class MovieCollectionViewCell: UICollectionViewCell {
 
-    var viewModel: MovieCellViewModel?
-
-    var imageView: UIImageView = {
+    private var imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints  = false
         return imageView
     }()
 
-    var title: UILabel = {
+    private var title: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .center
@@ -30,7 +28,7 @@ class MovieCollectionViewCell: UICollectionViewCell {
         return label
     }()
 
-    var favouriteView: UIImageView = {
+    private var favouriteView: UIImageView = {
         let image = UIImage(named: "fav_selected")?.withTintColor(#colorLiteral(red: 0.9689999819, green: 0.8080000281, blue: 0.3569999933, alpha: 1))
         let imageView = UIImageView(image: image)
         imageView.translatesAutoresizingMaskIntoConstraints  = false
@@ -67,6 +65,15 @@ class MovieCollectionViewCell: UICollectionViewCell {
         ])
     }
 
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    override func prepareForReuse() {
+        self.imageView.image = nil
+        self.favouriteView.isHidden = true
+    }
+
     func configure(viewModel: MovieCellViewModel) {
         self.title.text = viewModel.title
         self.layer.cornerRadius = 6
@@ -83,14 +90,5 @@ class MovieCollectionViewCell: UICollectionViewCell {
         }
 
         viewModel.requestImage()
-    }
-
-    override func prepareForReuse() {
-        self.imageView.image = nil
-        self.favouriteView.isHidden = true
-    }
-
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
 }

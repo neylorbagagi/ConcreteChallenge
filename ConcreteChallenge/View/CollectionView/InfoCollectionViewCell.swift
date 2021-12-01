@@ -9,8 +9,6 @@ import UIKit
 
 class InfoCollectionViewCell: UICollectionViewCell {
 
-    var viewModel: InfoCellViewModel?
-
     private let stackView: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -19,7 +17,7 @@ class InfoCollectionViewCell: UICollectionViewCell {
         return stackView
     }()
 
-    var title: UILabel = {
+    private var title: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .left
@@ -30,7 +28,7 @@ class InfoCollectionViewCell: UICollectionViewCell {
         return label
     }()
 
-    var value: UILabel = {
+    private var value: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .left

@@ -9,7 +9,7 @@ import UIKit
 
 class FilterViewController: UIViewController {
 
-    var viewModel: FilterViewModel
+    private var viewModel: FilterViewModel
     var onSetCriteria:((_ data: [Movie], _ criteria: Criteria) -> Void)?
 
     private lazy var tableView: UITableView = {
@@ -17,14 +17,13 @@ class FilterViewController: UIViewController {
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.layer.cornerRadius = 6
         tableView.delegate = self
-        tableView.dataSource = self.viewModel
         tableView.backgroundColor = #colorLiteral(red: 0.9689999819, green: 0.8080000281, blue: 0.3569999933, alpha: 1)
         tableView.separatorColor = #colorLiteral(red: 0.175999999, green: 0.1879999936, blue: 0.2779999971, alpha: 1)
         tableView.register(FilterTableCell.self, forCellReuseIdentifier: "filterTableCell")
         return tableView
     }()
 
-    lazy var applyButton: UIButton = {
+    private lazy var applyButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("Apply Filter", for: .normal)
@@ -52,7 +51,6 @@ class FilterViewController: UIViewController {
 
         self.view.addSubview(self.tableView)
         self.view.addSubview(self.applyButton)
-        self.configure(viewModel: self.viewModel)
 
         NSLayoutConstraint.activate([
             self.tableView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
@@ -67,24 +65,30 @@ class FilterViewController: UIViewController {
                                                      constant: -22),
             self.applyButton.heightAnchor.constraint(equalToConstant: 46)
         ])
+
+        self.configure(viewModel: self.viewModel)
     }
 
-    func configure(viewModel: FilterViewModel) {
+    private func configure(viewModel: FilterViewModel) {
+
+        self.viewModel = viewModel
+
         viewModel.genres.observer = { _ in
             DispatchQueue.main.async {
                 self.tableView.reloadData()
             }
         }
-
         viewModel.criteria.observer = { _ in
             DispatchQueue.main.async {
                 self.tableView.reloadData()
             }
         }
+
+        self.tableView.dataSource = viewModel
     }
 
-    @objc func updateCriteria() {
-        guard let criteria = viewModel.criteria.value else { return }
+    @objc private func updateCriteria() {
+        guard let criteria = self.viewModel.criteria.value else { return }
         self.navigationController?.popViewController(animated: true)
         self.onSetCriteria?(viewModel.filteredData, criteria)
     }
@@ -94,15 +98,20 @@ extension FilterViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
+        guard let dataSource = tableView.dataSource as? FilterViewModel else {
+            print("Invalid DataSource for TableView")
+            return
+        }
+
         let filterTerm: FilterTerms = FilterTerms.allCases[indexPath.row]
-        let registers: [AnyHashable] = self.viewModel.dataForCriteria(filterTerm: filterTerm)
+        let registers: [AnyHashable] = dataSource.dataForCriteria(filterTerm: filterTerm)
         let selectedData: [AnyHashable]
 
         switch filterTerm {
         case .releaseDate:
-            selectedData = self.viewModel.criteria.value?.releaseDate ?? []
+            selectedData = dataSource.criteria.value?.releaseDate ?? []
         case .genre:
-            selectedData = self.viewModel.criteria.value?.genre ?? []
+            selectedData = dataSource.criteria.value?.genre ?? []
         }
 
         let selectorViewModel: SelectorViewModel<AnyHashable> = SelectorViewModel(data: registers,

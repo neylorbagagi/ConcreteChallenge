@@ -9,8 +9,8 @@ import UIKit
 
 class SelectorViewController: UIViewController {
 
-    var viewModel: SelectorViewModel<AnyHashable>
-    let filterTerm: FilterTerms
+    private var viewModel: SelectorViewModel<AnyHashable>
+    private let filterTerm: FilterTerms
     var onSelected:((_ value: AnyHashable, _ filterTerm: FilterTerms) -> Void)?
 
     private lazy var tableView: UITableView = {

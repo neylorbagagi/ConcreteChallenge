@@ -14,9 +14,7 @@ enum SupplementaryReusableViewStyle {
 
 class SupplementaryReusableView: UICollectionReusableView {
 
-    var style: SupplementaryReusableViewStyle?
-
-    var activityView: UIActivityIndicatorView = {
+    private var activityView: UIActivityIndicatorView = {
         let activityView = UIActivityIndicatorView(style: .medium)
         activityView.color = #colorLiteral(red: 0.175999999, green: 0.1879999936, blue: 0.2779999971, alpha: 1)
         activityView.translatesAutoresizingMaskIntoConstraints = false
@@ -25,7 +23,7 @@ class SupplementaryReusableView: UICollectionReusableView {
         return activityView
     }()
 
-    var label: UILabel = {
+    private var label: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .center
@@ -63,7 +61,6 @@ class SupplementaryReusableView: UICollectionReusableView {
     }
 
     func configure(style: SupplementaryReusableViewStyle) {
-        self.style = style
         if style == .reachedDataLimit {
             self.label.isHidden = false
             self.activityView.isHidden = true

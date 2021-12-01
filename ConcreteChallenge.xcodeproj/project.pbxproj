@@ -258,10 +258,10 @@
 		F078D39727308DC7003247FE /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				F078D34927307CD3003247FE /* MoviesViewController.swift */,
-				F0F776CE273619990029E7AC /* MovieDetailViewController.swift */,
-				F0F776B72735A70A0029E7AC /* FavouritesViewController.swift */,
 				F0F776BC2735BD1B0029E7AC /* TabBarController.swift */,
+				F078D34927307CD3003247FE /* MoviesViewController.swift */,
+				F0F776B72735A70A0029E7AC /* FavouritesViewController.swift */,
+				F0F776CE273619990029E7AC /* MovieDetailViewController.swift */,
 				F0F776C42735BF180029E7AC /* NavigationController.swift */,
 				F08E430C2739CFDF0049F654 /* FilterViewController.swift */,
 				F08E431B273A01680049F654 /* SelectorViewController.swift */,

@@ -9,9 +9,9 @@ import UIKit
 
 class MovieDetailViewController: UIViewController {
 
-    var viewModel: MovieDetailViewModel?
+    private var viewModel: MovieDetailViewModel
 
-    var scrollView: UIScrollView = {
+    private var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.backgroundColor = .white
@@ -19,14 +19,14 @@ class MovieDetailViewController: UIViewController {
         return scrollView
     }()
 
-    var contentView: UIView = {
+    private var contentView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = .white
         return view
     }()
 
-    var imageView: UIImageView = {
+    private var imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.layer.cornerRadius = 6
         imageView.layer.masksToBounds = true // this keeps cornerRadius property
@@ -35,7 +35,7 @@ class MovieDetailViewController: UIViewController {
         return imageView
     }()
 
-    var titleLabel: UILabel = {
+    private var titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .left
@@ -46,7 +46,7 @@ class MovieDetailViewController: UIViewController {
         return label
     }()
 
-    var originalTitle: UILabel = {
+    private var originalTitle: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .left
@@ -72,7 +72,7 @@ class MovieDetailViewController: UIViewController {
         return collectionView
     }()
 
-    var genres: UILabel = {
+    private var genres: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .left
@@ -83,7 +83,7 @@ class MovieDetailViewController: UIViewController {
         return label
     }()
 
-    var textView: UITextView = {
+    private var textView: UITextView = {
         let textView = UITextView()
         textView.backgroundColor = .none
         textView.contentInsetAdjustmentBehavior = .automatic
@@ -112,6 +112,15 @@ class MovieDetailViewController: UIViewController {
         return barButtonItem
     }()
 
+    init(viewModel: MovieDetailViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -128,10 +137,11 @@ class MovieDetailViewController: UIViewController {
         self.contentView.addSubview(self.genres)
         self.contentView.addSubview(self.textView)
 
+        self.configure(viewModel: self.viewModel)
         self.configureLayout()
     }
 
-    func configureLayout() {
+    private func configureLayout() {
         NSLayoutConstraint.activate([
 
             self.scrollView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
@@ -174,7 +184,7 @@ class MovieDetailViewController: UIViewController {
         ])
     }
 
-    func configure(viewModel: MovieDetailViewModel) {
+    private func configure(viewModel: MovieDetailViewModel) {
         self.viewModel = viewModel
         self.titleLabel.text = viewModel.title
         self.originalTitle.text = viewModel.originalTitle
@@ -203,7 +213,7 @@ class MovieDetailViewController: UIViewController {
 
     @objc private func didTouchFavourite() {
         do {
-            try self.viewModel?.updateMovieFavouriteState(to: self.button.isSelected)
+            try self.viewModel.updateMovieFavouriteState(to: self.button.isSelected)
         } catch let error {
             print("Error during data update: \(error)")
         }

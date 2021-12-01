@@ -6,10 +6,10 @@
 //
 
 import UIKit
-
+/// TODO: background collection not working anymore
 class MoviesViewController: UIViewController {
 
-    var viewModel: MoviesViewModel?
+    private var viewModel: MoviesViewModel
 
     private lazy var searchController: UISearchController = {
         let searchController = UISearchController(searchResultsController: nil)
@@ -29,19 +29,27 @@ class MoviesViewController: UIViewController {
         collectionView.backgroundColor = .white
         collectionView.register(MovieCollectionViewCell.self, forCellWithReuseIdentifier: "movieCollectionCell")
         collectionView.delegate = self
-        collectionView.dataSource = self.viewModel
         collectionView.layer.cornerRadius = 6
         collectionView.register(SupplementaryReusableView.self,
                                 forSupplementaryViewOfKind: "bottom", withReuseIdentifier: "viewForSupplementary")
         return collectionView
     }()
 
-    var activityView: UIActivityIndicatorView = {
+    private var activityView: UIActivityIndicatorView = {
         let activityView = UIActivityIndicatorView(style: .large)
         activityView.translatesAutoresizingMaskIntoConstraints = false
         activityView.hidesWhenStopped = true
         return activityView
     }()
+
+    init(viewModel: MoviesViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -50,11 +58,6 @@ class MoviesViewController: UIViewController {
         navigationItem.searchController = self.searchController
         navigationItem.hidesSearchBarWhenScrolling = true
 
-        // Configure data
-        self.viewModel = MoviesViewModel()
-        self.configure(viewModel: self.viewModel!)
-
-        // Do any additional setup after loading the view.
         self.view.addSubview(self.collectionView)
 
         NSLayoutConstraint.activate([
@@ -63,9 +66,13 @@ class MoviesViewController: UIViewController {
             self.collectionView.rightAnchor.constraint(equalTo: self.view.rightAnchor),
             self.collectionView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
         ])
+
+        self.configure(viewModel: self.viewModel)
     }
 
-    func configure(viewModel: MoviesViewModel) {
+    private func configure(viewModel: MoviesViewModel) {
+
+        self.viewModel = viewModel
 
         Cache.share.subscribe({ _ in
             self.collectionView.reloadData()
@@ -80,37 +87,39 @@ class MoviesViewController: UIViewController {
                     self.collectionView.backgroundView = nil
                 }
                 self.collectionView.reloadSections(IndexSet(integer: 0))
-                self.manageCollectionBackgroundView(collectionData: data.isEmpty)
+                self.manageBackgroundView(forCollectionView: self.collectionView,
+                                          onStateFor: self.searchController.searchBar,
+                                          collectionData: data.isEmpty)
             }
         }
+
+        self.collectionView.dataSource = viewModel
 
         viewModel.requestData()
         self.collectionView.backgroundView = self.activityView
         self.activityView.startAnimating()
     }
 
-    func manageCollectionBackgroundView(collectionData isEmpty: Bool) {
+    func manageBackgroundView(forCollectionView collection: UICollectionView,
+                              onStateFor searchBar: UISearchBar,
+                              collectionData isEmpty: Bool) {
 
         if !isEmpty {
-            self.collectionView.backgroundView = nil
+            collection.backgroundView = nil
         }
 
-        if isEmpty && self.searchController.searchBar.isFirstResponder {
-
-            let backgroundView = CollectionBackgroundView(frame: self.collectionView.frame)
+        if isEmpty && searchBar.isFirstResponder {
+            let backgroundView = CollectionBackgroundView(frame: collection.frame)
             let backgroundViewModel = CollectionBackgroundViewModel(type: .searchDataEmpty)
             backgroundView.configure(viewModel: backgroundViewModel)
-            self.collectionView.backgroundView = backgroundView
-
+            collection.backgroundView = backgroundView
         }
 
-        if isEmpty && !self.searchController.searchBar.isFirstResponder {
-
-            let backgroundView = CollectionBackgroundView(frame: self.collectionView.frame)
+        if isEmpty && searchBar.isFirstResponder {
+            let backgroundView = CollectionBackgroundView(frame: collection.frame)
             let backgroundViewModel = CollectionBackgroundViewModel(type: .loadDataFail)
             backgroundView.configure(viewModel: backgroundViewModel)
-            self.collectionView.backgroundView = backgroundView
-
+            collection.backgroundView = backgroundView
         }
     }
 }
@@ -119,12 +128,14 @@ extension MoviesViewController: UICollectionViewDelegate {
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 
-        guard let movie = viewModel?.collectionSelectedData(indexPath) else {return}
+        guard let dataSource = collectionView.dataSource as? MoviesViewModel,
+              let movie = dataSource.collectionSelectedData(indexPath) else {
+            print("Invalid DataSourve for CollectionView")
+            return
+        }
 
-        let viewModel = MovieDetailViewModel(movie: movie)
-        let detailViewController = MovieDetailViewController()
-        detailViewController.configure(viewModel: viewModel)
-
+        let detaiViewModel = MovieDetailViewModel(movie: movie)
+        let detailViewController = MovieDetailViewController(viewModel: detaiViewModel)
         detailViewController.modalPresentationStyle = .fullScreen
         self.navigationController?.pushViewController(detailViewController, animated: true)
     }
@@ -138,10 +149,14 @@ extension MoviesViewController: UICollectionViewDelegate {
             view.removeFromSuperview()
         }
 
-        guard let viewModel = self.viewModel else { return }
-        if !viewModel.isReachPageLimit && !collectionView.visibleCells.isEmpty { /// doing the same at ViewModel line 22
+        guard let dataSource = collectionView.dataSource as? MoviesViewModel else {
+            print("Invalid DataSourve for CollectionView")
+            return
+        }
+
+        if !dataSource.isReachPageLimit && !collectionView.visibleCells.isEmpty {
             DispatchQueue(label: "requestDataOnBottom", qos: .background).async {
-                viewModel.requestData()
+                dataSource.requestData()
             }
         }
     }
@@ -156,14 +171,14 @@ extension MoviesViewController: UICollectionViewDelegate {
 extension MoviesViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         searchBar.showsCancelButton = true
-        self.viewModel?.searchData(searchText: searchText)
+        self.viewModel.searchData(searchText: searchText)
     }
 
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
         searchBar.searchTextField.text = ""
         searchBar.showsCancelButton = false
-        self.viewModel?.stopSearchData()
+        self.viewModel.stopSearchData()
     }
 }
 

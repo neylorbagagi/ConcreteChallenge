@@ -27,19 +27,20 @@ class TabBarController: UITabBarController {
 
         let movieTabItem = UITabBarItem.init(tabBarSystemItem: .mostViewed, tag: 0)
         movieTabItem.title = "Moviews"
-        let moviesViewController = MoviesViewController()
-
-        let moviesNavigationController = NavigationController()
-        moviesNavigationController.viewControllers = [moviesViewController]
-        moviesNavigationController.tabBarItem = movieTabItem
 
         let favouritesTabItem = UITabBarItem.init(tabBarSystemItem: .favorites, tag: 1)
         favouritesTabItem.title = "Favourites"
-        let favouritesViewController = FavouritesViewController()
-        favouritesViewController.tabBarItem = favouritesTabItem
 
-        let favouritesNavigationController = NavigationController()
-        favouritesNavigationController.viewControllers = [favouritesViewController]
+        let moviesViewModel = MoviesViewModel()
+        let moviesViewController = MoviesViewController(viewModel: moviesViewModel)
+
+        let favouritesViewModel = FavouritesViewModel()
+        let favouritesViewController = FavouritesViewController(viewModel: favouritesViewModel)
+
+        let moviesNavigationController = NavigationController(rootViewController: moviesViewController)
+        moviesNavigationController.tabBarItem = movieTabItem
+
+        let favouritesNavigationController = NavigationController(rootViewController: favouritesViewController)
         favouritesNavigationController.tabBarItem = favouritesTabItem
 
         self.viewControllers = [moviesNavigationController, favouritesNavigationController]

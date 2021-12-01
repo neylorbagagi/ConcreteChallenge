@@ -9,14 +9,13 @@ import UIKit
 
 class FavouritesViewController: UIViewController {
 
-    var viewModel: FavouritesViewModel?
+    var viewModel: FavouritesViewModel
 
     private lazy var tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .plain)
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.layer.cornerRadius = 6
         tableView.delegate = self
-        tableView.dataSource = self.viewModel
         tableView.register(FavouriteTableCell.self, forCellReuseIdentifier: "favouritesTableCell")
         tableView.register(TableViewHeaderView.self, forHeaderFooterViewReuseIdentifier: "favouritesTableCellHeader")
         tableView.backgroundColor = .white
@@ -37,10 +36,9 @@ class FavouritesViewController: UIViewController {
     private lazy var filterBarButtonItem: UIBarButtonItem = {
         let icon = UIImage(named: "filter_icon")
         let barButtonItem = UIBarButtonItem(image: icon,
-                                            style: UIBarButtonItem.Style.plain,
+                                            style: .plain,
                                            target: self,
                                            action: #selector(presentFilter))
-
         return barButtonItem
     }()
 
@@ -51,18 +49,25 @@ class FavouritesViewController: UIViewController {
         return activityView
     }()
 
+    init(viewModel: FavouritesViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Configure appearence
         self.view.backgroundColor = #colorLiteral(red: 0.968627451, green: 0.8078431373, blue: 0.3568627451, alpha: 1)
         navigationItem.title = "Favourites"
-        // Do any additional setup after loading the view.
-        self.viewModel = FavouritesViewModel()
+
         self.navigationItem.searchController = self.searchController
         self.navigationItem.rightBarButtonItem = self.filterBarButtonItem
         self.view.addSubview(self.tableView)
-        self.configure(viewModel: self.viewModel!)
 
         NSLayoutConstraint.activate([
             self.tableView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
@@ -70,9 +75,14 @@ class FavouritesViewController: UIViewController {
             self.tableView.rightAnchor.constraint(equalTo: self.view.rightAnchor),
             self.tableView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
         ])
+
+        self.configure(viewModel: self.viewModel)
     }
 
     private func configure(viewModel: FavouritesViewModel) {
+
+        self.viewModel = viewModel
+
         viewModel.data.observer = { data in
             self.tableView.reloadData()
 
@@ -81,63 +91,60 @@ class FavouritesViewController: UIViewController {
             }
 
             guard let data = data else { return }
-            self.manageTableBackgroundView(collectionData: data.isEmpty)
+            self.manageBackgroundView(forTableView: self.tableView, isEmpty: data.isEmpty)
         }
 
+        self.tableView.dataSource = viewModel
         self.tableView.backgroundView = self.activityView
         self.activityView.startAnimating()
 
         viewModel.requestData()
-
     }
 
-    @objc func presentFilter() {
+    @objc private func presentFilter() {
 
-        guard let viewModel = self.viewModel else { return }
+        let criteria = self.viewModel.criteria
+        let data = self.viewModel.getCacheData()
 
-        /// We get getCacheData return 'cause we want that FilterViewModel works
-        /// with full data not just data in current presentation status
-        let data = viewModel.getCacheData()
-
-        let filterViewModel = FilterViewModel(data: data, criteria: viewModel.criteria)
+        let filterViewModel = FilterViewModel(data: data, criteria: criteria)
         let filterViewController = FilterViewController(viewModel: filterViewModel)
         filterViewController.onSetCriteria = { data, criteria in
-            viewModel.isFiltering = true
-            viewModel.criteria = criteria
-            viewModel.data.value = data
+            self.viewModel.isFiltering = true
+            self.viewModel.criteria = criteria
+            self.viewModel.data.value = data
         }
 
         filterViewController.modalPresentationStyle = .fullScreen
         self.navigationController?.pushViewController(filterViewController, animated: true)
     }
 
-    func manageTableBackgroundView(collectionData isEmpty: Bool) {
+    private func manageBackgroundView(forTableView table: UITableView, isEmpty: Bool) {
         if !isEmpty {
-            self.tableView.backgroundView = nil
+            table.backgroundView = nil
             return
         }
 
         if isEmpty && self.searchController.searchBar.isFirstResponder {
-            let backgroundView = CollectionBackgroundView(frame: self.tableView.frame)
+            let backgroundView = CollectionBackgroundView(frame: table.frame)
             let backgrounViewModel = CollectionBackgroundViewModel(type: .searchDataEmpty)
             backgroundView.configure(viewModel: backgrounViewModel)
-            self.tableView.backgroundView = backgroundView
+            table.backgroundView = backgroundView
             return
         }
 
-        if isEmpty && self.viewModel?.isFiltering == true {
-            let backgroundView = CollectionBackgroundView(frame: self.tableView.frame)
+        if isEmpty && self.viewModel.isFiltering == true {
+            let backgroundView = CollectionBackgroundView(frame: table.frame)
             let backgrounViewModel = CollectionBackgroundViewModel(type: .filterDataEmpty)
             backgroundView.configure(viewModel: backgrounViewModel)
-            self.tableView.backgroundView = backgroundView
+            table.backgroundView = backgroundView
             return
         }
 
         if isEmpty && !self.searchController.searchBar.isFirstResponder {
-            let backgroundView = CollectionBackgroundView(frame: self.tableView.frame)
+            let backgroundView = CollectionBackgroundView(frame: table.frame)
             let backgrounViewModel = CollectionBackgroundViewModel(type: .loadDataEmpty)
             backgroundView.configure(viewModel: backgrounViewModel)
-            self.tableView.backgroundView = backgroundView
+            table.backgroundView = backgroundView
         }
     }
 }
@@ -145,10 +152,13 @@ class FavouritesViewController: UIViewController {
 extension FavouritesViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let movie = viewModel?.selectedData(indexPath) else {return}
-        let viewModel = MovieDetailViewModel(movie: movie)
-        let detailViewController = MovieDetailViewController()
-        detailViewController.configure(viewModel: viewModel)
+        guard let dataSource = tableView.dataSource as? FavouritesViewModel,
+              let movie = dataSource.selectedData(indexPath) else {
+            print("Invalid DataSource for TableView")
+            return
+        }
+        let detailViewModel = MovieDetailViewModel(movie: movie)
+        let detailViewController = MovieDetailViewController(viewModel: detailViewModel)
         detailViewController.modalPresentationStyle = .fullScreen
         self.navigationController?.pushViewController(detailViewController, animated: true)
     }
@@ -156,17 +166,17 @@ extension FavouritesViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         var view: UIView?
 
-        guard let viewModel = self.viewModel else {
-            return view
+        guard let dataSource = tableView.dataSource as? FavouritesViewModel else {
+            print("Invalid DataSource for TableView")
+            return UIView()
         }
 
-        if viewModel.isFiltering {
+        if dataSource.isFiltering {
             let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: "favouritesTableCellHeader")
                 as? TableViewHeaderView
             header?.onRemoveCriteria = {
-                viewModel.stopFilterData()
+                dataSource.stopFilterData()
             }
-
             view = header
         }
 
@@ -176,11 +186,12 @@ extension FavouritesViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
 
         var height: CGFloat = .zero
-        guard let viewModel = self.viewModel else {
-            return  height
+        guard let dataSource = tableView.dataSource as? FavouritesViewModel else {
+            print("Invalid DataSource for TableView")
+            return height
         }
 
-        if viewModel.isFiltering {
+        if dataSource.isFiltering {
             height = tableView.sectionHeaderHeight
         }
 
@@ -193,22 +204,21 @@ extension FavouritesViewController: UITableViewDelegate {
         if self.searchController.searchBar.isFirstResponder {
             return .none
         }
-
         return .delete
     }
 }
 
 extension FavouritesViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        self.viewModel?.searchData(searchText: searchText)
+        self.viewModel.searchData(searchText: searchText)
     }
 
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
-        self.viewModel?.stopSearchData()
+        self.viewModel.stopSearchData()
     }
 
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-        self.viewModel?.stopFilterData()
+        self.viewModel.stopFilterData()
     }
 }
