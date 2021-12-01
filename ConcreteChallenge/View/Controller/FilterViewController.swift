@@ -30,7 +30,7 @@ class FilterViewController: UIViewController {
         button.setTitleColor(#colorLiteral(red: 0.9689999819, green: 0.8080000281, blue: 0.3569999933, alpha: 1), for: .normal)
         button.layer.cornerRadius = 6
         button.backgroundColor = #colorLiteral(red: 0.175999999, green: 0.1879999936, blue: 0.2779999971, alpha: 1)
-        button.addTarget(self, action: #selector(updateCriteria), for: .touchDown)
+        button.addTarget(self, action: #selector(didButtonTouch), for: .touchDown)
         return button
     }()
 
@@ -87,8 +87,12 @@ class FilterViewController: UIViewController {
         self.tableView.dataSource = viewModel
     }
 
-    @objc private func updateCriteria() {
-        guard let criteria = self.viewModel.criteria.value else { return }
+    @objc private func didButtonTouch() {
+        self.updateCriteria(viewModel: self.viewModel)
+    }
+
+    @objc private func updateCriteria(viewModel: FilterViewModel) {
+        guard let criteria = viewModel.criteria.value else { return }
         self.navigationController?.popViewController(animated: true)
         self.onSetCriteria?(viewModel.filteredData, criteria)
     }

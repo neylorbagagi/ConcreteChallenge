@@ -38,7 +38,7 @@ class FavouritesViewController: UIViewController {
         let barButtonItem = UIBarButtonItem(image: icon,
                                             style: .plain,
                                            target: self,
-                                           action: #selector(presentFilter))
+                                           action: #selector(didButtonTouch))
         return barButtonItem
     }()
 
@@ -104,17 +104,21 @@ class FavouritesViewController: UIViewController {
         viewModel.requestData()
     }
 
-    @objc private func presentFilter() {
+    @objc private func didButtonTouch() {
+        self.presentFilter(viewModel: self.viewModel)
+    }
 
-        let criteria = self.viewModel.criteria
-        let data = self.viewModel.getCacheData()
+    private func presentFilter(viewModel: FavouritesViewModel) {
+
+        let criteria = viewModel.criteria
+        let data = viewModel.getCacheData()
 
         let filterViewModel = FilterViewModel(data: data, criteria: criteria)
         let filterViewController = FilterViewController(viewModel: filterViewModel)
         filterViewController.onSetCriteria = { data, criteria in
-            self.viewModel.isFiltering = true
-            self.viewModel.criteria = criteria
-            self.viewModel.data.value = data
+            viewModel.isFiltering = true
+            viewModel.criteria = criteria
+            viewModel.data.value = data
         }
 
         filterViewController.modalPresentationStyle = .fullScreen

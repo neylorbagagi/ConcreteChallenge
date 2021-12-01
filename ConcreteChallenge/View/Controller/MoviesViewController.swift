@@ -6,9 +6,7 @@
 //
 
 import UIKit
-/// TODO: background collection not working anymore
-/// TODO: there is a better way to do this, addTarget(self, action: #selector(updateCriteria), for: .touchDown)?
-/// without selector 
+
 class MoviesViewController: UIViewController {
 
     private var viewModel: MoviesViewModel

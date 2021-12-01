@@ -212,12 +212,17 @@ class MovieDetailViewController: UIViewController {
     }
 
     @objc private func didTouchFavourite() {
+        self.updateMovieFavouriteState(forState: self.button.isSelected, viewModel: self.viewModel)
+    }
+
+    private func updateMovieFavouriteState(forState state: Bool, viewModel: MovieDetailViewModel) {
         do {
-            try self.viewModel.updateMovieFavouriteState(to: self.button.isSelected)
+            try viewModel.updateMovieFavouriteState(to: state)
         } catch let error {
             print("Error during data update: \(error)")
         }
     }
+
 }
 
 extension MovieDetailViewController: UICollectionViewDelegateFlowLayout {

@@ -79,7 +79,7 @@ extension MoviesViewModel: UICollectionViewDataSource {
 
         let viewModel = MovieCellViewModel(movie: self.data.value![indexPath.row])
 
-        /// Here was to use an Method Dependency Injection
+        // Here was to use an Method Dependency Injection
         cell?.configure(viewModel: viewModel)
         return cell ?? UICollectionViewCell()
     }
