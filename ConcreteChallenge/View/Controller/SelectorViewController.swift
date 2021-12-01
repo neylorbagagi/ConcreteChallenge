@@ -55,14 +55,24 @@ class SelectorViewController: UIViewController {
 extension SelectorViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let dataSource = tableView.dataSource as? SelectorViewModel<AnyHashable> else {
+            print("Invalid DataSource for TableView")
+            return
+        }
+
         tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
-        let selectedData = viewModel.selectedCellValue(indexPath: indexPath)
+        let selectedData = dataSource.selectedCellValue(indexPath: indexPath)
         self.onSelected?(selectedData, self.filterTerm)
     }
 
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        guard let dataSource = tableView.dataSource as? SelectorViewModel<AnyHashable> else {
+            print("Invalid DataSource for TableView")
+            return
+        }
+
         tableView.cellForRow(at: indexPath)?.accessoryType = .none
-        let selectedData = viewModel.selectedCellValue(indexPath: indexPath)
+        let selectedData = dataSource.selectedCellValue(indexPath: indexPath)
         self.onSelected?(selectedData, self.filterTerm)
     }
 

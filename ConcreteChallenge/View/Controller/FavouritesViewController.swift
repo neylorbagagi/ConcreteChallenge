@@ -91,7 +91,10 @@ class FavouritesViewController: UIViewController {
             }
 
             guard let data = data else { return }
-            self.manageBackgroundView(forTableView: self.tableView, isEmpty: data.isEmpty)
+            self.manageBackgroundView(forTableView: self.tableView,
+                                      onStateFor: self.searchController.searchBar,
+                                      onFilteringFor: self.viewModel,
+                                      isEmpty: data.isEmpty)
         }
 
         self.tableView.dataSource = viewModel
@@ -118,30 +121,34 @@ class FavouritesViewController: UIViewController {
         self.navigationController?.pushViewController(filterViewController, animated: true)
     }
 
-    private func manageBackgroundView(forTableView table: UITableView, isEmpty: Bool) {
+    private func manageBackgroundView(forTableView table: UITableView,
+                                      onStateFor searchBar: UISearchBar,
+                                      onFilteringFor viewModel: FavouritesViewModel,
+                                      isEmpty: Bool) {
         if !isEmpty {
             table.backgroundView = nil
             return
         }
 
-        if isEmpty && self.searchController.searchBar.isFirstResponder {
-            let backgroundView = CollectionBackgroundView(frame: table.frame)
+        let backgroundView = CollectionBackgroundView(frame: table.frame)
+        if isEmpty && searchBar.isFirstResponder {
+//            let backgroundView = CollectionBackgroundView(frame: table.frame)
             let backgrounViewModel = CollectionBackgroundViewModel(type: .searchDataEmpty)
             backgroundView.configure(viewModel: backgrounViewModel)
             table.backgroundView = backgroundView
             return
         }
 
-        if isEmpty && self.viewModel.isFiltering == true {
-            let backgroundView = CollectionBackgroundView(frame: table.frame)
+        if isEmpty && viewModel.isFiltering == true {
+//            let backgroundView = CollectionBackgroundView(frame: table.frame)
             let backgrounViewModel = CollectionBackgroundViewModel(type: .filterDataEmpty)
             backgroundView.configure(viewModel: backgrounViewModel)
             table.backgroundView = backgroundView
             return
         }
 
-        if isEmpty && !self.searchController.searchBar.isFirstResponder {
-            let backgroundView = CollectionBackgroundView(frame: table.frame)
+        if isEmpty && !searchBar.isFirstResponder {
+//            let backgroundView = CollectionBackgroundView(frame: table.frame)
             let backgrounViewModel = CollectionBackgroundViewModel(type: .loadDataEmpty)
             backgroundView.configure(viewModel: backgrounViewModel)
             table.backgroundView = backgroundView

@@ -23,7 +23,7 @@ class TabBarController: UITabBarController {
         self.configure()
     }
 
-    func configure() {
+    private func configure() {
 
         let movieTabItem = UITabBarItem.init(tabBarSystemItem: .mostViewed, tag: 0)
         movieTabItem.title = "Moviews"
