@@ -35,13 +35,6 @@ class MoviesViewController: UIViewController {
         return collectionView
     }()
 
-    private var activityView: UIActivityIndicatorView = {
-        let activityView = UIActivityIndicatorView(style: .large)
-        activityView.translatesAutoresizingMaskIntoConstraints = false
-        activityView.hidesWhenStopped = true
-        return activityView
-    }()
-
     init(viewModel: MoviesViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
@@ -82,45 +75,52 @@ class MoviesViewController: UIViewController {
             guard let data = data else { return }
 
             DispatchQueue.main.async {
-                if self.activityView.isAnimating {
-                    self.activityView.stopAnimating()
-                    self.collectionView.backgroundView = nil
-                }
+                self.collectionView.backgroundView = self.manageBackgroundView(
+                    for: self.collectionView,
+                    onSearch: self.searchController.searchBar.isFirstResponder,
+                    dataIsEmpty: data.isEmpty)
+
                 self.collectionView.reloadSections(IndexSet(integer: 0))
-                self.manageBackgroundView(forCollectionView: self.collectionView,
-                                          onStateFor: self.searchController.searchBar,
-                                          collectionData: data.isEmpty)
             }
         }
 
         self.collectionView.dataSource = viewModel
 
         viewModel.requestData()
-        self.collectionView.backgroundView = self.activityView
-        self.activityView.startAnimating()
+        self.collectionView.backgroundView = self.manageBackgroundView(
+            for: self.collectionView,
+            onSearch: false,
+            onDataRequest: true,
+            dataIsEmpty: true)
     }
 
-    func manageBackgroundView(forCollectionView collection: UICollectionView,
-                              onStateFor searchBar: UISearchBar,
-                              collectionData isEmpty: Bool) {
+    func manageBackgroundView(for view: UIView,
+                              onSearch searchState: Bool = false,
+                              onDataRequest requestState: Bool = false,
+                              dataIsEmpty isEmpty: Bool) -> ControllerBackgroundView? {
+
+        var controllerBackground: ControllerBackgroundView? = ControllerBackgroundView(frame: view.frame)
 
         if !isEmpty {
-            collection.backgroundView = nil
+            controllerBackground = nil
         }
 
-        if isEmpty && searchBar.isFirstResponder {
-            let backgroundView = CollectionBackgroundView(frame: collection.frame)
-            let backgroundViewModel = CollectionBackgroundViewModel(type: .searchDataEmpty)
-            backgroundView.configure(viewModel: backgroundViewModel)
-            collection.backgroundView = backgroundView
+        if isEmpty && searchState {
+            let backgroundViewModel = ControllerBackgroundViewModel(type: .searchDataEmpty)
+            controllerBackground?.configure(viewModel: backgroundViewModel)
         }
 
-        if isEmpty && searchBar.isFirstResponder {
-            let backgroundView = CollectionBackgroundView(frame: collection.frame)
-            let backgroundViewModel = CollectionBackgroundViewModel(type: .loadDataFail)
-            backgroundView.configure(viewModel: backgroundViewModel)
-            collection.backgroundView = backgroundView
+        if isEmpty && requestState {
+            let backgroundViewModel = ControllerBackgroundViewModel(type: .loadingData)
+            controllerBackground?.configure(viewModel: backgroundViewModel)
         }
+
+        if isEmpty && !searchState && !requestState {
+            let backgroundViewModel = ControllerBackgroundViewModel(type: .loadDataFail)
+            controllerBackground?.configure(viewModel: backgroundViewModel)
+        }
+
+        return controllerBackground
     }
 }
 

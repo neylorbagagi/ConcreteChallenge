@@ -42,13 +42,6 @@ class FavouritesViewController: UIViewController {
         return barButtonItem
     }()
 
-    var activityView: UIActivityIndicatorView = {
-        let activityView = UIActivityIndicatorView(style: .large)
-        activityView.translatesAutoresizingMaskIntoConstraints = false
-        activityView.hidesWhenStopped = true
-        return activityView
-    }()
-
     init(viewModel: FavouritesViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
@@ -86,20 +79,22 @@ class FavouritesViewController: UIViewController {
         viewModel.data.observer = { data in
             self.tableView.reloadData()
 
-            if self.activityView.isAnimating {
-                self.activityView.stopAnimating()
-            }
-
             guard let data = data else { return }
-            self.manageBackgroundView(forTableView: self.tableView,
-                                      onStateFor: self.searchController.searchBar,
-                                      onFilteringFor: self.viewModel,
-                                      isEmpty: data.isEmpty)
+            self.tableView.backgroundView = self.manageBackgroundView(
+                for: self.tableView,
+                onSearch: self.searchController.searchBar.isFirstResponder,
+                onFilter: self.viewModel.isFiltering,
+                onDataRequest: false,
+                dataIsEmpty: data.isEmpty)
         }
 
         self.tableView.dataSource = viewModel
-        self.tableView.backgroundView = self.activityView
-        self.activityView.startAnimating()
+        self.tableView.backgroundView = self.manageBackgroundView(
+            for: self.tableView,
+            onSearch: self.searchController.searchBar.isFirstResponder,
+            onFilter: self.viewModel.isFiltering,
+            onDataRequest: true,
+            dataIsEmpty: false)
 
         viewModel.requestData()
     }
@@ -125,38 +120,39 @@ class FavouritesViewController: UIViewController {
         self.navigationController?.pushViewController(filterViewController, animated: true)
     }
 
-    private func manageBackgroundView(forTableView table: UITableView,
-                                      onStateFor searchBar: UISearchBar,
-                                      onFilteringFor viewModel: FavouritesViewModel,
-                                      isEmpty: Bool) {
+    func manageBackgroundView(for view: UIView,
+                              onSearch searchState: Bool = false,
+                              onFilter filterState: Bool = false,
+                              onDataRequest requestState: Bool = false,
+                              dataIsEmpty isEmpty: Bool) -> ControllerBackgroundView? {
+
+        var controllerBackground: ControllerBackgroundView? = ControllerBackgroundView(frame: view.frame)
+
         if !isEmpty {
-            table.backgroundView = nil
-            return
+            controllerBackground = nil
         }
 
-        let backgroundView = CollectionBackgroundView(frame: table.frame)
-        if isEmpty && searchBar.isFirstResponder {
-//            let backgroundView = CollectionBackgroundView(frame: table.frame)
-            let backgrounViewModel = CollectionBackgroundViewModel(type: .searchDataEmpty)
-            backgroundView.configure(viewModel: backgrounViewModel)
-            table.backgroundView = backgroundView
-            return
+        if isEmpty && searchState {
+            let backgroundViewModel = ControllerBackgroundViewModel(type: .searchDataEmpty)
+            controllerBackground?.configure(viewModel: backgroundViewModel)
         }
 
-        if isEmpty && viewModel.isFiltering == true {
-//            let backgroundView = CollectionBackgroundView(frame: table.frame)
-            let backgrounViewModel = CollectionBackgroundViewModel(type: .filterDataEmpty)
-            backgroundView.configure(viewModel: backgrounViewModel)
-            table.backgroundView = backgroundView
-            return
+        if isEmpty && filterState {
+            let backgroundViewModel = ControllerBackgroundViewModel(type: .filterDataEmpty)
+            controllerBackground?.configure(viewModel: backgroundViewModel)
         }
 
-        if isEmpty && !searchBar.isFirstResponder {
-//            let backgroundView = CollectionBackgroundView(frame: table.frame)
-            let backgrounViewModel = CollectionBackgroundViewModel(type: .loadDataEmpty)
-            backgroundView.configure(viewModel: backgrounViewModel)
-            table.backgroundView = backgroundView
+        if isEmpty && requestState {
+            let backgroundViewModel = ControllerBackgroundViewModel(type: .loadingData)
+            controllerBackground?.configure(viewModel: backgroundViewModel)
         }
+
+        if isEmpty && !searchState && !filterState {
+            let backgroundViewModel = ControllerBackgroundViewModel(type: .loadDataEmpty)
+            controllerBackground?.configure(viewModel: backgroundViewModel)
+        }
+
+        return controllerBackground
     }
 }
 

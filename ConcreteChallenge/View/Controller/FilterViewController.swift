@@ -91,7 +91,7 @@ class FilterViewController: UIViewController {
         self.updateCriteria(viewModel: self.viewModel)
     }
 
-    @objc private func updateCriteria(viewModel: FilterViewModel) {
+    private func updateCriteria(viewModel: FilterViewModel) {
         guard let criteria = viewModel.criteria.value else { return }
         self.navigationController?.popViewController(animated: true)
         self.onSetCriteria?(viewModel.filteredData, criteria)

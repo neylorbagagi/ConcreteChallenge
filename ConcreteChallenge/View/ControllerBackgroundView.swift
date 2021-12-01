@@ -7,7 +7,7 @@
 
 import UIKit
 
-class CollectionBackgroundView: UIView {
+class ControllerBackgroundView: UIView {
 
     var imageView: UIImageView = {
         let imageView = UIImageView()
@@ -31,10 +31,21 @@ class CollectionBackgroundView: UIView {
         return label
     }()
 
+    private var activityView: UIActivityIndicatorView = {
+        let activityView = UIActivityIndicatorView(style: .large)
+        activityView.translatesAutoresizingMaskIntoConstraints = false
+        activityView.tintColor = #colorLiteral(red: 0.175999999, green: 0.1879999936, blue: 0.2779999971, alpha: 1)
+        activityView.hidesWhenStopped = true
+        return activityView
+    }()
+
+    private(set) var type: ControllerBackgroundViewType?
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.addSubview(self.imageView)
         self.addSubview(self.message)
+        self.addSubview(self.activityView)
 
         NSLayoutConstraint.activate([
             self.imageView.heightAnchor.constraint(equalToConstant: 200),
@@ -44,7 +55,10 @@ class CollectionBackgroundView: UIView {
 
             self.message.widthAnchor.constraint(equalToConstant: 300),
             self.message.topAnchor.constraint(equalTo: self.imageView.bottomAnchor),
-            self.message.centerXAnchor.constraint(equalTo: self.centerXAnchor)
+            self.message.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+
+            self.activityView.centerYAnchor.constraint(equalTo: self.centerYAnchor, constant: -50),
+            self.activityView.centerXAnchor.constraint(equalTo: self.centerXAnchor)
         ])
     }
 
@@ -52,8 +66,14 @@ class CollectionBackgroundView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func configure(viewModel: CollectionBackgroundViewModel) {
+    func configure(viewModel: ControllerBackgroundViewModel) {
         self.message.text = viewModel.message
         self.imageView.image = viewModel.image
+        if viewModel.activityViewShouldAnimate {
+            self.activityView.startAnimating()
+        } else {
+            self.activityView.stopAnimating()
+        }
+        self.type = viewModel.type
     }
 }
